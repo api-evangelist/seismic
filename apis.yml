@@ -1,0 +1,96 @@
+name: Seismic
+description: Seismic is the global leader in enablement, helping organizations engage customers, enable teams, and ignite revenue growth. The Seismic platform provides content management, learning and coaching, and buyer engagement capabilities.
+image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
+url: https://seismic.com
+created: '2025-02-10'
+modified: '2025-02-10'
+specificationVersion: '0.18'
+apis:
+- name: Seismic Content API
+  description: API for managing and accessing content within the Seismic platform, including documents, presentations, and other sales materials.
+  image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
+  humanURL: https://seismic.com/products/content-management/
+  baseURL: https://api.seismic.com/integration/v2
+  tags:
+  - Content
+  - Documents
+  - Sales Enablement
+  - Content Management
+  properties:
+  - type: Documentation
+    url: https://developer.seismic.com/seismicsoftware/reference/content-api
+  - type: OpenAPI
+    url: https://developer.seismic.com/openapi/content-api
+  - type: Authentication
+    url: https://developer.seismic.com/seismicsoftware/docs/authentication
+  contact:
+  - FN: Seismic Support
+    email: support@seismic.com
+    url: https://seismic.com/support/
+- name: Seismic LiveDocs API
+  description: API for creating and managing LiveDocs, Seismic's dynamic document generation solution.
+  image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
+  humanURL: https://seismic.com/products/livedocs/
+  baseURL: https://api.seismic.com/integration/v2
+  tags:
+  - LiveDocs
+  - Document Generation
+  - Dynamic Content
+  properties:
+  - type: Documentation
+    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
+  - type: OpenAPI
+    url: https://developer.seismic.com/openapi/livedocs-api
+- name: Seismic Analytics API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness.
+  image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
+  humanURL: https://seismic.com/products/analytics/
+  baseURL: https://api.seismic.com/integration/v2
+  tags:
+  - Analytics
+  - Reporting
+  - Metrics
+  - Insights
+  properties:
+  - type: Documentation
+    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
+  - type: OpenAPI
+    url: https://developer.seismic.com/openapi/analytics-api
+- name: Seismic User Management API
+  description: API for managing users, groups, and permissions within the Seismic platform.
+  image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
+  humanURL: https://seismic.com
+  baseURL: https://api.seismic.com/integration/v2
+  tags:
+  - Users
+  - Groups
+  - Permissions
+  - Administration
+  properties:
+  - type: Documentation
+    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
+  - type: OpenAPI
+    url: https://developer.seismic.com/openapi/user-management-api
+common:
+- type: Portal
+  url: https://developer.seismic.com/
+- type: Getting Started
+  url: https://developer.seismic.com/seismicsoftware/docs/getting-started
+- type: Authentication
+  url: https://developer.seismic.com/seismicsoftware/docs/authentication
+- type: Rate Limits
+  url: https://developer.seismic.com/seismicsoftware/docs/rate-limits
+- type: Webhooks
+  url: https://developer.seismic.com/seismicsoftware/docs/webhooks
+- type: Support
+  url: https://seismic.com/support/
+- type: Privacy Policy
+  url: https://seismic.com/privacy-policy/
+- type: Terms of Service
+  url: https://seismic.com/terms-of-service/
+- type: Status
+  url: https://status.seismic.com/
+maintainers:
+- FN: API Evangelist
+  email: info@apievangelist.com
+  url: https://apievangelist.com
