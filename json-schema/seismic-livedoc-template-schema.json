@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.seismic.com/schemas/livedoc-template",
+  "title": "Seismic LiveDoc Template",
+  "description": "A LiveDoc template in the Seismic platform used for dynamic document generation by merging data into predefined layouts.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the template."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the template."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the template."
+    },
+    "outputFormats": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["pptx", "pdf", "docx", "xlsx"]
+      },
+      "description": "Supported output formats for this template."
+    },
+    "folderId": {
+      "type": "string",
+      "description": "ID of the folder containing this template."
+    },
+    "inputCount": {
+      "type": "integer",
+      "description": "Number of input fields defined in the template.",
+      "minimum": 0
+    },
+    "dataSourceId": {
+      "type": ["string", "null"],
+      "description": "ID of the default data source for this template."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the template.",
+      "enum": ["active", "inactive", "draft"]
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TemplateInput"
+      },
+      "description": "Input field definitions for the template."
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "ID of the user who created the template."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the template was created."
+    },
+    "modifiedBy": {
+      "type": "string",
+      "description": "ID of the user who last modified the template."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the template was last modified."
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the template thumbnail image."
+    }
+  },
+  "required": ["id", "name"],
+  "$defs": {
+    "TemplateInput": {
+      "type": "object",
+      "description": "An input field definition for a LiveDoc template.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the input field."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the input field used as key in generation requests."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display label for the input field."
+        },
+        "type": {
+          "type": "string",
+          "description": "Data type of the input field.",
+          "enum": ["text", "number", "date", "boolean", "image", "table", "dropdown"]
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether the input field is required for generation."
+        },
+        "defaultValue": {
+          "description": "Default value for the input field."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description or help text for the input field."
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Available options for dropdown-type inputs."
+        },
+        "dataSourceField": {
+          "type": "string",
+          "description": "Name of the data source field this input maps to for automatic population."
+        }
+      },
+      "required": ["id", "name", "type"]
+    }
+  }
+}

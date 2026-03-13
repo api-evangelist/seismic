@@ -1,0 +1,1053 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics API
+  description: >-
+    API for accessing analytics and reporting data on content usage,
+    user engagement, and sales effectiveness within the Seismic platform.
+    Provides insights into how content is being used, which materials
+    are most effective, and how teams are engaging with sales enablement
+    resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+
+servers:
+  - url: https://api.seismic.com/integration/v2
+    description: Seismic API v2 Production
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Content Analytics
+    description: Analytics on content usage, views, and engagement.
+  - name: User Analytics
+    description: Analytics on user activity and adoption metrics.
+  - name: Delivery Analytics
+    description: Analytics on content delivery and buyer engagement.
+  - name: Reports
+    description: Operations for generating and retrieving analytical reports.
+
+paths:
+  /analytics/content:
+    get:
+      operationId: getContentAnalytics
+      summary: Get content analytics
+      description: >-
+        Retrieves analytics data for content items, including views,
+        downloads, shares, and engagement metrics.
+      tags:
+        - Content Analytics
+      parameters:
+        - name: contentId
+          in: query
+          description: Filter analytics for a specific content item.
+          schema:
+            type: string
+        - name: contentProfileId
+          in: query
+          description: Filter analytics by content profile.
+          schema:
+            type: string
+        - name: folderId
+          in: query
+          description: Filter analytics by folder.
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: Start date for the analytics period (ISO 8601 format).
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period (ISO 8601 format).
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          description: Time granularity for the analytics data.
+          schema:
+            type: string
+            enum:
+              - daily
+              - weekly
+              - monthly
+            default: daily
+        - name: sortBy
+          in: query
+          description: Metric to sort results by.
+          schema:
+            type: string
+            enum:
+              - views
+              - downloads
+              - shares
+              - engagement
+        - name: sortOrder
+          in: query
+          description: Sort order direction.
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: desc
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: Content analytics data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentAnalytics'
+                  totalCount:
+                    type: integer
+                  period:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        format: date
+                      endDate:
+                        type: string
+                        format: date
+                  summary:
+                    $ref: '#/components/schemas/ContentAnalyticsSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/content/{contentId}:
+    get:
+      operationId: getContentItemAnalytics
+      summary: Get analytics for a content item
+      description: >-
+        Retrieves detailed analytics data for a specific content item,
+        including time-series data on views, downloads, and engagement.
+      tags:
+        - Content Analytics
+      parameters:
+        - name: contentId
+          in: path
+          required: true
+          description: Unique identifier of the content item.
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: Start date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          description: Time granularity for time-series data.
+          schema:
+            type: string
+            enum:
+              - daily
+              - weekly
+              - monthly
+            default: daily
+      responses:
+        '200':
+          description: Detailed content analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentAnalyticsDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/content/top:
+    get:
+      operationId: getTopContent
+      summary: Get top-performing content
+      description: >-
+        Retrieves a ranked list of the top-performing content items
+        based on engagement, views, or other metrics.
+      tags:
+        - Content Analytics
+      parameters:
+        - name: metric
+          in: query
+          description: Metric to rank content by.
+          required: true
+          schema:
+            type: string
+            enum:
+              - views
+              - downloads
+              - shares
+              - engagement
+              - completionRate
+        - name: startDate
+          in: query
+          description: Start date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: limit
+          in: query
+          description: Number of top content items to return.
+          schema:
+            type: integer
+            default: 10
+            maximum: 50
+      responses:
+        '200':
+          description: Top-performing content items.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentAnalytics'
+                  metric:
+                    type: string
+                  period:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        format: date
+                      endDate:
+                        type: string
+                        format: date
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/users:
+    get:
+      operationId: getUserAnalytics
+      summary: Get user analytics
+      description: >-
+        Retrieves analytics data on user activity, including content
+        usage, login frequency, and adoption metrics.
+      tags:
+        - User Analytics
+      parameters:
+        - name: userId
+          in: query
+          description: Filter analytics for a specific user.
+          schema:
+            type: string
+        - name: groupId
+          in: query
+          description: Filter analytics by user group.
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: Start date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: granularity
+          in: query
+          description: Time granularity for the analytics data.
+          schema:
+            type: string
+            enum:
+              - daily
+              - weekly
+              - monthly
+            default: daily
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: User analytics data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserAnalytics'
+                  totalCount:
+                    type: integer
+                  period:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        format: date
+                      endDate:
+                        type: string
+                        format: date
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/users/{userId}:
+    get:
+      operationId: getUserActivityAnalytics
+      summary: Get analytics for a user
+      description: >-
+        Retrieves detailed analytics data for a specific user,
+        including activity history and content engagement.
+      tags:
+        - User Analytics
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Unique identifier of the user.
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: Start date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period.
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Detailed user analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAnalyticsDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/deliveries:
+    get:
+      operationId: getDeliveryAnalytics
+      summary: Get delivery analytics
+      description: >-
+        Retrieves analytics data on content deliveries to buyers,
+        including open rates, view durations, and engagement scores.
+      tags:
+        - Delivery Analytics
+      parameters:
+        - name: userId
+          in: query
+          description: Filter deliveries by sender user ID.
+          schema:
+            type: string
+        - name: contentId
+          in: query
+          description: Filter deliveries by content item.
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: Start date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the analytics period.
+          schema:
+            type: string
+            format: date
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: Delivery analytics data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeliveryAnalytics'
+                  totalCount:
+                    type: integer
+                  period:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        format: date
+                      endDate:
+                        type: string
+                        format: date
+                  summary:
+                    $ref: '#/components/schemas/DeliveryAnalyticsSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/reports:
+    get:
+      operationId: listReports
+      summary: List available reports
+      description: Retrieves a list of available analytical reports.
+      tags:
+        - Reports
+      parameters:
+        - name: type
+          in: query
+          description: Filter reports by type.
+          schema:
+            type: string
+            enum:
+              - content
+              - user
+              - delivery
+              - engagement
+              - adoption
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of available reports.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Report'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/reports/{reportId}:
+    get:
+      operationId: getReport
+      summary: Get a report
+      description: Retrieves a specific analytical report with its data.
+      tags:
+        - Reports
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          description: Unique identifier of the report.
+          schema:
+            type: string
+        - name: startDate
+          in: query
+          description: Start date for the report period.
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the report period.
+          schema:
+            type: string
+            format: date
+        - name: format
+          in: query
+          description: Output format for the report data.
+          schema:
+            type: string
+            enum:
+              - json
+              - csv
+            default: json
+      responses:
+        '200':
+          description: Report data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportData'
+            text/csv:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /analytics/reports/{reportId}/export:
+    post:
+      operationId: exportReport
+      summary: Export a report
+      description: >-
+        Initiates an export of a report. Returns a download URL
+        when the export is ready.
+      tags:
+        - Reports
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          description: Unique identifier of the report.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  description: Export format.
+                  enum:
+                    - csv
+                    - xlsx
+                    - pdf
+                  default: csv
+                startDate:
+                  type: string
+                  format: date
+                  description: Start date for the report period.
+                endDate:
+                  type: string
+                  format: date
+                  description: End date for the report period.
+                filters:
+                  type: object
+                  description: Additional filters to apply to the report.
+                  additionalProperties: true
+      responses:
+        '202':
+          description: Export job accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exportId:
+                    type: string
+                    description: ID of the export job.
+                  status:
+                    type: string
+                    enum:
+                      - pending
+                      - processing
+                      - completed
+                      - failed
+                  downloadUrl:
+                    type: string
+                    format: uri
+                    description: URL to download the export when ready.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        OAuth 2.0 Bearer Token. Obtain tokens through the Seismic
+        authentication flow. See
+        https://developer.seismic.com/seismicsoftware/docs/authentication
+
+  schemas:
+    ContentAnalytics:
+      type: object
+      properties:
+        contentId:
+          type: string
+          description: ID of the content item.
+        contentName:
+          type: string
+          description: Name of the content item.
+        views:
+          type: integer
+          description: Total number of views.
+        uniqueViews:
+          type: integer
+          description: Number of unique viewers.
+        downloads:
+          type: integer
+          description: Total number of downloads.
+        shares:
+          type: integer
+          description: Total number of shares.
+        engagementScore:
+          type: number
+          format: float
+          description: Calculated engagement score (0-100).
+        averageViewDuration:
+          type: number
+          format: float
+          description: Average view duration in seconds.
+        completionRate:
+          type: number
+          format: float
+          description: Percentage of content viewed on average (0-100).
+
+    ContentAnalyticsSummary:
+      type: object
+      properties:
+        totalViews:
+          type: integer
+          description: Total views across all content.
+        totalDownloads:
+          type: integer
+          description: Total downloads across all content.
+        totalShares:
+          type: integer
+          description: Total shares across all content.
+        averageEngagementScore:
+          type: number
+          format: float
+          description: Average engagement score across all content.
+        activeContentCount:
+          type: integer
+          description: Number of content items with at least one view.
+
+    ContentAnalyticsDetail:
+      type: object
+      properties:
+        contentId:
+          type: string
+          description: ID of the content item.
+        contentName:
+          type: string
+          description: Name of the content item.
+        summary:
+          $ref: '#/components/schemas/ContentAnalytics'
+        timeSeries:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              views:
+                type: integer
+              downloads:
+                type: integer
+              shares:
+                type: integer
+              engagementScore:
+                type: number
+                format: float
+          description: Time-series analytics data points.
+        viewerBreakdown:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+              userName:
+                type: string
+              views:
+                type: integer
+              lastViewedAt:
+                type: string
+                format: date-time
+          description: Breakdown of viewers for this content item.
+
+    UserAnalytics:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: ID of the user.
+        userName:
+          type: string
+          description: Display name of the user.
+        email:
+          type: string
+          description: Email address of the user.
+        loginCount:
+          type: integer
+          description: Number of logins during the period.
+        lastLoginAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last login.
+        contentViewed:
+          type: integer
+          description: Number of content items viewed.
+        contentDownloaded:
+          type: integer
+          description: Number of content items downloaded.
+        contentShared:
+          type: integer
+          description: Number of content items shared.
+        adoptionScore:
+          type: number
+          format: float
+          description: User adoption score (0-100).
+
+    UserAnalyticsDetail:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: ID of the user.
+        userName:
+          type: string
+          description: Display name of the user.
+        summary:
+          $ref: '#/components/schemas/UserAnalytics'
+        recentActivity:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum:
+                  - view
+                  - download
+                  - share
+                  - upload
+                  - login
+              contentId:
+                type: string
+              contentName:
+                type: string
+              timestamp:
+                type: string
+                format: date-time
+          description: Recent activity history for the user.
+        topContent:
+          type: array
+          items:
+            type: object
+            properties:
+              contentId:
+                type: string
+              contentName:
+                type: string
+              views:
+                type: integer
+          description: Most-viewed content items by this user.
+
+    DeliveryAnalytics:
+      type: object
+      properties:
+        deliveryId:
+          type: string
+          description: Unique identifier of the delivery.
+        contentId:
+          type: string
+          description: ID of the delivered content.
+        contentName:
+          type: string
+          description: Name of the delivered content.
+        senderUserId:
+          type: string
+          description: ID of the user who sent the delivery.
+        recipientEmail:
+          type: string
+          description: Email of the delivery recipient.
+        sentAt:
+          type: string
+          format: date-time
+          description: Timestamp when the delivery was sent.
+        opened:
+          type: boolean
+          description: Whether the delivery was opened.
+        openedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the delivery was first opened.
+        viewCount:
+          type: integer
+          description: Total number of views by the recipient.
+        viewDuration:
+          type: number
+          format: float
+          description: Total view duration in seconds.
+        completionRate:
+          type: number
+          format: float
+          description: Percentage of content viewed (0-100).
+
+    DeliveryAnalyticsSummary:
+      type: object
+      properties:
+        totalDeliveries:
+          type: integer
+          description: Total number of deliveries.
+        openRate:
+          type: number
+          format: float
+          description: Percentage of deliveries opened (0-100).
+        averageViewDuration:
+          type: number
+          format: float
+          description: Average view duration in seconds.
+        averageCompletionRate:
+          type: number
+          format: float
+          description: Average content completion rate (0-100).
+
+    Report:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the report.
+        name:
+          type: string
+          description: Name of the report.
+        description:
+          type: string
+          description: Description of the report.
+        type:
+          type: string
+          description: Type of report.
+          enum:
+            - content
+            - user
+            - delivery
+            - engagement
+            - adoption
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was last modified.
+
+    ReportData:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: ID of the report.
+        reportName:
+          type: string
+          description: Name of the report.
+        period:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+            endDate:
+              type: string
+              format: date
+        columns:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              displayName:
+                type: string
+              type:
+                type: string
+                enum:
+                  - string
+                  - integer
+                  - float
+                  - date
+                  - boolean
+          description: Column definitions for the report data.
+        rows:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+          description: Report data rows.
+        totalRows:
+          type: integer
+          description: Total number of data rows.
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+  responses:
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer

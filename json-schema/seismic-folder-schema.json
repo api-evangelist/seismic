@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.seismic.com/schemas/folder",
+  "title": "Seismic Folder",
+  "description": "A content folder in the Seismic platform used to organize content items in a hierarchical structure.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the folder."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the folder."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the folder."
+    },
+    "parentId": {
+      "type": ["string", "null"],
+      "description": "ID of the parent folder. Null for root-level folders."
+    },
+    "path": {
+      "type": "string",
+      "description": "Full path of the folder in the folder hierarchy."
+    },
+    "contentCount": {
+      "type": "integer",
+      "description": "Number of content items in the folder.",
+      "minimum": 0
+    },
+    "childFolderCount": {
+      "type": "integer",
+      "description": "Number of child folders.",
+      "minimum": 0
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "ID of the user who created the folder."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the folder was created."
+    },
+    "modifiedBy": {
+      "type": "string",
+      "description": "ID of the user who last modified the folder."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the folder was last modified."
+    }
+  },
+  "required": ["id", "name"]
+}

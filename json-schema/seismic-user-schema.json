@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.seismic.com/schemas/user",
+  "title": "Seismic User",
+  "description": "A user account in the Seismic platform with associated profile information, role, and team membership.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the user."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the user."
+    },
+    "firstName": {
+      "type": "string",
+      "description": "First name of the user."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Last name of the user."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Display name of the user."
+    },
+    "title": {
+      "type": "string",
+      "description": "Job title of the user."
+    },
+    "department": {
+      "type": "string",
+      "description": "Department the user belongs to."
+    },
+    "roleId": {
+      "type": "string",
+      "description": "ID of the assigned role."
+    },
+    "roleName": {
+      "type": "string",
+      "description": "Name of the assigned role."
+    },
+    "teamId": {
+      "type": "string",
+      "description": "ID of the team the user belongs to."
+    },
+    "teamName": {
+      "type": "string",
+      "description": "Name of the team the user belongs to."
+    },
+    "status": {
+      "type": "string",
+      "description": "Account status of the user.",
+      "enum": ["active", "inactive", "pending", "suspended"]
+    },
+    "avatarUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the user's avatar image."
+    },
+    "lastLoginAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Timestamp of the user's last login."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the user account was created."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the user account was last modified."
+    }
+  },
+  "required": ["id", "email", "firstName", "lastName"]
+}

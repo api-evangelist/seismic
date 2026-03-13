@@ -1,0 +1,767 @@
+openapi: 3.1.0
+info:
+  title: Seismic LiveDocs API
+  description: >-
+    API for creating and managing LiveDocs, Seismic's dynamic document
+    generation solution. LiveDocs enables automated creation of personalized
+    sales materials by merging data from CRM systems and other sources
+    into predefined templates. Supports generating presentations,
+    proposals, and other dynamic content.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+
+servers:
+  - url: https://api.seismic.com/integration/v2
+    description: Seismic API v2 Production
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: LiveDocs
+    description: Operations for generating and managing LiveDoc documents.
+  - name: Templates
+    description: Operations for managing LiveDoc templates.
+  - name: Data Sources
+    description: Operations for managing data source connections used in LiveDoc generation.
+  - name: Generation Jobs
+    description: Operations for managing asynchronous LiveDoc generation jobs.
+
+paths:
+  /livedocs/generate:
+    post:
+      operationId: generateLiveDoc
+      summary: Generate a LiveDoc
+      description: >-
+        Generates a new LiveDoc document by merging data into a specified
+        template. The generation can be synchronous for small documents
+        or asynchronous for larger ones.
+      tags:
+        - LiveDocs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - templateId
+              properties:
+                templateId:
+                  type: string
+                  description: ID of the LiveDoc template to use for generation.
+                name:
+                  type: string
+                  description: Name for the generated document.
+                outputFormat:
+                  type: string
+                  description: Desired output format for the generated document.
+                  enum:
+                    - pptx
+                    - pdf
+                    - docx
+                    - xlsx
+                inputs:
+                  type: object
+                  description: >-
+                    Key-value pairs of input data to merge into the template.
+                    Keys correspond to template field names.
+                  additionalProperties: true
+                dataSourceId:
+                  type: string
+                  description: ID of the data source to pull merge data from.
+                recordId:
+                  type: string
+                  description: >-
+                    ID of the record in the data source to use for merge data
+                    (e.g., a Salesforce opportunity ID).
+                folderId:
+                  type: string
+                  description: ID of the folder to save the generated document in.
+                async:
+                  type: boolean
+                  description: >-
+                    Whether to generate the document asynchronously.
+                    Large documents should use async generation.
+                  default: false
+      responses:
+        '200':
+          description: LiveDoc generated successfully (synchronous).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveDocResult'
+        '202':
+          description: LiveDoc generation job accepted (asynchronous).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerationJob'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/templates:
+    get:
+      operationId: listLiveDocTemplates
+      summary: List LiveDoc templates
+      description: >-
+        Retrieves a list of available LiveDoc templates that can be
+        used for document generation.
+      tags:
+        - Templates
+      parameters:
+        - name: query
+          in: query
+          description: Search query to filter templates by name.
+          schema:
+            type: string
+        - name: folderId
+          in: query
+          description: Filter templates by folder ID.
+          schema:
+            type: string
+        - name: outputFormat
+          in: query
+          description: Filter templates by supported output format.
+          schema:
+            type: string
+            enum:
+              - pptx
+              - pdf
+              - docx
+              - xlsx
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of LiveDoc templates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LiveDocTemplate'
+                  totalCount:
+                    type: integer
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/templates/{templateId}:
+    get:
+      operationId: getLiveDocTemplate
+      summary: Get a LiveDoc template
+      description: >-
+        Retrieves details of a specific LiveDoc template, including its
+        input fields and configuration.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/templateId'
+      responses:
+        '200':
+          description: LiveDoc template details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveDocTemplate'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/templates/{templateId}/inputs:
+    get:
+      operationId: getLiveDocTemplateInputs
+      summary: Get template input fields
+      description: >-
+        Retrieves the input field definitions for a specific LiveDoc
+        template, describing what data is required for generation.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/templateId'
+      responses:
+        '200':
+          description: Template input field definitions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateInput'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/templates/{templateId}/preview:
+    post:
+      operationId: previewLiveDocTemplate
+      summary: Preview a LiveDoc template
+      description: >-
+        Generates a preview of a LiveDoc template with sample data.
+        Useful for verifying template configuration before full generation.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/templateId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inputs:
+                  type: object
+                  description: Sample data to merge into the template for preview.
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Template preview generated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  previewUrl:
+                    type: string
+                    format: uri
+                    description: URL to view the generated preview.
+                  expiresAt:
+                    type: string
+                    format: date-time
+                    description: Expiration time of the preview URL.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/jobs:
+    get:
+      operationId: listGenerationJobs
+      summary: List generation jobs
+      description: >-
+        Retrieves a list of asynchronous LiveDoc generation jobs
+        and their statuses.
+      tags:
+        - Generation Jobs
+      parameters:
+        - name: status
+          in: query
+          description: Filter jobs by status.
+          schema:
+            type: string
+            enum:
+              - pending
+              - processing
+              - completed
+              - failed
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of generation jobs.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GenerationJob'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/jobs/{jobId}:
+    get:
+      operationId: getGenerationJob
+      summary: Get a generation job
+      description: Retrieves the status and result of a specific generation job.
+      tags:
+        - Generation Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: Generation job details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerationJob'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/datasources:
+    get:
+      operationId: listDataSources
+      summary: List data sources
+      description: >-
+        Retrieves a list of configured data sources that can be used
+        for LiveDoc generation, such as CRM connections.
+      tags:
+        - Data Sources
+      parameters:
+        - name: type
+          in: query
+          description: Filter data sources by type.
+          schema:
+            type: string
+            enum:
+              - salesforce
+              - dynamics
+              - hubspot
+              - custom
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of data sources.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataSource'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /livedocs/datasources/{dataSourceId}:
+    get:
+      operationId: getDataSource
+      summary: Get a data source
+      description: Retrieves details of a specific data source configuration.
+      tags:
+        - Data Sources
+      parameters:
+        - name: dataSourceId
+          in: path
+          required: true
+          description: Unique identifier of the data source.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Data source details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        OAuth 2.0 Bearer Token. Obtain tokens through the Seismic
+        authentication flow. See
+        https://developer.seismic.com/seismicsoftware/docs/authentication
+
+  parameters:
+    templateId:
+      name: templateId
+      in: path
+      required: true
+      description: Unique identifier of the LiveDoc template.
+      schema:
+        type: string
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: Unique identifier of the generation job.
+      schema:
+        type: string
+
+  schemas:
+    LiveDocResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the generated document.
+        name:
+          type: string
+          description: Name of the generated document.
+        templateId:
+          type: string
+          description: ID of the template used for generation.
+        contentId:
+          type: string
+          description: ID of the content item created in Seismic.
+        outputFormat:
+          type: string
+          description: Format of the generated document.
+          enum:
+            - pptx
+            - pdf
+            - docx
+            - xlsx
+        downloadUrl:
+          type: string
+          format: uri
+          description: URL to download the generated document.
+        folderId:
+          type: string
+          description: ID of the folder where the document was saved.
+        createdBy:
+          type: string
+          description: ID of the user who initiated the generation.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the document was generated.
+
+    LiveDocTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the template.
+        name:
+          type: string
+          description: Name of the template.
+        description:
+          type: string
+          description: Description of the template.
+        outputFormats:
+          type: array
+          items:
+            type: string
+            enum:
+              - pptx
+              - pdf
+              - docx
+              - xlsx
+          description: Supported output formats for this template.
+        folderId:
+          type: string
+          description: ID of the folder containing this template.
+        inputCount:
+          type: integer
+          description: Number of input fields defined in the template.
+        dataSourceId:
+          type: string
+          description: ID of the default data source for this template.
+        status:
+          type: string
+          description: Status of the template.
+          enum:
+            - active
+            - inactive
+            - draft
+        createdBy:
+          type: string
+          description: ID of the user who created the template.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the template was created.
+        modifiedBy:
+          type: string
+          description: ID of the user who last modified the template.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the template was last modified.
+        thumbnailUrl:
+          type: string
+          format: uri
+          description: URL for the template thumbnail image.
+
+    TemplateInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the input field.
+        name:
+          type: string
+          description: Name of the input field (used as key in generation requests).
+        displayName:
+          type: string
+          description: Display label for the input field.
+        type:
+          type: string
+          description: Data type of the input field.
+          enum:
+            - text
+            - number
+            - date
+            - boolean
+            - image
+            - table
+            - dropdown
+        required:
+          type: boolean
+          description: Whether the input field is required for generation.
+        defaultValue:
+          description: Default value for the input field.
+        description:
+          type: string
+          description: Description or help text for the input field.
+        options:
+          type: array
+          items:
+            type: string
+          description: Available options for dropdown-type inputs.
+        dataSourceField:
+          type: string
+          description: >-
+            Name of the data source field this input maps to
+            for automatic population.
+
+    GenerationJob:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the generation job.
+        templateId:
+          type: string
+          description: ID of the template being used.
+        status:
+          type: string
+          description: Current status of the generation job.
+          enum:
+            - pending
+            - processing
+            - completed
+            - failed
+        progress:
+          type: integer
+          description: Progress percentage (0-100).
+          minimum: 0
+          maximum: 100
+        result:
+          $ref: '#/components/schemas/LiveDocResult'
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+          description: Error details if the job failed.
+        createdBy:
+          type: string
+          description: ID of the user who initiated the job.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the job was created.
+        completedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the job completed or failed.
+
+    DataSource:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the data source.
+        name:
+          type: string
+          description: Name of the data source.
+        type:
+          type: string
+          description: Type of data source integration.
+          enum:
+            - salesforce
+            - dynamics
+            - hubspot
+            - custom
+        status:
+          type: string
+          description: Connection status of the data source.
+          enum:
+            - connected
+            - disconnected
+            - error
+        description:
+          type: string
+          description: Description of the data source.
+        objectTypes:
+          type: array
+          items:
+            type: string
+          description: >-
+            Available object types from the data source
+            (e.g., Account, Opportunity, Contact).
+        lastSyncAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last data synchronization.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the data source was configured.
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+  responses:
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer

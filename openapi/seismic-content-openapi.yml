@@ -1,0 +1,1103 @@
+openapi: 3.1.0
+info:
+  title: Seismic Content API
+  description: >-
+    API for managing and accessing content within the Seismic platform,
+    including documents, presentations, and other sales enablement materials.
+    Provides capabilities to upload, organize, search, deliver, and manage
+    content items, folders, and content properties within the Seismic
+    content management system.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+
+servers:
+  - url: https://api.seismic.com/integration/v2
+    description: Seismic API v2 Production
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Content
+    description: Operations for managing content items including documents, presentations, and other sales materials.
+  - name: Folders
+    description: Operations for managing content folders and organizational structure.
+  - name: Content Properties
+    description: Operations for managing content metadata properties and custom fields.
+  - name: Content Profiles
+    description: Operations for managing content profiles that define content configurations.
+  - name: Delivery
+    description: Operations for delivering and sharing content with buyers and teams.
+
+paths:
+  /content:
+    get:
+      operationId: listContentItems
+      summary: List content items
+      description: >-
+        Retrieves a list of content items from the Seismic platform.
+        Supports filtering by folder, content profile, and other criteria.
+      tags:
+        - Content
+      parameters:
+        - name: folderId
+          in: query
+          description: Filter content items by folder ID.
+          schema:
+            type: string
+        - name: contentProfileId
+          in: query
+          description: Filter content items by content profile ID.
+          schema:
+            type: string
+        - name: query
+          in: query
+          description: Search query to filter content items by name or metadata.
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+        - name: sortBy
+          in: query
+          description: Field to sort results by.
+          schema:
+            type: string
+            enum:
+              - name
+              - modifiedAt
+              - createdAt
+        - name: sortOrder
+          in: query
+          description: Sort order direction.
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: asc
+      responses:
+        '200':
+          description: A list of content items.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentItem'
+                  totalCount:
+                    type: integer
+                    description: Total number of matching content items.
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: createContentItem
+      summary: Create a content item
+      description: >-
+        Creates a new content item in the Seismic platform by uploading
+        a file with associated metadata.
+      tags:
+        - Content
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - name
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to upload.
+                name:
+                  type: string
+                  description: Name of the content item.
+                folderId:
+                  type: string
+                  description: ID of the folder to place the content item in.
+                contentProfileId:
+                  type: string
+                  description: ID of the content profile to associate with the content item.
+                description:
+                  type: string
+                  description: Description of the content item.
+                properties:
+                  type: object
+                  description: Custom property values as key-value pairs.
+                  additionalProperties:
+                    type: string
+      responses:
+        '201':
+          description: Content item created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content/{contentId}:
+    get:
+      operationId: getContentItem
+      summary: Get a content item
+      description: Retrieves details of a specific content item by its ID.
+      tags:
+        - Content
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+      responses:
+        '200':
+          description: Content item details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: updateContentItem
+      summary: Update a content item
+      description: Updates the metadata or properties of a specific content item.
+      tags:
+        - Content
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Updated name of the content item.
+                description:
+                  type: string
+                  description: Updated description.
+                folderId:
+                  type: string
+                  description: ID of the folder to move the content item to.
+                properties:
+                  type: object
+                  description: Updated custom property values.
+                  additionalProperties:
+                    type: string
+      responses:
+        '200':
+          description: Content item updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: deleteContentItem
+      summary: Delete a content item
+      description: Deletes a specific content item from the Seismic platform.
+      tags:
+        - Content
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+      responses:
+        '204':
+          description: Content item deleted successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content/{contentId}/file:
+    get:
+      operationId: downloadContentFile
+      summary: Download content file
+      description: Downloads the file associated with a specific content item.
+      tags:
+        - Content
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+        - name: versionId
+          in: query
+          description: Specific version of the file to download.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File content.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    put:
+      operationId: replaceContentFile
+      summary: Replace content file
+      description: Replaces the file associated with a content item with a new version.
+      tags:
+        - Content
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The replacement file.
+      responses:
+        '200':
+          description: File replaced successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content/{contentId}/versions:
+    get:
+      operationId: listContentVersions
+      summary: List content versions
+      description: Retrieves a list of versions for a specific content item.
+      tags:
+        - Content
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+      responses:
+        '200':
+          description: A list of content versions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentVersion'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content/{contentId}/url:
+    get:
+      operationId: getContentUrl
+      summary: Get content URL
+      description: >-
+        Retrieves a temporary URL for accessing or viewing a content item.
+        The URL is time-limited and suitable for embedding or sharing.
+      tags:
+        - Content
+        - Delivery
+      parameters:
+        - $ref: '#/components/parameters/contentId'
+      responses:
+        '200':
+          description: Content URL details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                    description: Temporary URL for accessing the content.
+                  expiresAt:
+                    type: string
+                    format: date-time
+                    description: Expiration time of the URL.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /folders:
+    get:
+      operationId: listFolders
+      summary: List folders
+      description: Retrieves a list of content folders from the Seismic platform.
+      tags:
+        - Folders
+      parameters:
+        - name: parentId
+          in: query
+          description: Filter by parent folder ID to retrieve child folders.
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of folders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Folder'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: createFolder
+      summary: Create a folder
+      description: Creates a new content folder in the Seismic platform.
+      tags:
+        - Folders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Name of the folder.
+                parentId:
+                  type: string
+                  description: ID of the parent folder.
+                description:
+                  type: string
+                  description: Description of the folder.
+      responses:
+        '201':
+          description: Folder created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /folders/{folderId}:
+    get:
+      operationId: getFolder
+      summary: Get a folder
+      description: Retrieves details of a specific folder by its ID.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+      responses:
+        '200':
+          description: Folder details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: updateFolder
+      summary: Update a folder
+      description: Updates the name or other properties of a specific folder.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Updated folder name.
+                description:
+                  type: string
+                  description: Updated folder description.
+                parentId:
+                  type: string
+                  description: ID of the new parent folder to move this folder to.
+      responses:
+        '200':
+          description: Folder updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: deleteFolder
+      summary: Delete a folder
+      description: Deletes a specific folder from the Seismic platform.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+      responses:
+        '204':
+          description: Folder deleted successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content-properties:
+    get:
+      operationId: listContentProperties
+      summary: List content properties
+      description: >-
+        Retrieves a list of content property definitions configured
+        in the Seismic platform.
+      tags:
+        - Content Properties
+      parameters:
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of content property definitions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentProperty'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content-properties/{propertyId}:
+    get:
+      operationId: getContentProperty
+      summary: Get a content property
+      description: Retrieves a specific content property definition by its ID.
+      tags:
+        - Content Properties
+      parameters:
+        - name: propertyId
+          in: path
+          required: true
+          description: Unique identifier of the content property.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Content property details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentProperty'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content-profiles:
+    get:
+      operationId: listContentProfiles
+      summary: List content profiles
+      description: >-
+        Retrieves a list of content profiles that define content type
+        configurations in the Seismic platform.
+      tags:
+        - Content Profiles
+      parameters:
+        - name: offset
+          in: query
+          description: Number of items to skip for pagination.
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of items to return.
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        '200':
+          description: A list of content profiles.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentProfile'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /content-profiles/{profileId}:
+    get:
+      operationId: getContentProfile
+      summary: Get a content profile
+      description: Retrieves a specific content profile by its ID.
+      tags:
+        - Content Profiles
+      parameters:
+        - name: profileId
+          in: path
+          required: true
+          description: Unique identifier of the content profile.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Content profile details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentProfile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /search:
+    post:
+      operationId: searchContent
+      summary: Search content
+      description: >-
+        Searches for content items across the Seismic platform using
+        full-text search and filtering capabilities.
+      tags:
+        - Content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Full-text search query.
+                filters:
+                  type: object
+                  description: Filter criteria for narrowing search results.
+                  properties:
+                    contentProfileIds:
+                      type: array
+                      items:
+                        type: string
+                      description: Filter by content profile IDs.
+                    folderIds:
+                      type: array
+                      items:
+                        type: string
+                      description: Filter by folder IDs.
+                    fileTypes:
+                      type: array
+                      items:
+                        type: string
+                      description: Filter by file types.
+                    tags:
+                      type: array
+                      items:
+                        type: string
+                      description: Filter by tags.
+                    modifiedAfter:
+                      type: string
+                      format: date-time
+                      description: Filter content modified after this date.
+                    modifiedBefore:
+                      type: string
+                      format: date-time
+                      description: Filter content modified before this date.
+                offset:
+                  type: integer
+                  default: 0
+                limit:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                sortBy:
+                  type: string
+                  enum:
+                    - relevance
+                    - name
+                    - modifiedAt
+                    - createdAt
+                sortOrder:
+                  type: string
+                  enum:
+                    - asc
+                    - desc
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentItem'
+                  totalCount:
+                    type: integer
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        OAuth 2.0 Bearer Token. Obtain tokens through the Seismic
+        authentication flow. See
+        https://developer.seismic.com/seismicsoftware/docs/authentication
+
+  parameters:
+    contentId:
+      name: contentId
+      in: path
+      required: true
+      description: Unique identifier of the content item.
+      schema:
+        type: string
+    folderId:
+      name: folderId
+      in: path
+      required: true
+      description: Unique identifier of the folder.
+      schema:
+        type: string
+
+  schemas:
+    ContentItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the content item.
+        name:
+          type: string
+          description: Name of the content item.
+        description:
+          type: string
+          description: Description of the content item.
+        folderId:
+          type: string
+          description: ID of the folder containing this content item.
+        contentProfileId:
+          type: string
+          description: ID of the associated content profile.
+        fileType:
+          type: string
+          description: File type extension of the content item.
+        fileSize:
+          type: integer
+          format: int64
+          description: File size in bytes.
+        mimeType:
+          type: string
+          description: MIME type of the content file.
+        versionNumber:
+          type: integer
+          description: Current version number of the content item.
+        status:
+          type: string
+          description: Publication status of the content item.
+          enum:
+            - draft
+            - published
+            - archived
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the content item.
+        properties:
+          type: object
+          description: Custom content property values.
+          additionalProperties:
+            type: string
+        createdBy:
+          type: string
+          description: ID of the user who created the content item.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the content item was created.
+        modifiedBy:
+          type: string
+          description: ID of the user who last modified the content item.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the content item was last modified.
+        thumbnailUrl:
+          type: string
+          format: uri
+          description: URL for the content item thumbnail image.
+
+    ContentVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the version.
+        contentId:
+          type: string
+          description: ID of the parent content item.
+        versionNumber:
+          type: integer
+          description: Sequential version number.
+        fileSize:
+          type: integer
+          format: int64
+          description: File size in bytes.
+        createdBy:
+          type: string
+          description: ID of the user who created this version.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when this version was created.
+        comment:
+          type: string
+          description: Comment or note associated with this version.
+
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the folder.
+        name:
+          type: string
+          description: Name of the folder.
+        description:
+          type: string
+          description: Description of the folder.
+        parentId:
+          type: string
+          description: ID of the parent folder.
+        path:
+          type: string
+          description: Full path of the folder in the folder hierarchy.
+        contentCount:
+          type: integer
+          description: Number of content items in the folder.
+        childFolderCount:
+          type: integer
+          description: Number of child folders.
+        createdBy:
+          type: string
+          description: ID of the user who created the folder.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the folder was created.
+        modifiedBy:
+          type: string
+          description: ID of the user who last modified the folder.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the folder was last modified.
+
+    ContentProperty:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the content property.
+        name:
+          type: string
+          description: Name of the content property.
+        displayName:
+          type: string
+          description: Display name shown in the UI.
+        type:
+          type: string
+          description: Data type of the property.
+          enum:
+            - text
+            - number
+            - date
+            - dropdown
+            - multiSelect
+            - boolean
+        required:
+          type: boolean
+          description: Whether the property is required.
+        options:
+          type: array
+          items:
+            type: string
+          description: Available options for dropdown and multi-select properties.
+        description:
+          type: string
+          description: Description of the content property.
+
+    ContentProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the content profile.
+        name:
+          type: string
+          description: Name of the content profile.
+        description:
+          type: string
+          description: Description of the content profile.
+        allowedFileTypes:
+          type: array
+          items:
+            type: string
+          description: List of allowed file type extensions.
+        properties:
+          type: array
+          items:
+            type: string
+          description: IDs of content properties associated with this profile.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the profile was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the profile was last modified.
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+  responses:
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer

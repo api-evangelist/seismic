@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.seismic.com/schemas/content-item",
+  "title": "Seismic Content Item",
+  "description": "A content item in the Seismic platform representing a document, presentation, or other sales enablement material.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the content item."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the content item."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the content item."
+    },
+    "folderId": {
+      "type": "string",
+      "description": "ID of the folder containing this content item."
+    },
+    "contentProfileId": {
+      "type": "string",
+      "description": "ID of the associated content profile."
+    },
+    "fileType": {
+      "type": "string",
+      "description": "File type extension of the content item.",
+      "examples": ["pdf", "pptx", "docx", "xlsx", "png", "mp4"]
+    },
+    "fileSize": {
+      "type": "integer",
+      "description": "File size in bytes.",
+      "minimum": 0
+    },
+    "mimeType": {
+      "type": "string",
+      "description": "MIME type of the content file.",
+      "examples": ["application/pdf", "application/vnd.openxmlformats-officedocument.presentationml.presentation"]
+    },
+    "versionNumber": {
+      "type": "integer",
+      "description": "Current version number of the content item.",
+      "minimum": 1
+    },
+    "status": {
+      "type": "string",
+      "description": "Publication status of the content item.",
+      "enum": ["draft", "published", "archived"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags associated with the content item."
+    },
+    "properties": {
+      "type": "object",
+      "description": "Custom content property values as key-value pairs.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "ID of the user who created the content item."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the content item was created."
+    },
+    "modifiedBy": {
+      "type": "string",
+      "description": "ID of the user who last modified the content item."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the content item was last modified."
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the content item thumbnail image."
+    }
+  },
+  "required": ["id", "name"]
+}

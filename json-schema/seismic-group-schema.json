@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://developer.seismic.com/schemas/group",
+  "title": "Seismic Group",
+  "description": "A user group in the Seismic platform used for organizing users and controlling access to content and features.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the group."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the group."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the group."
+    },
+    "parentId": {
+      "type": ["string", "null"],
+      "description": "ID of the parent group for hierarchical grouping."
+    },
+    "memberCount": {
+      "type": "integer",
+      "description": "Number of members in the group.",
+      "minimum": 0
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the group was created."
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the group was last modified."
+    }
+  },
+  "required": ["id", "name"]
+}
