@@ -25,15 +25,15 @@ security:
   - bearerAuth: []
 
 tags:
-  - name: LiveDocs
-    description: Operations for generating and managing LiveDoc documents.
-  - name: Templates
-    description: Operations for managing LiveDoc templates.
   - name: Data Sources
     description: Operations for managing data source connections used in LiveDoc generation.
   - name: Generation Jobs
     description: Operations for managing asynchronous LiveDoc generation jobs.
 
+  - name: LiveDocs
+    description: Operations for generating and managing LiveDoc documents.
+  - name: Templates
+    description: Operations for managing LiveDoc templates.
 paths:
   /livedocs/generate:
     post:

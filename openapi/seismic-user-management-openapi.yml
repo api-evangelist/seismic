@@ -24,8 +24,6 @@ security:
   - bearerAuth: []
 
 tags:
-  - name: Users
-    description: Operations for managing user accounts.
   - name: Groups
     description: Operations for managing user groups and teams.
   - name: Roles
@@ -33,6 +31,8 @@ tags:
   - name: Teams
     description: Operations for managing team structures.
 
+  - name: Users
+    description: Operations for managing user accounts.
 paths:
   /users:
     get:
@@ -316,8 +316,8 @@ paths:
       summary: Seismic Get user groups
       description: Retrieves the groups that a specific user belongs to.
       tags:
-        - Users
         - Groups
+        - Users
       parameters:
         - $ref: '#/components/parameters/userId'
       responses:
@@ -349,8 +349,8 @@ paths:
         Replaces the user's group memberships with the specified
         set of groups.
       tags:
-        - Users
         - Groups
+        - Users
       parameters:
         - $ref: '#/components/parameters/userId'
       requestBody:

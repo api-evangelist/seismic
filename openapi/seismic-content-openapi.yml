@@ -27,15 +27,15 @@ security:
 tags:
   - name: Content
     description: Operations for managing content items including documents, presentations, and other sales materials.
-  - name: Folders
-    description: Operations for managing content folders and organizational structure.
-  - name: Content Properties
-    description: Operations for managing content metadata properties and custom fields.
   - name: Content Profiles
     description: Operations for managing content profiles that define content configurations.
+  - name: Content Properties
+    description: Operations for managing content metadata properties and custom fields.
   - name: Delivery
     description: Operations for delivering and sharing content with buyers and teams.
 
+  - name: Folders
+    description: Operations for managing content folders and organizational structure.
 paths:
   /content:
     get:

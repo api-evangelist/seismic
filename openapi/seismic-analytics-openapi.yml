@@ -27,13 +27,13 @@ security:
 tags:
   - name: Content Analytics
     description: Analytics on content usage, views, and engagement.
-  - name: User Analytics
-    description: Analytics on user activity and adoption metrics.
   - name: Delivery Analytics
     description: Analytics on content delivery and buyer engagement.
   - name: Reports
     description: Operations for generating and retrieving analytical reports.
 
+  - name: User Analytics
+    description: Analytics on user activity and adoption metrics.
 paths:
   /analytics/content:
     get:
