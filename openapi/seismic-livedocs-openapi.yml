@@ -38,7 +38,7 @@ paths:
   /livedocs/generate:
     post:
       operationId: generateLiveDoc
-      summary: Generate a LiveDoc
+      summary: Seismic Generate a LiveDoc
       description: >-
         Generates a new LiveDoc document by merging data into a specified
         template. The generation can be synchronous for small documents
@@ -118,7 +118,7 @@ paths:
   /livedocs/templates:
     get:
       operationId: listLiveDocTemplates
-      summary: List LiveDoc templates
+      summary: Seismic List LiveDoc templates
       description: >-
         Retrieves a list of available LiveDoc templates that can be
         used for document generation.
@@ -186,7 +186,7 @@ paths:
   /livedocs/templates/{templateId}:
     get:
       operationId: getLiveDocTemplate
-      summary: Get a LiveDoc template
+      summary: Seismic Get a LiveDoc template
       description: >-
         Retrieves details of a specific LiveDoc template, including its
         input fields and configuration.
@@ -213,7 +213,7 @@ paths:
   /livedocs/templates/{templateId}/inputs:
     get:
       operationId: getLiveDocTemplateInputs
-      summary: Get template input fields
+      summary: Seismic Get template input fields
       description: >-
         Retrieves the input field definitions for a specific LiveDoc
         template, describing what data is required for generation.
@@ -247,7 +247,7 @@ paths:
   /livedocs/templates/{templateId}/preview:
     post:
       operationId: previewLiveDocTemplate
-      summary: Preview a LiveDoc template
+      summary: Seismic Preview a LiveDoc template
       description: >-
         Generates a preview of a LiveDoc template with sample data.
         Useful for verifying template configuration before full generation.
@@ -295,7 +295,7 @@ paths:
   /livedocs/jobs:
     get:
       operationId: listGenerationJobs
-      summary: List generation jobs
+      summary: Seismic List generation jobs
       description: >-
         Retrieves a list of asynchronous LiveDoc generation jobs
         and their statuses.
@@ -349,7 +349,7 @@ paths:
   /livedocs/jobs/{jobId}:
     get:
       operationId: getGenerationJob
-      summary: Get a generation job
+      summary: Seismic Get a generation job
       description: Retrieves the status and result of a specific generation job.
       tags:
         - Generation Jobs
@@ -374,7 +374,7 @@ paths:
   /livedocs/datasources:
     get:
       operationId: listDataSources
-      summary: List data sources
+      summary: Seismic List data sources
       description: >-
         Retrieves a list of configured data sources that can be used
         for LiveDoc generation, such as CRM connections.
@@ -428,7 +428,7 @@ paths:
   /livedocs/datasources/{dataSourceId}:
     get:
       operationId: getDataSource
-      summary: Get a data source
+      summary: Seismic Get a data source
       description: Retrieves details of a specific data source configuration.
       tags:
         - Data Sources
