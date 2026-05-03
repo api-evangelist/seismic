@@ -1,0 +1,145 @@
+extends: spectral:oas
+rules:
+  # Seismic API Naming Conventions
+  seismic-operation-summary-title-case:
+    description: Operation summaries must use Title Case.
+    message: "Summary '{{value}}' must use Title Case."
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][a-z]*(\\s([A-Za-z][a-z]*|[A-Z]+))*)(\\s([A-Z][a-z]*(\\s([A-Za-z][a-z]*|[A-Z]+))*))*$"
+
+  seismic-no-provider-prefix-in-summary:
+    description: Operation summaries must not start with the provider name.
+    message: "Summary '{{value}}' must not start with 'Seismic'."
+    severity: error
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^Seismic\\s"
+
+  seismic-operationid-camelcase:
+    description: OperationId must be camelCase.
+    message: "OperationId '{{value}}' must be camelCase."
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  seismic-paths-kebab-case:
+    description: Path segments must use kebab-case.
+    message: "Path '{{path}}' segments must use kebab-case."
+    severity: warn
+    given: "$.paths[*]~"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\\/[a-z][a-z0-9\\-]*(\\{[a-zA-Z][a-zA-Z0-9]*\\})?)*$"
+
+  seismic-bearer-auth-required:
+    description: All operations must use bearerAuth security.
+    message: "Operation must define security with bearerAuth."
+    severity: warn
+    given: "$.paths[*][*]"
+    then:
+      field: security
+      function: defined
+
+  seismic-pagination-offset-limit:
+    description: List operations should support offset and limit pagination.
+    message: "GET list operations should include offset and limit query parameters."
+    severity: info
+    given: "$.paths[*].get"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+
+  seismic-response-200-content:
+    description: GET operations must define a 200 response with content.
+    message: "GET operation must have a 200 response with application/json content."
+    severity: error
+    given: "$.paths[*].get.responses"
+    then:
+      field: "200"
+      function: defined
+
+  seismic-error-responses:
+    description: Operations should define 401 and 403 error responses.
+    message: "Operations should define 401 Unauthorized and 403 Forbidden responses."
+    severity: warn
+    given: "$.paths[*][*].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - "401"
+            - "403"
+
+  seismic-rate-limit-response:
+    description: Operations should define 429 Too Many Requests response.
+    message: "Operations should define 429 Too Many Requests response for rate limiting."
+    severity: info
+    given: "$.paths[*][*].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required:
+            - "429"
+
+  seismic-info-contact:
+    description: API info must include contact information.
+    message: "API info.contact must be defined with name, url, and email."
+    severity: warn
+    given: "$.info"
+    then:
+      field: contact
+      function: defined
+
+  seismic-info-license:
+    description: API info must include license information.
+    message: "API info.license must be defined."
+    severity: warn
+    given: "$.info"
+    then:
+      field: license
+      function: defined
+
+  seismic-server-https:
+    description: All server URLs must use HTTPS.
+    message: "Server URL '{{value}}' must use HTTPS."
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  seismic-tags-required:
+    description: Operations must include at least one tag.
+    message: "Operation must have at least one tag."
+    severity: warn
+    given: "$.paths[*][*].tags"
+    then:
+      function: length
+      functionOptions:
+        min: 1
+
+  seismic-components-schemas-defined:
+    description: API should define reusable schemas in components.
+    message: "API should define schemas in components/schemas."
+    severity: info
+    given: "$"
+    then:
+      field: "components.schemas"
+      function: defined

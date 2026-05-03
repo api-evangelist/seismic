@@ -38,7 +38,7 @@ paths:
   /analytics/content:
     get:
       operationId: getContentAnalytics
-      summary: Seismic Get content analytics
+      summary: Get Content Analytics
       description: >-
         Retrieves analytics data for content items, including views,
         downloads, shares, and engagement metrics.
@@ -151,7 +151,7 @@ paths:
   /analytics/content/{contentId}:
     get:
       operationId: getContentItemAnalytics
-      summary: Seismic Get analytics for a content item
+      summary: Get Analytics for a Content Item
       description: >-
         Retrieves detailed analytics data for a specific content item,
         including time-series data on views, downloads, and engagement.
@@ -205,7 +205,7 @@ paths:
   /analytics/content/top:
     get:
       operationId: getTopContent
-      summary: Seismic Get top-performing content
+      summary: Get Top-performing Content
       description: >-
         Retrieves a ranked list of the top-performing content items
         based on engagement, views, or other metrics.
@@ -278,7 +278,7 @@ paths:
   /analytics/users:
     get:
       operationId: getUserAnalytics
-      summary: Seismic Get user analytics
+      summary: Get User Analytics
       description: >-
         Retrieves analytics data on user activity, including content
         usage, login frequency, and adoption metrics.
@@ -365,7 +365,7 @@ paths:
   /analytics/users/{userId}:
     get:
       operationId: getUserActivityAnalytics
-      summary: Seismic Get analytics for a user
+      summary: Get Analytics for a User
       description: >-
         Retrieves detailed analytics data for a specific user,
         including activity history and content engagement.
@@ -409,7 +409,7 @@ paths:
   /analytics/deliveries:
     get:
       operationId: getDeliveryAnalytics
-      summary: Seismic Get delivery analytics
+      summary: Get Delivery Analytics
       description: >-
         Retrieves analytics data on content deliveries to buyers,
         including open rates, view durations, and engagement scores.
@@ -488,7 +488,7 @@ paths:
   /analytics/reports:
     get:
       operationId: listReports
-      summary: Seismic List available reports
+      summary: List Available Reports
       description: Retrieves a list of available analytical reports.
       tags:
         - Reports
@@ -541,7 +541,7 @@ paths:
   /analytics/reports/{reportId}:
     get:
       operationId: getReport
-      summary: Seismic Get a report
+      summary: Get a Report
       description: Retrieves a specific analytical report with its data.
       tags:
         - Reports
@@ -595,7 +595,7 @@ paths:
   /analytics/reports/{reportId}/export:
     post:
       operationId: exportReport
-      summary: Seismic Export a report
+      summary: Export a Report
       description: >-
         Initiates an export of a report. Returns a download URL
         when the export is ready.

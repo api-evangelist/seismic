@@ -1,0 +1,120 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "seismic": "https://developer.seismic.com/vocab/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "ContentItem": {
+      "@id": "seismic:ContentItem",
+      "@type": "@id",
+      "subClassOf": "schema:DigitalDocument"
+    },
+    "ContentFolder": {
+      "@id": "seismic:ContentFolder",
+      "@type": "@id",
+      "subClassOf": "schema:Collection"
+    },
+    "ContentProfile": {
+      "@id": "seismic:ContentProfile",
+      "@type": "@id"
+    },
+    "LiveDocTemplate": {
+      "@id": "seismic:LiveDocTemplate",
+      "@type": "@id",
+      "subClassOf": "schema:CreativeWork"
+    },
+    "GenerationJob": {
+      "@id": "seismic:GenerationJob",
+      "@type": "@id"
+    },
+    "User": {
+      "@id": "seismic:User",
+      "@type": "@id",
+      "subClassOf": "schema:Person"
+    },
+    "Group": {
+      "@id": "seismic:Group",
+      "@type": "@id",
+      "subClassOf": "schema:Organization"
+    },
+    "Role": {
+      "@id": "seismic:Role",
+      "@type": "@id"
+    },
+
+    "id": "@id",
+    "name": "schema:name",
+    "description": "schema:description",
+    "createdAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "modifiedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "fileType": "seismic:fileType",
+    "fileSize": {
+      "@id": "schema:fileSize",
+      "@type": "xsd:integer"
+    },
+    "mimeType": "schema:encodingFormat",
+    "status": "seismic:publicationStatus",
+    "tags": "schema:keywords",
+    "thumbnailUrl": {
+      "@id": "schema:thumbnailUrl",
+      "@type": "@id"
+    },
+    "versionNumber": {
+      "@id": "schema:version",
+      "@type": "xsd:integer"
+    },
+    "folderId": {
+      "@id": "seismic:containedInFolder",
+      "@type": "@id"
+    },
+    "contentProfileId": {
+      "@id": "seismic:hasContentProfile",
+      "@type": "@id"
+    },
+    "createdBy": {
+      "@id": "schema:creator",
+      "@type": "@id"
+    },
+    "modifiedBy": {
+      "@id": "schema:editor",
+      "@type": "@id"
+    },
+    "email": "schema:email",
+    "firstName": "schema:givenName",
+    "lastName": "schema:familyName",
+    "displayName": "schema:name",
+    "templateId": {
+      "@id": "seismic:usesTemplate",
+      "@type": "@id"
+    },
+    "outputFormat": "seismic:outputFormat",
+    "inputs": "seismic:templateInputs",
+    "contentId": {
+      "@id": "seismic:refersToContent",
+      "@type": "@id"
+    },
+    "views": {
+      "@id": "schema:interactionCount",
+      "@type": "xsd:integer"
+    },
+    "downloads": {
+      "@id": "seismic:downloadCount",
+      "@type": "xsd:integer"
+    },
+    "shares": {
+      "@id": "seismic:shareCount",
+      "@type": "xsd:integer"
+    },
+    "engagementScore": {
+      "@id": "seismic:engagementScore",
+      "@type": "xsd:float"
+    }
+  }
+}

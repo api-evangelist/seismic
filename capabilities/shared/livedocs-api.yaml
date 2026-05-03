@@ -1,0 +1,292 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Seismic LiveDocs API"
+  description: "API for creating and managing LiveDocs, Seismic's dynamic document generation solution for automated creation of personalized sales materials."
+  tags:
+    - Seismic
+    - Document Generation
+    - LiveDocs
+    - Sales Enablement
+    - Dynamic Content
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SEISMIC_ACCESS_TOKEN: SEISMIC_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: seismic-livedocs
+      baseUri: https://api.seismic.com/integration/v2
+      description: "Seismic LiveDocs API for dynamic document generation."
+      authentication:
+        type: bearer
+        token: "{{SEISMIC_ACCESS_TOKEN}}"
+      resources:
+        - name: livedocs-generate
+          path: /livedocs/generate
+          description: "Generate LiveDoc documents from templates."
+          operations:
+            - name: generate-livedoc
+              method: POST
+              description: "Generate a LiveDoc by merging data into a template."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  templateId: "{{tools.templateId}}"
+                  name: "{{tools.name}}"
+                  outputFormat: "{{tools.outputFormat}}"
+                  inputs: "{{tools.inputs}}"
+                  async: "{{tools.async}}"
+
+        - name: livedoc-templates
+          path: /livedocs/templates
+          description: "Manage LiveDoc templates."
+          operations:
+            - name: list-livedoc-templates
+              method: GET
+              description: "List available LiveDoc templates."
+              inputParameters:
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search query to filter templates."
+                - name: outputFormat
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by supported output format."
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset."
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum items to return."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: livedoc-template
+          path: /livedocs/templates/{templateId}
+          description: "Manage a specific LiveDoc template."
+          operations:
+            - name: get-livedoc-template
+              method: GET
+              description: "Retrieve details of a specific LiveDoc template."
+              inputParameters:
+                - name: templateId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the template."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: template-inputs
+          path: /livedocs/templates/{templateId}/inputs
+          description: "Get input fields for a LiveDoc template."
+          operations:
+            - name: get-livedoc-template-inputs
+              method: GET
+              description: "Retrieve input field definitions for a template."
+              inputParameters:
+                - name: templateId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the template."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: generation-jobs
+          path: /livedocs/jobs
+          description: "Manage asynchronous LiveDoc generation jobs."
+          operations:
+            - name: list-generation-jobs
+              method: GET
+              description: "List LiveDoc generation jobs and their statuses."
+              inputParameters:
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by job status."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: generation-job
+          path: /livedocs/jobs/{jobId}
+          description: "Manage a specific generation job."
+          operations:
+            - name: get-generation-job
+              method: GET
+              description: "Get the status and result of a generation job."
+              inputParameters:
+                - name: jobId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the generation job."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: data-sources
+          path: /livedocs/datasources
+          description: "Manage data sources for LiveDoc generation."
+          operations:
+            - name: list-data-sources
+              method: GET
+              description: "List configured data sources for LiveDoc generation."
+              inputParameters:
+                - name: type
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by data source type."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8102
+      namespace: seismic-livedocs-api
+      resources:
+        - path: /v1/livedocs/generate
+          name: livedoc-generation
+          description: "Generate LiveDoc documents."
+          operations:
+            - method: POST
+              name: generate-livedoc
+              description: "Generate a LiveDoc."
+              call: "seismic-livedocs.generate-livedoc"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/livedocs/templates
+          name: livedoc-templates
+          description: "Manage LiveDoc templates."
+          operations:
+            - method: GET
+              name: list-livedoc-templates
+              description: "List LiveDoc templates."
+              call: "seismic-livedocs.list-livedoc-templates"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/livedocs/jobs
+          name: generation-jobs
+          description: "Manage generation jobs."
+          operations:
+            - method: GET
+              name: list-generation-jobs
+              description: "List generation jobs."
+              call: "seismic-livedocs.list-generation-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9102
+      namespace: seismic-livedocs-mcp
+      transport: http
+      tools:
+        - name: generate-livedoc
+          description: "Generate a personalized LiveDoc document from a template."
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "seismic-livedocs.generate-livedoc"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-livedoc-templates
+          description: "List available LiveDoc templates."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-livedocs.list-livedoc-templates"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-livedoc-template
+          description: "Get details of a specific LiveDoc template."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-livedocs.get-livedoc-template"
+          with:
+            templateId: "tools.templateId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-livedoc-template-inputs
+          description: "Get input field definitions for a LiveDoc template."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-livedocs.get-livedoc-template-inputs"
+          with:
+            templateId: "tools.templateId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-generation-jobs
+          description: "List LiveDoc generation jobs and their statuses."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-livedocs.list-generation-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-generation-job
+          description: "Get the status and result of a LiveDoc generation job."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-livedocs.get-generation-job"
+          with:
+            jobId: "tools.jobId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-data-sources
+          description: "List CRM and other data sources available for LiveDoc generation."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-livedocs.list-data-sources"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -1,0 +1,77 @@
+{
+  "operation": "listContentItems",
+  "method": "GET",
+  "path": "/content",
+  "description": "Retrieve a list of content items from the Seismic platform.",
+  "request": {
+    "url": "https://api.seismic.com/integration/v2/content",
+    "method": "GET",
+    "headers": {
+      "Authorization": "Bearer {access_token}",
+      "Accept": "application/json"
+    },
+    "queryParameters": {
+      "folderId": "fld_xyz789",
+      "limit": 25,
+      "offset": 0,
+      "sortBy": "modifiedAt",
+      "sortOrder": "desc"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "cnt_abc123",
+          "name": "Q1 2026 Product Overview",
+          "description": "Comprehensive product overview deck for Q1 2026 sales cycle.",
+          "folderId": "fld_xyz789",
+          "contentProfileId": "cp_sales_deck",
+          "fileType": "pptx",
+          "fileSize": 2048576,
+          "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "versionNumber": 3,
+          "status": "published",
+          "tags": ["Q1 2026", "Product", "Sales Deck"],
+          "properties": {
+            "region": "EMEA",
+            "product-line": "Enterprise"
+          },
+          "createdBy": "usr_creator001",
+          "createdAt": "2026-01-15T09:00:00Z",
+          "modifiedBy": "usr_editor002",
+          "modifiedAt": "2026-03-01T14:30:00Z",
+          "thumbnailUrl": "https://cdn.seismic.com/thumbnails/cnt_abc123.png"
+        },
+        {
+          "id": "cnt_def456",
+          "name": "ROI Calculator",
+          "description": "Interactive ROI calculator for enterprise prospects.",
+          "folderId": "fld_xyz789",
+          "contentProfileId": "cp_tools",
+          "fileType": "xlsx",
+          "fileSize": 512000,
+          "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "versionNumber": 1,
+          "status": "published",
+          "tags": ["ROI", "Calculator", "Enterprise"],
+          "properties": {
+            "product-line": "Enterprise"
+          },
+          "createdBy": "usr_creator001",
+          "createdAt": "2026-02-01T10:00:00Z",
+          "modifiedBy": "usr_creator001",
+          "modifiedAt": "2026-02-01T10:00:00Z",
+          "thumbnailUrl": "https://cdn.seismic.com/thumbnails/cnt_def456.png"
+        }
+      ],
+      "totalCount": 47,
+      "offset": 0,
+      "limit": 25
+    }
+  }
+}

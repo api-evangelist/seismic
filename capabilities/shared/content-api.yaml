@@ -1,0 +1,382 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Seismic Content API"
+  description: "API for managing and accessing content within the Seismic platform, including documents, presentations, folders, and other sales enablement materials."
+  tags:
+    - Seismic
+    - Content Management
+    - Sales Enablement
+    - Documents
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SEISMIC_ACCESS_TOKEN: SEISMIC_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: seismic-content
+      baseUri: https://api.seismic.com/integration/v2
+      description: "Seismic Content API for managing sales enablement content."
+      authentication:
+        type: bearer
+        token: "{{SEISMIC_ACCESS_TOKEN}}"
+      resources:
+        - name: content-items
+          path: /content
+          description: "Manage content items in the Seismic platform."
+          operations:
+            - name: list-content-items
+              method: GET
+              description: "Retrieve a list of content items."
+              inputParameters:
+                - name: folderId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by folder ID."
+                - name: contentProfileId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by content profile ID."
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search query."
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset."
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum items to return."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-content-item
+              method: POST
+              description: "Create a new content item."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  folderId: "{{tools.folderId}}"
+                  description: "{{tools.description}}"
+
+        - name: content-item
+          path: /content/{contentId}
+          description: "Manage a specific content item."
+          operations:
+            - name: get-content-item
+              method: GET
+              description: "Retrieve details of a specific content item."
+              inputParameters:
+                - name: contentId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the content item."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: update-content-item
+              method: PATCH
+              description: "Update metadata of a content item."
+              inputParameters:
+                - name: contentId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the content item."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  description: "{{tools.description}}"
+            - name: delete-content-item
+              method: DELETE
+              description: "Delete a content item."
+              inputParameters:
+                - name: contentId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the content item."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: content-url
+          path: /content/{contentId}/url
+          description: "Get a temporary URL for a content item."
+          operations:
+            - name: get-content-url
+              method: GET
+              description: "Retrieve a temporary URL for accessing a content item."
+              inputParameters:
+                - name: contentId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the content item."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: content-versions
+          path: /content/{contentId}/versions
+          description: "Manage content item versions."
+          operations:
+            - name: list-content-versions
+              method: GET
+              description: "List versions of a content item."
+              inputParameters:
+                - name: contentId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the content item."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: folders
+          path: /folders
+          description: "Manage content folders."
+          operations:
+            - name: list-folders
+              method: GET
+              description: "List content folders."
+              inputParameters:
+                - name: parentId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by parent folder ID."
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset."
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum items to return."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-folder
+              method: POST
+              description: "Create a new content folder."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  parentId: "{{tools.parentId}}"
+
+        - name: search
+          path: /search
+          description: "Search content in the Seismic platform."
+          operations:
+            - name: search-content
+              method: POST
+              description: "Search for content items across the Seismic platform."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  query: "{{tools.query}}"
+                  offset: "{{tools.offset}}"
+                  limit: "{{tools.limit}}"
+
+        - name: content-properties
+          path: /content-properties
+          description: "Manage content property definitions."
+          operations:
+            - name: list-content-properties
+              method: GET
+              description: "List content property definitions."
+              inputParameters:
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset."
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum items to return."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: content-profiles
+          path: /content-profiles
+          description: "Manage content profiles."
+          operations:
+            - name: list-content-profiles
+              method: GET
+              description: "List content profiles."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: seismic-content-api
+      resources:
+        - path: /v1/content
+          name: content-items
+          description: "Manage Seismic content items."
+          operations:
+            - method: GET
+              name: list-content-items
+              description: "List content items."
+              call: "seismic-content.list-content-items"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-content-item
+              description: "Create a content item."
+              call: "seismic-content.create-content-item"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/{contentId}
+          name: content-item
+          description: "Manage a specific content item."
+          operations:
+            - method: GET
+              name: get-content-item
+              description: "Get a content item."
+              call: "seismic-content.get-content-item"
+              with:
+                contentId: "rest.contentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/folders
+          name: folders
+          description: "Manage content folders."
+          operations:
+            - method: GET
+              name: list-folders
+              description: "List folders."
+              call: "seismic-content.list-folders"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/search
+          name: search
+          description: "Search content."
+          operations:
+            - method: POST
+              name: search-content
+              description: "Search content."
+              call: "seismic-content.search-content"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: seismic-content-mcp
+      transport: http
+      tools:
+        - name: list-content-items
+          description: "List content items in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.list-content-items"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-content-item
+          description: "Get a specific content item."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-content.get-content-item"
+          with:
+            contentId: "tools.contentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-content
+          description: "Search for content in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.search-content"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-folders
+          description: "List content folders."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.list-folders"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-content-url
+          description: "Get a temporary URL for a content item."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-content.get-content-url"
+          with:
+            contentId: "tools.contentId"
+          outputParameters:
+            - type: object
+              mapping: "$."

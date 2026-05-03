@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Seismic Content Item Structure",
+  "description": "Structure documentation for the Seismic ContentItem resource.",
+  "type": "object",
+  "structure": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the content item.",
+      "example": "cnt_abc123xyz"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the content item.",
+      "example": "Q1 2026 Product Overview"
+    },
+    "description": {
+      "type": "string",
+      "description": "Text description of the content.",
+      "example": "Comprehensive product overview deck for Q1 2026 sales cycle."
+    },
+    "folderId": {
+      "type": "string",
+      "description": "ID of the containing folder.",
+      "example": "fld_xyz789"
+    },
+    "contentProfileId": {
+      "type": "string",
+      "description": "ID of the associated content profile.",
+      "example": "cp_sales_deck"
+    },
+    "fileType": {
+      "type": "string",
+      "description": "File type extension.",
+      "example": "pptx",
+      "enum": ["pptx", "pdf", "docx", "xlsx", "mp4", "png", "jpg"]
+    },
+    "fileSize": {
+      "type": "integer",
+      "description": "File size in bytes.",
+      "example": 2048576
+    },
+    "mimeType": {
+      "type": "string",
+      "description": "MIME type of the content file.",
+      "example": "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    },
+    "versionNumber": {
+      "type": "integer",
+      "description": "Current version number.",
+      "example": 3
+    },
+    "status": {
+      "type": "string",
+      "description": "Publication status.",
+      "example": "published",
+      "enum": ["draft", "published", "archived"]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorization.",
+      "items": {"type": "string"},
+      "example": ["Q1 2026", "Product", "Sales Deck"]
+    },
+    "properties": {
+      "type": "object",
+      "description": "Custom property key-value pairs.",
+      "example": {"region": "EMEA", "product-line": "Enterprise"}
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "ID of the creating user.",
+      "example": "usr_creator001"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp.",
+      "example": "2026-01-15T09:00:00Z"
+    },
+    "modifiedBy": {
+      "type": "string",
+      "description": "ID of the last modifying user.",
+      "example": "usr_editor002"
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp.",
+      "example": "2026-03-01T14:30:00Z"
+    },
+    "thumbnailUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the content thumbnail.",
+      "example": "https://cdn.seismic.com/thumbnails/cnt_abc123xyz.png"
+    }
+  }
+}

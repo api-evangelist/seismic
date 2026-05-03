@@ -1,0 +1,229 @@
+name: Seismic Vocabulary
+description: >-
+  Vocabulary and taxonomy for the Seismic sales enablement platform, covering
+  content management, dynamic document generation, analytics, and user management concepts.
+created: "2026-05-02"
+modified: "2026-05-02"
+
+terms:
+  # Core Platform Concepts
+  - term: Content Item
+    definition: >-
+      A digital asset stored in the Seismic content library, such as a presentation,
+      document, video, or other sales material. Content items have versions, properties,
+      and associated metadata.
+    aliases:
+      - Content
+      - Asset
+      - Sales Asset
+    related:
+      - Content Profile
+      - Content Property
+      - Folder
+
+  - term: Content Profile
+    definition: >-
+      A configuration template that defines the type and structure of content items,
+      including allowed file types and associated custom properties. Content profiles
+      standardize how content is categorized and managed.
+    aliases:
+      - Content Type
+    related:
+      - Content Item
+      - Content Property
+
+  - term: Content Property
+    definition: >-
+      A custom metadata field associated with content items. Content properties allow
+      organizations to add structured metadata such as region, product line, or
+      audience type to content for filtering and reporting.
+    aliases:
+      - Metadata Field
+      - Custom Field
+    related:
+      - Content Profile
+      - Content Item
+
+  - term: Folder
+    definition: >-
+      A hierarchical container used to organize content items in the Seismic content
+      library. Folders can be nested to create organizational structures aligned with
+      business units, regions, or content types.
+    aliases:
+      - Content Folder
+    related:
+      - Content Item
+
+  - term: LiveDoc
+    definition: >-
+      A dynamically generated document created by merging data from CRM systems or
+      manual inputs into a predefined template. LiveDocs enable automated creation of
+      personalized proposals, presentations, and sales materials.
+    aliases:
+      - Dynamic Document
+      - Personalized Document
+    related:
+      - LiveDoc Template
+      - Generation Job
+      - Data Source
+
+  - term: LiveDoc Template
+    definition: >-
+      A reusable document template with defined input fields that can be populated
+      with dynamic data during LiveDoc generation. Templates support multiple output
+      formats including PPTX, PDF, DOCX, and XLSX.
+    aliases:
+      - Template
+      - Document Template
+    related:
+      - LiveDoc
+      - Template Input
+      - Data Source
+
+  - term: Template Input
+    definition: >-
+      A field definition within a LiveDoc template that specifies what data must be
+      provided for document generation. Inputs have types (text, number, date, image,
+      table), validation rules, and can be mapped to CRM data source fields.
+    aliases:
+      - Input Field
+      - Merge Field
+    related:
+      - LiveDoc Template
+
+  - term: Generation Job
+    definition: >-
+      An asynchronous task that tracks the progress of a LiveDoc generation request.
+      Large or complex documents are processed asynchronously, and generation jobs
+      provide status updates and result access when complete.
+    aliases:
+      - Document Generation Job
+      - Async Job
+    related:
+      - LiveDoc
+
+  - term: Data Source
+    definition: >-
+      A configured integration with an external data system (e.g., Salesforce,
+      Microsoft Dynamics, HubSpot) that provides records and data for automatic
+      population of LiveDoc template inputs.
+    aliases:
+      - CRM Integration
+      - Data Connection
+    related:
+      - LiveDoc Template
+      - LiveDoc
+
+  # Analytics Concepts
+  - term: Content Analytics
+    definition: >-
+      Metrics and data about how content items are used by sales teams, including
+      views, downloads, shares, engagement scores, and completion rates over time.
+    aliases:
+      - Usage Analytics
+      - Content Performance
+    related:
+      - Delivery Analytics
+      - User Analytics
+      - Engagement Score
+
+  - term: Engagement Score
+    definition: >-
+      A calculated metric (0-100) that measures how effectively a content item engages
+      viewers, based on view duration, completion rate, and interaction signals.
+    aliases:
+      - Engagement
+    related:
+      - Content Analytics
+
+  - term: Delivery Analytics
+    definition: >-
+      Analytics on content that has been shared with buyers or external recipients,
+      including open rates, view durations, and engagement scores from the recipient's
+      perspective.
+    aliases:
+      - Buyer Engagement Analytics
+    related:
+      - Content Analytics
+
+  - term: User Analytics
+    definition: >-
+      Metrics on individual user activity within the Seismic platform, including
+      login frequency, content viewed, content downloaded, and adoption scores.
+    aliases:
+      - Adoption Analytics
+    related:
+      - Adoption Score
+
+  - term: Adoption Score
+    definition: >-
+      A metric (0-100) measuring how actively a user adopts and uses the Seismic
+      platform relative to their peers, based on login frequency and content interactions.
+    related:
+      - User Analytics
+
+  # User Management Concepts
+  - term: Role
+    definition: >-
+      A named set of permissions that can be assigned to users, controlling what
+      actions they can perform within the Seismic platform. Roles may be system-defined
+      (e.g., Admin, Manager, Rep) or custom.
+    aliases:
+      - User Role
+      - Permission Set
+    related:
+      - User
+      - Group
+
+  - term: Group
+    definition: >-
+      A named collection of users that can be used for access control, content
+      targeting, and analytics segmentation. Groups can be hierarchical (parent/child).
+    aliases:
+      - User Group
+      - Team Group
+    related:
+      - User
+      - Role
+
+  - term: Team
+    definition: >-
+      An organizational unit within Seismic that groups users under a team manager.
+      Teams are used for reporting hierarchies and content access scoping.
+    related:
+      - User
+      - Group
+
+categories:
+  - name: Content Management
+    description: Concepts related to organizing and managing sales content.
+    terms:
+      - Content Item
+      - Content Profile
+      - Content Property
+      - Folder
+
+  - name: Document Generation
+    description: Concepts related to LiveDocs and dynamic document creation.
+    terms:
+      - LiveDoc
+      - LiveDoc Template
+      - Template Input
+      - Generation Job
+      - Data Source
+
+  - name: Analytics
+    description: Concepts related to measuring content effectiveness and adoption.
+    terms:
+      - Content Analytics
+      - Engagement Score
+      - Delivery Analytics
+      - User Analytics
+      - Adoption Score
+
+  - name: User Management
+    description: Concepts related to users, roles, and organizational structure.
+    terms:
+      - Role
+      - Group
+      - Team

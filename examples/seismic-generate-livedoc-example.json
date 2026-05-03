@@ -1,0 +1,48 @@
+{
+  "operation": "generateLiveDoc",
+  "method": "POST",
+  "path": "/livedocs/generate",
+  "description": "Generate a personalized sales proposal using a LiveDoc template.",
+  "request": {
+    "url": "https://api.seismic.com/integration/v2/livedocs/generate",
+    "method": "POST",
+    "headers": {
+      "Authorization": "Bearer {access_token}",
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    "body": {
+      "templateId": "tmpl_proposal_enterprise",
+      "name": "Acme Corp Enterprise Proposal - Q2 2026",
+      "outputFormat": "pdf",
+      "dataSourceId": "ds_salesforce",
+      "recordId": "006Hu000002sHR7IAM",
+      "folderId": "fld_proposals_2026",
+      "async": false,
+      "inputs": {
+        "companyName": "Acme Corporation",
+        "contactName": "Jane Smith",
+        "contractValue": "$125,000",
+        "implementationTimeline": "90 days",
+        "keyBenefits": "20% increase in sales productivity, 35% faster content creation"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "ld_result_abc789",
+      "name": "Acme Corp Enterprise Proposal - Q2 2026",
+      "templateId": "tmpl_proposal_enterprise",
+      "contentId": "cnt_generated_xyz",
+      "outputFormat": "pdf",
+      "downloadUrl": "https://api.seismic.com/downloads/ld_result_abc789?token=tmp_abc123&expires=2026-05-02T18:00:00Z",
+      "folderId": "fld_proposals_2026",
+      "createdBy": "usr_sales_rep_001",
+      "createdAt": "2026-05-02T14:00:00Z"
+    }
+  }
+}

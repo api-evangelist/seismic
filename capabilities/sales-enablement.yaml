@@ -1,0 +1,246 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Seismic Sales Enablement"
+  description: "Unified workflow capability for sales enablement workflows in Seismic — combining dynamic document generation, user management, analytics, and content delivery for sales reps, managers, and enablement teams."
+  tags:
+    - Seismic
+    - Sales Enablement
+    - Document Generation
+    - LiveDocs
+    - User Management
+    - Reporting
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SEISMIC_ACCESS_TOKEN: SEISMIC_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - import: seismic-content
+      location: ./shared/content-api.yaml
+    - import: seismic-livedocs
+      location: ./shared/livedocs-api.yaml
+    - import: seismic-analytics
+      location: ./shared/analytics-api.yaml
+    - import: seismic-users
+      location: ./shared/user-management-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8081
+      namespace: seismic-sales-enablement-api
+      description: "Unified REST API for Seismic sales enablement workflows."
+      resources:
+        - path: /v1/documents/generate
+          name: document-generation
+          description: "Generate personalized sales documents."
+          operations:
+            - method: POST
+              name: generate-livedoc
+              description: "Generate a personalized LiveDoc."
+              call: "seismic-livedocs.generate-livedoc"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/documents/templates
+          name: document-templates
+          description: "List available document templates."
+          operations:
+            - method: GET
+              name: list-livedoc-templates
+              description: "List LiveDoc templates."
+              call: "seismic-livedocs.list-livedoc-templates"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/documents/jobs
+          name: generation-jobs
+          description: "Track document generation jobs."
+          operations:
+            - method: GET
+              name: list-generation-jobs
+              description: "List generation jobs."
+              call: "seismic-livedocs.list-generation-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content
+          name: content-items
+          description: "Browse sales content."
+          operations:
+            - method: GET
+              name: list-content-items
+              description: "List content items."
+              call: "seismic-content.list-content-items"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/analytics/users
+          name: user-analytics
+          description: "Sales rep adoption analytics."
+          operations:
+            - method: GET
+              name: get-user-analytics
+              description: "Get user analytics."
+              call: "seismic-analytics.get-user-analytics"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/analytics/reports
+          name: reports
+          description: "Analytics reports."
+          operations:
+            - method: GET
+              name: list-reports
+              description: "List reports."
+              call: "seismic-analytics.list-reports"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/users
+          name: users
+          description: "Manage users."
+          operations:
+            - method: GET
+              name: list-users
+              description: "List users."
+              call: "seismic-users.list-users"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9091
+      namespace: seismic-sales-enablement-mcp
+      transport: http
+      description: "MCP server for AI-assisted Seismic sales enablement."
+      tools:
+        - name: generate-livedoc
+          description: "Generate a personalized sales document by merging data into a Seismic LiveDoc template."
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "seismic-livedocs.generate-livedoc"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-livedoc-templates
+          description: "List available LiveDoc templates for document generation."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-livedocs.list-livedoc-templates"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-livedoc-template
+          description: "Get details of a specific LiveDoc template."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-livedocs.get-livedoc-template"
+          with:
+            templateId: "tools.templateId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-livedoc-template-inputs
+          description: "Get required input fields for a LiveDoc template."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-livedocs.get-livedoc-template-inputs"
+          with:
+            templateId: "tools.templateId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-generation-job
+          description: "Check the status of an async LiveDoc generation job."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-livedocs.get-generation-job"
+          with:
+            jobId: "tools.jobId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-content-items
+          description: "Browse available sales content in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.list-content-items"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-content
+          description: "Search Seismic content library."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.search-content"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-content-url
+          description: "Get a shareable URL for delivering content to prospects."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-content.get-content-url"
+          with:
+            contentId: "tools.contentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-user-analytics
+          description: "Get sales rep adoption and usage analytics."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-analytics.get-user-analytics"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-delivery-analytics
+          description: "Get analytics on content delivered to buyers."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-analytics.get-delivery-analytics"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-reports
+          description: "List available Seismic analytics reports."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-analytics.list-reports"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-users
+          description: "List Seismic platform users."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-users.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-data-sources
+          description: "List CRM data sources available for LiveDoc generation."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-livedocs.list-data-sources"
+          outputParameters:
+            - type: object
+              mapping: "$."

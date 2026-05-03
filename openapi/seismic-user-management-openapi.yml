@@ -37,7 +37,7 @@ paths:
   /users:
     get:
       operationId: listUsers
-      summary: Seismic List users
+      summary: List Users
       description: >-
         Retrieves a list of users in the Seismic platform. Supports
         filtering by group, role, status, and search query.
@@ -132,7 +132,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     post:
       operationId: createUser
-      summary: Seismic Create a user
+      summary: Create a User
       description: >-
         Creates a new user account in the Seismic platform. An
         invitation email will be sent to the user.
@@ -205,7 +205,7 @@ paths:
   /users/{userId}:
     get:
       operationId: getUser
-      summary: Seismic Get a user
+      summary: Get a User
       description: Retrieves details of a specific user by their ID.
       tags:
         - Users
@@ -228,7 +228,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     patch:
       operationId: updateUser
-      summary: Seismic Update a user
+      summary: Update a User
       description: Updates the profile or settings of a specific user.
       tags:
         - Users
@@ -285,7 +285,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     delete:
       operationId: deleteUser
-      summary: Seismic Delete a user
+      summary: Delete a User
       description: >-
         Deactivates and removes a user account from the Seismic platform.
         Content owned by the user may be reassigned.
@@ -313,7 +313,7 @@ paths:
   /users/{userId}/groups:
     get:
       operationId: getUserGroups
-      summary: Seismic Get user groups
+      summary: Get User Groups
       description: Retrieves the groups that a specific user belongs to.
       tags:
         - Groups
@@ -344,7 +344,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     put:
       operationId: setUserGroups
-      summary: Seismic Set user group memberships
+      summary: Set User Group Memberships
       description: >-
         Replaces the user's group memberships with the specified
         set of groups.
@@ -393,7 +393,7 @@ paths:
   /groups:
     get:
       operationId: listGroups
-      summary: Seismic List groups
+      summary: List Groups
       description: Retrieves a list of user groups in the Seismic platform.
       tags:
         - Groups
@@ -447,7 +447,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     post:
       operationId: createGroup
-      summary: Seismic Create a group
+      summary: Create a Group
       description: Creates a new user group in the Seismic platform.
       tags:
         - Groups
@@ -494,7 +494,7 @@ paths:
   /groups/{groupId}:
     get:
       operationId: getGroup
-      summary: Seismic Get a group
+      summary: Get a Group
       description: Retrieves details of a specific group by its ID.
       tags:
         - Groups
@@ -517,7 +517,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     patch:
       operationId: updateGroup
-      summary: Seismic Update a group
+      summary: Update a Group
       description: Updates the name or other properties of a specific group.
       tags:
         - Groups
@@ -558,7 +558,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     delete:
       operationId: deleteGroup
-      summary: Seismic Delete a group
+      summary: Delete a Group
       description: Deletes a specific group from the Seismic platform.
       tags:
         - Groups
@@ -579,7 +579,7 @@ paths:
   /groups/{groupId}/members:
     get:
       operationId: listGroupMembers
-      summary: Seismic List group members
+      summary: List Group Members
       description: Retrieves a list of users who are members of a specific group.
       tags:
         - Groups
@@ -622,7 +622,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     post:
       operationId: addGroupMember
-      summary: Seismic Add a member to a group
+      summary: Add a Member to a Group
       description: Adds a user as a member of a specific group.
       tags:
         - Groups
@@ -663,7 +663,7 @@ paths:
   /groups/{groupId}/members/{userId}:
     delete:
       operationId: removeGroupMember
-      summary: Seismic Remove a member from a group
+      summary: Remove a Member from a Group
       description: Removes a user from a specific group.
       tags:
         - Groups
@@ -685,7 +685,7 @@ paths:
   /roles:
     get:
       operationId: listRoles
-      summary: Seismic List roles
+      summary: List Roles
       description: Retrieves a list of available roles in the Seismic platform.
       tags:
         - Roles
@@ -727,7 +727,7 @@ paths:
   /roles/{roleId}:
     get:
       operationId: getRole
-      summary: Seismic Get a role
+      summary: Get a Role
       description: Retrieves details of a specific role by its ID.
       tags:
         - Roles
@@ -757,7 +757,7 @@ paths:
   /teams:
     get:
       operationId: listTeams
-      summary: Seismic List teams
+      summary: List Teams
       description: Retrieves a list of teams in the Seismic platform.
       tags:
         - Teams
@@ -804,7 +804,7 @@ paths:
   /teams/{teamId}:
     get:
       operationId: getTeam
-      summary: Seismic Get a team
+      summary: Get a Team
       description: Retrieves details of a specific team by its ID.
       tags:
         - Teams
@@ -834,7 +834,7 @@ paths:
   /teams/{teamId}/members:
     get:
       operationId: listTeamMembers
-      summary: Seismic List team members
+      summary: List Team Members
       description: Retrieves a list of users who are members of a specific team.
       tags:
         - Teams

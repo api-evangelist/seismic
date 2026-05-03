@@ -1,0 +1,310 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Seismic User Management API"
+  description: "API for managing users, groups, roles, and teams within the Seismic platform."
+  tags:
+    - Seismic
+    - User Management
+    - Administration
+    - Access Control
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SEISMIC_ACCESS_TOKEN: SEISMIC_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: seismic-users
+      baseUri: https://api.seismic.com/integration/v2
+      description: "Seismic User Management API."
+      authentication:
+        type: bearer
+        token: "{{SEISMIC_ACCESS_TOKEN}}"
+      resources:
+        - name: users
+          path: /users
+          description: "Manage user accounts."
+          operations:
+            - name: list-users
+              method: GET
+              description: "List users in the Seismic platform."
+              inputParameters:
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search query."
+                - name: groupId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by group."
+                - name: roleId
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by role."
+                - name: status
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by status."
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset."
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum items to return."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-user
+              method: POST
+              description: "Create a new user account."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  email: "{{tools.email}}"
+                  firstName: "{{tools.firstName}}"
+                  lastName: "{{tools.lastName}}"
+                  roleId: "{{tools.roleId}}"
+
+        - name: user
+          path: /users/{userId}
+          description: "Manage a specific user."
+          operations:
+            - name: get-user
+              method: GET
+              description: "Get details of a specific user."
+              inputParameters:
+                - name: userId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the user."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: update-user
+              method: PATCH
+              description: "Update a user's profile."
+              inputParameters:
+                - name: userId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the user."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  firstName: "{{tools.firstName}}"
+                  lastName: "{{tools.lastName}}"
+                  status: "{{tools.status}}"
+            - name: delete-user
+              method: DELETE
+              description: "Delete a user account."
+              inputParameters:
+                - name: userId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the user."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: groups
+          path: /groups
+          description: "Manage user groups."
+          operations:
+            - name: list-groups
+              method: GET
+              description: "List user groups."
+              inputParameters:
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: "Search query."
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-group
+              method: POST
+              description: "Create a new user group."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  description: "{{tools.description}}"
+
+        - name: roles
+          path: /roles
+          description: "Manage roles and permissions."
+          operations:
+            - name: list-roles
+              method: GET
+              description: "List available roles."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: teams
+          path: /teams
+          description: "Manage team structures."
+          operations:
+            - name: list-teams
+              method: GET
+              description: "List teams."
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8103
+      namespace: seismic-users-api
+      resources:
+        - path: /v1/users
+          name: users
+          description: "Manage users."
+          operations:
+            - method: GET
+              name: list-users
+              description: "List users."
+              call: "seismic-users.list-users"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-user
+              description: "Create a user."
+              call: "seismic-users.create-user"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/groups
+          name: groups
+          description: "Manage groups."
+          operations:
+            - method: GET
+              name: list-groups
+              description: "List groups."
+              call: "seismic-users.list-groups"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/roles
+          name: roles
+          description: "Manage roles."
+          operations:
+            - method: GET
+              name: list-roles
+              description: "List roles."
+              call: "seismic-users.list-roles"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9103
+      namespace: seismic-users-mcp
+      transport: http
+      tools:
+        - name: list-users
+          description: "List users in the Seismic platform."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-users.list-users"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-user
+          description: "Get details of a specific user."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-users.get-user"
+          with:
+            userId: "tools.userId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-user
+          description: "Create a new user account in Seismic."
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "seismic-users.create-user"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-groups
+          description: "List user groups in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-users.list-groups"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-roles
+          description: "List available roles in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-users.list-roles"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-teams
+          description: "List teams in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-users.list-teams"
+          outputParameters:
+            - type: object
+              mapping: "$."

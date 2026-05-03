@@ -1,0 +1,220 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Seismic Content Management"
+  description: "Unified workflow capability for managing sales enablement content in Seismic — combining content management, folder organization, search, and analytics for content teams and sales managers."
+  tags:
+    - Seismic
+    - Content Management
+    - Sales Enablement
+    - Documents
+    - Analytics
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SEISMIC_ACCESS_TOKEN: SEISMIC_ACCESS_TOKEN
+
+capability:
+  consumes:
+    - import: seismic-content
+      location: ./shared/content-api.yaml
+    - import: seismic-analytics
+      location: ./shared/analytics-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: seismic-content-mgmt-api
+      description: "Unified REST API for Seismic content management and analytics."
+      resources:
+        - path: /v1/content
+          name: content-items
+          description: "Manage content items."
+          operations:
+            - method: GET
+              name: list-content-items
+              description: "List content items in Seismic."
+              call: "seismic-content.list-content-items"
+              with:
+                folderId: "rest.folderId"
+                query: "rest.query"
+                offset: "rest.offset"
+                limit: "rest.limit"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-content-item
+              description: "Upload and create a content item."
+              call: "seismic-content.create-content-item"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/{contentId}
+          name: content-item
+          description: "Manage a specific content item."
+          operations:
+            - method: GET
+              name: get-content-item
+              description: "Get a content item."
+              call: "seismic-content.get-content-item"
+              with:
+                contentId: "rest.contentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: DELETE
+              name: delete-content-item
+              description: "Delete a content item."
+              call: "seismic-content.delete-content-item"
+              with:
+                contentId: "rest.contentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/{contentId}/url
+          name: content-url
+          description: "Get a shareable URL for a content item."
+          operations:
+            - method: GET
+              name: get-content-url
+              description: "Get a temporary shareable URL."
+              call: "seismic-content.get-content-url"
+              with:
+                contentId: "rest.contentId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/folders
+          name: folders
+          description: "Manage content folders."
+          operations:
+            - method: GET
+              name: list-folders
+              description: "List content folders."
+              call: "seismic-content.list-folders"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-folder
+              description: "Create a content folder."
+              call: "seismic-content.create-folder"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/search
+          name: search
+          description: "Search content."
+          operations:
+            - method: POST
+              name: search-content
+              description: "Search content items."
+              call: "seismic-content.search-content"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/analytics/content
+          name: content-analytics
+          description: "Content usage analytics."
+          operations:
+            - method: GET
+              name: get-content-analytics
+              description: "Get content analytics."
+              call: "seismic-analytics.get-content-analytics"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/analytics/top-content
+          name: top-content
+          description: "Top performing content."
+          operations:
+            - method: GET
+              name: get-top-content
+              description: "Get top performing content."
+              call: "seismic-analytics.get-top-content"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: seismic-content-mgmt-mcp
+      transport: http
+      description: "MCP server for AI-assisted Seismic content management."
+      tools:
+        - name: list-content-items
+          description: "List content items in Seismic, optionally filtered by folder or search query."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.list-content-items"
+          with:
+            folderId: "tools.folderId"
+            query: "tools.query"
+            offset: "tools.offset"
+            limit: "tools.limit"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-content-item
+          description: "Get details of a specific content item by ID."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-content.get-content-item"
+          with:
+            contentId: "tools.contentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-content
+          description: "Search for content items using full-text search and filters."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.search-content"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-folders
+          description: "List content folders in Seismic."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-content.list-folders"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-content-url
+          description: "Get a temporary shareable URL for a content item."
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "seismic-content.get-content-url"
+          with:
+            contentId: "tools.contentId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-content-analytics
+          description: "Get analytics on content usage, views, downloads, and engagement."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-analytics.get-content-analytics"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-top-content
+          description: "Get top-performing content ranked by views, downloads, shares, or engagement."
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "seismic-analytics.get-top-content"
+          outputParameters:
+            - type: object
+              mapping: "$."

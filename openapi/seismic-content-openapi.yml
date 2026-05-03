@@ -40,7 +40,7 @@ paths:
   /content:
     get:
       operationId: listContentItems
-      summary: Seismic List content items
+      summary: List Content Items
       description: >-
         Retrieves a list of content items from the Seismic platform.
         Supports filtering by folder, content profile, and other criteria.
@@ -120,7 +120,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     post:
       operationId: createContentItem
-      summary: Seismic Create a content item
+      summary: Create a Content Item
       description: >-
         Creates a new content item in the Seismic platform by uploading
         a file with associated metadata.
@@ -176,7 +176,7 @@ paths:
   /content/{contentId}:
     get:
       operationId: getContentItem
-      summary: Seismic Get a content item
+      summary: Get a Content Item
       description: Retrieves details of a specific content item by its ID.
       tags:
         - Content
@@ -199,7 +199,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     patch:
       operationId: updateContentItem
-      summary: Seismic Update a content item
+      summary: Update a Content Item
       description: Updates the metadata or properties of a specific content item.
       tags:
         - Content
@@ -245,7 +245,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     delete:
       operationId: deleteContentItem
-      summary: Seismic Delete a content item
+      summary: Delete a Content Item
       description: Deletes a specific content item from the Seismic platform.
       tags:
         - Content
@@ -266,7 +266,7 @@ paths:
   /content/{contentId}/file:
     get:
       operationId: downloadContentFile
-      summary: Seismic Download content file
+      summary: Download Content File
       description: Downloads the file associated with a specific content item.
       tags:
         - Content
@@ -295,7 +295,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     put:
       operationId: replaceContentFile
-      summary: Seismic Replace content file
+      summary: Replace Content File
       description: Replaces the file associated with a content item with a new version.
       tags:
         - Content
@@ -335,7 +335,7 @@ paths:
   /content/{contentId}/versions:
     get:
       operationId: listContentVersions
-      summary: Seismic List content versions
+      summary: List Content Versions
       description: Retrieves a list of versions for a specific content item.
       tags:
         - Content
@@ -367,7 +367,7 @@ paths:
   /content/{contentId}/url:
     get:
       operationId: getContentUrl
-      summary: Seismic Get content URL
+      summary: Get Content Url
       description: >-
         Retrieves a temporary URL for accessing or viewing a content item.
         The URL is time-limited and suitable for embedding or sharing.
@@ -404,7 +404,7 @@ paths:
   /folders:
     get:
       operationId: listFolders
-      summary: Seismic List folders
+      summary: List Folders
       description: Retrieves a list of content folders from the Seismic platform.
       tags:
         - Folders
@@ -449,7 +449,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     post:
       operationId: createFolder
-      summary: Seismic Create a folder
+      summary: Create a Folder
       description: Creates a new content folder in the Seismic platform.
       tags:
         - Folders
@@ -490,7 +490,7 @@ paths:
   /folders/{folderId}:
     get:
       operationId: getFolder
-      summary: Seismic Get a folder
+      summary: Get a Folder
       description: Retrieves details of a specific folder by its ID.
       tags:
         - Folders
@@ -513,7 +513,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     patch:
       operationId: updateFolder
-      summary: Seismic Update a folder
+      summary: Update a Folder
       description: Updates the name or other properties of a specific folder.
       tags:
         - Folders
@@ -554,7 +554,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
     delete:
       operationId: deleteFolder
-      summary: Seismic Delete a folder
+      summary: Delete a Folder
       description: Deletes a specific folder from the Seismic platform.
       tags:
         - Folders
@@ -575,7 +575,7 @@ paths:
   /content-properties:
     get:
       operationId: listContentProperties
-      summary: Seismic List content properties
+      summary: List Content Properties
       description: >-
         Retrieves a list of content property definitions configured
         in the Seismic platform.
@@ -619,7 +619,7 @@ paths:
   /content-properties/{propertyId}:
     get:
       operationId: getContentProperty
-      summary: Seismic Get a content property
+      summary: Get a Content Property
       description: Retrieves a specific content property definition by its ID.
       tags:
         - Content Properties
@@ -649,7 +649,7 @@ paths:
   /content-profiles:
     get:
       operationId: listContentProfiles
-      summary: Seismic List content profiles
+      summary: List Content Profiles
       description: >-
         Retrieves a list of content profiles that define content type
         configurations in the Seismic platform.
@@ -693,7 +693,7 @@ paths:
   /content-profiles/{profileId}:
     get:
       operationId: getContentProfile
-      summary: Seismic Get a content profile
+      summary: Get a Content Profile
       description: Retrieves a specific content profile by its ID.
       tags:
         - Content Profiles
@@ -723,7 +723,7 @@ paths:
   /search:
     post:
       operationId: searchContent
-      summary: Seismic Search content
+      summary: Search Content
       description: >-
         Searches for content items across the Seismic platform using
         full-text search and filtering capabilities.
