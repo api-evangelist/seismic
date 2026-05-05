@@ -1,0 +1,13 @@
+{
+  "repo": "seismic",
+  "feeds": [
+    {
+      "source": "https://seismic.com/resources/blog/",
+      "feed_url": "https://www.seismic.com/blog/feed/",
+      "saved": 10,
+      "title": "Seismic Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:37:01Z"
+}
