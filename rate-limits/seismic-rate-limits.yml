@@ -4,97 +4,61 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Seismic
 providerId: seismic
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
+  - Sales Enablement
+  - Content Management
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Seismic API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
+description: Seismic enforces tiered rate limits per tenant on a 60-second rolling window. Limits are
+  scoped to the tenant (not the API key), and exceeding them returns HTTP 429 with a structured JSON
+  body. Customers needing higher thresholds must request an exemption from Seismic support. Strict enforcement
+  began February 27, 2023.
+sources:
+  - https://developer.seismic.com/seismicsoftware/reference/rate-limiting
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  remaining: X-Seismic-Remaining-Calls
+  total: X-Seismic-Total-Calls
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
+  - name: Tier 1 — LiveDoc generation
+    scope: tenant
     metric: requests_per_minute
     limit: 10
-    burst: 20
     timeFrame: minute
-    applies:
-      - Seismic Content API
-      - Seismic LiveDocs API
-      - Seismic Analytics API
-      - Seismic User Management API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Seismic Content API
-      - Seismic LiveDocs API
-      - Seismic Analytics API
-      - Seismic User Management API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
+    notes: Applies to "Generate a LiveDoc" endpoints. Protects livedoc generation servers.
+  - name: Tier 1.5 — LiveSend link creation
+    scope: tenant
     metric: requests_per_minute
-    limit: 100
-    burst: 200
+    limit: 30
     timeFrame: minute
-    applies:
-      - Seismic Content API
-      - Seismic LiveDocs API
-      - Seismic Analytics API
-      - Seismic User Management API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Seismic Content API
-      - Seismic LiveDocs API
-      - Seismic Analytics API
-      - Seismic User Management API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
+    notes: Applies to "Create a livesend link" endpoints. Protects livesend generation servers.
+  - name: Tier 2 — Library / workspace folder listing
+    scope: tenant
     metric: requests_per_minute
-    limit: 1000
-    burst: 5000
+    limit: 60
     timeFrame: minute
-    applies:
-      - Seismic Content API
-      - Seismic LiveDocs API
-      - Seismic Analytics API
-      - Seismic User Management API
+    notes: Applies to library and workspace folder listing endpoints. Reduces scraping for file updates.
+  - name: Tier 3 — Default
+    scope: tenant
+    metric: requests_per_minute
+    limit: 600
+    timeFrame: minute
+    notes: Default limit for all other endpoints.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: 60-second rolling window
+    description: Limits are evaluated against a 60-second rolling window per tenant; the X-Seismic-Total-Calls
+      and X-Seismic-Remaining-Calls headers report current state.
+  - name: 429 response body
+    description: When throttled, Seismic returns a JSON body with statusCode, message ("Try again in
+      N seconds"), clientId, and tenant. Use the message to size backoff.
+  - name: Backoff
+    description: Apply exponential backoff with jitter, honoring the seconds-to-retry value in the 429
+      message body.
+  - name: Exemption process
+    description: Higher-volume tenants can request temporary or permanent exemptions through Seismic
+      support with a documented use case.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
-    url: https://apievangelist.com
