@@ -3,11 +3,12 @@
   "feeds": [
     {
       "source": "https://seismic.com/resources/blog/",
-      "feed_url": "https://www.seismic.com/blog/feed/",
-      "saved": 10,
-      "title": "Seismic Blog"
+      "feed_url": "",
+      "title": "",
+      "saved": 0,
+      "error": "no_feed"
     }
   ],
   "post_count": 10,
-  "fetched": "2026-05-03T23:37:01Z"
+  "fetched": "2026-05-09T20:17:51Z"
 }
