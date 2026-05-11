@@ -151,6 +151,11 @@ common:
     url: capabilities/content-management.yaml
   - type: NaftikoCapabilities
     url: capabilities/sales-enablement.yaml
+  - type: Integrations
+    url: https://www.seismic.com/platform/integrations/
+integrations:
+  - name: Become a Partner
+  - name: Directory
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
