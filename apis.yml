@@ -115,25 +115,25 @@ apis:
 common:
   - type: Portal
     url: https://developer.seismic.com/
-  - type: Getting Started
+  - type: GettingStarted
     url: https://developer.seismic.com/seismicsoftware/docs/getting-started
   - type: Authentication
     url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: Rate Limits
+  - type: RateLimits
     url: https://developer.seismic.com/seismicsoftware/docs/rate-limits
   - type: Webhooks
     url: https://developer.seismic.com/seismicsoftware/docs/webhooks
   - type: Support
     url: https://seismic.com/support/
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://seismic.com/privacy-policy/
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://seismic.com/terms-of-service/
-  - type: Status
+  - type: StatusPage
     url: https://status.seismic.com/
   - type: Documentation
     url: https://developer.seismic.com/seismicsoftware/docs
-  - type: Change Log
+  - type: ChangeLog
     url: https://developer.seismic.com/seismicsoftware/changelog
   - type: Website
     url: https://seismic.com
