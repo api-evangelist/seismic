@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic LiveDocs API — LiveDocs
+  description: 'Seismic LiveDocs API — LiveDocs. 1 operations. Lead operation: Generate a Livedoc. Self-contained Naftiko
+    capability covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - LiveDocs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: livedocs-livedocs
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic LiveDocs API — LiveDocs business capability. Self-contained, no shared references.
+    resources:
+    - name: livedocs-generate
+      path: /livedocs/generate
+      operations:
+      - name: generatelivedoc
+        method: POST
+        description: Generate a Livedoc
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: livedocs-livedocs-rest
+    port: 8080
+    description: REST adapter for Seismic LiveDocs API — LiveDocs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/livedocs/generate
+      name: livedocs-generate
+      description: REST surface for livedocs-generate.
+      operations:
+      - method: POST
+        name: generatelivedoc
+        description: Generate a Livedoc
+        call: livedocs-livedocs.generatelivedoc
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: livedocs-livedocs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic LiveDocs API — LiveDocs. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: generate-livedoc
+      description: Generate a Livedoc
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: livedocs-livedocs.generatelivedoc
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

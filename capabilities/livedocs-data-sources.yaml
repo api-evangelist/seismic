@@ -1,0 +1,133 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic LiveDocs API — Data Sources
+  description: 'Seismic LiveDocs API — Data Sources. 2 operations. Lead operation: List Data Sources. Self-contained Naftiko
+    capability covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Data Sources
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: livedocs-data-sources
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic LiveDocs API — Data Sources business capability. Self-contained, no shared references.
+    resources:
+    - name: livedocs-datasources
+      path: /livedocs/datasources
+      operations:
+      - name: listdatasources
+        method: GET
+        description: List Data Sources
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Filter data sources by type.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    - name: livedocs-datasources-dataSourceId
+      path: /livedocs/datasources/{dataSourceId}
+      operations:
+      - name: getdatasource
+        method: GET
+        description: Get a Data Source
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dataSourceId
+          in: path
+          type: string
+          description: Unique identifier of the data source.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: livedocs-data-sources-rest
+    port: 8080
+    description: REST adapter for Seismic LiveDocs API — Data Sources. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/livedocs/datasources
+      name: livedocs-datasources
+      description: REST surface for livedocs-datasources.
+      operations:
+      - method: GET
+        name: listdatasources
+        description: List Data Sources
+        call: livedocs-data-sources.listdatasources
+        with:
+          type: rest.type
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/livedocs/datasources/{datasourceid}
+      name: livedocs-datasources-datasourceid
+      description: REST surface for livedocs-datasources-dataSourceId.
+      operations:
+      - method: GET
+        name: getdatasource
+        description: Get a Data Source
+        call: livedocs-data-sources.getdatasource
+        with:
+          dataSourceId: rest.dataSourceId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: livedocs-data-sources-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic LiveDocs API — Data Sources. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-data-sources
+      description: List Data Sources
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: livedocs-data-sources.listdatasources
+      with:
+        type: tools.type
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-data-source
+      description: Get a Data Source
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: livedocs-data-sources.getdatasource
+      with:
+        dataSourceId: tools.dataSourceId
+      outputParameters:
+      - type: object
+        mapping: $.

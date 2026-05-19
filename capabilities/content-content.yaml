@@ -1,0 +1,424 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic Content API — Content
+  description: 'Seismic Content API — Content. 10 operations. Lead operation: List Content Items. Self-contained Naftiko capability
+    covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Content
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-content
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic Content API — Content business capability. Self-contained, no shared references.
+    resources:
+    - name: content
+      path: /content
+      operations:
+      - name: listcontentitems
+        method: GET
+        description: List Content Items
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: folderId
+          in: query
+          type: string
+          description: Filter content items by folder ID.
+        - name: contentProfileId
+          in: query
+          type: string
+          description: Filter content items by content profile ID.
+        - name: query
+          in: query
+          type: string
+          description: Search query to filter content items by name or metadata.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+        - name: sortBy
+          in: query
+          type: string
+          description: Field to sort results by.
+        - name: sortOrder
+          in: query
+          type: string
+          description: Sort order direction.
+      - name: createcontentitem
+        method: POST
+        description: Create a Content Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: content-contentId
+      path: /content/{contentId}
+      operations:
+      - name: getcontentitem
+        method: GET
+        description: Get a Content Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecontentitem
+        method: PATCH
+        description: Update a Content Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecontentitem
+        method: DELETE
+        description: Delete a Content Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: content-contentId-file
+      path: /content/{contentId}/file
+      operations:
+      - name: downloadcontentfile
+        method: GET
+        description: Download Content File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: versionId
+          in: query
+          type: string
+          description: Specific version of the file to download.
+      - name: replacecontentfile
+        method: PUT
+        description: Replace Content File
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: content-contentId-url
+      path: /content/{contentId}/url
+      operations:
+      - name: getcontenturl
+        method: GET
+        description: Get Content Url
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: content-contentId-versions
+      path: /content/{contentId}/versions
+      operations:
+      - name: listcontentversions
+        method: GET
+        description: List Content Versions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: search
+      path: /search
+      operations:
+      - name: searchcontent
+        method: POST
+        description: Search Content
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-content-rest
+    port: 8080
+    description: REST adapter for Seismic Content API — Content. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/content
+      name: content
+      description: REST surface for content.
+      operations:
+      - method: GET
+        name: listcontentitems
+        description: List Content Items
+        call: content-content.listcontentitems
+        with:
+          folderId: rest.folderId
+          contentProfileId: rest.contentProfileId
+          query: rest.query
+          offset: rest.offset
+          limit: rest.limit
+          sortBy: rest.sortBy
+          sortOrder: rest.sortOrder
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcontentitem
+        description: Create a Content Item
+        call: content-content.createcontentitem
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/{contentid}
+      name: content-contentid
+      description: REST surface for content-contentId.
+      operations:
+      - method: GET
+        name: getcontentitem
+        description: Get a Content Item
+        call: content-content.getcontentitem
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatecontentitem
+        description: Update a Content Item
+        call: content-content.updatecontentitem
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecontentitem
+        description: Delete a Content Item
+        call: content-content.deletecontentitem
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/{contentid}/file
+      name: content-contentid-file
+      description: REST surface for content-contentId-file.
+      operations:
+      - method: GET
+        name: downloadcontentfile
+        description: Download Content File
+        call: content-content.downloadcontentfile
+        with:
+          versionId: rest.versionId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: replacecontentfile
+        description: Replace Content File
+        call: content-content.replacecontentfile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/{contentid}/url
+      name: content-contentid-url
+      description: REST surface for content-contentId-url.
+      operations:
+      - method: GET
+        name: getcontenturl
+        description: Get Content Url
+        call: content-content.getcontenturl
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/{contentid}/versions
+      name: content-contentid-versions
+      description: REST surface for content-contentId-versions.
+      operations:
+      - method: GET
+        name: listcontentversions
+        description: List Content Versions
+        call: content-content.listcontentversions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/search
+      name: search
+      description: REST surface for search.
+      operations:
+      - method: POST
+        name: searchcontent
+        description: Search Content
+        call: content-content.searchcontent
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-content-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic Content API — Content. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-content-items
+      description: List Content Items
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content.listcontentitems
+      with:
+        folderId: tools.folderId
+        contentProfileId: tools.contentProfileId
+        query: tools.query
+        offset: tools.offset
+        limit: tools.limit
+        sortBy: tools.sortBy
+        sortOrder: tools.sortOrder
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-content-item
+      description: Create a Content Item
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: content-content.createcontentitem
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-content-item
+      description: Get a Content Item
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content.getcontentitem
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-content-item
+      description: Update a Content Item
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: content-content.updatecontentitem
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-content-item
+      description: Delete a Content Item
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: content-content.deletecontentitem
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: download-content-file
+      description: Download Content File
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content.downloadcontentfile
+      with:
+        versionId: tools.versionId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: replace-content-file
+      description: Replace Content File
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: content-content.replacecontentfile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-content-url
+      description: Get Content Url
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content.getcontenturl
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-content-versions
+      description: List Content Versions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content.listcontentversions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-content
+      description: Search Content
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: content-content.searchcontent
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

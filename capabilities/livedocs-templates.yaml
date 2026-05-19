@@ -1,0 +1,209 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic LiveDocs API — Templates
+  description: 'Seismic LiveDocs API — Templates. 4 operations. Lead operation: List Livedoc Templates. Self-contained Naftiko
+    capability covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Templates
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: livedocs-templates
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic LiveDocs API — Templates business capability. Self-contained, no shared references.
+    resources:
+    - name: livedocs-templates
+      path: /livedocs/templates
+      operations:
+      - name: listlivedoctemplates
+        method: GET
+        description: List Livedoc Templates
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Search query to filter templates by name.
+        - name: folderId
+          in: query
+          type: string
+          description: Filter templates by folder ID.
+        - name: outputFormat
+          in: query
+          type: string
+          description: Filter templates by supported output format.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    - name: livedocs-templates-templateId
+      path: /livedocs/templates/{templateId}
+      operations:
+      - name: getlivedoctemplate
+        method: GET
+        description: Get a Livedoc Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: livedocs-templates-templateId-inputs
+      path: /livedocs/templates/{templateId}/inputs
+      operations:
+      - name: getlivedoctemplateinputs
+        method: GET
+        description: Get Template Input Fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: livedocs-templates-templateId-preview
+      path: /livedocs/templates/{templateId}/preview
+      operations:
+      - name: previewlivedoctemplate
+        method: POST
+        description: Preview a Livedoc Template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: livedocs-templates-rest
+    port: 8080
+    description: REST adapter for Seismic LiveDocs API — Templates. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/livedocs/templates
+      name: livedocs-templates
+      description: REST surface for livedocs-templates.
+      operations:
+      - method: GET
+        name: listlivedoctemplates
+        description: List Livedoc Templates
+        call: livedocs-templates.listlivedoctemplates
+        with:
+          query: rest.query
+          folderId: rest.folderId
+          outputFormat: rest.outputFormat
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/livedocs/templates/{templateid}
+      name: livedocs-templates-templateid
+      description: REST surface for livedocs-templates-templateId.
+      operations:
+      - method: GET
+        name: getlivedoctemplate
+        description: Get a Livedoc Template
+        call: livedocs-templates.getlivedoctemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/livedocs/templates/{templateid}/inputs
+      name: livedocs-templates-templateid-inputs
+      description: REST surface for livedocs-templates-templateId-inputs.
+      operations:
+      - method: GET
+        name: getlivedoctemplateinputs
+        description: Get Template Input Fields
+        call: livedocs-templates.getlivedoctemplateinputs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/livedocs/templates/{templateid}/preview
+      name: livedocs-templates-templateid-preview
+      description: REST surface for livedocs-templates-templateId-preview.
+      operations:
+      - method: POST
+        name: previewlivedoctemplate
+        description: Preview a Livedoc Template
+        call: livedocs-templates.previewlivedoctemplate
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: livedocs-templates-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic LiveDocs API — Templates. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-livedoc-templates
+      description: List Livedoc Templates
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: livedocs-templates.listlivedoctemplates
+      with:
+        query: tools.query
+        folderId: tools.folderId
+        outputFormat: tools.outputFormat
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-livedoc-template
+      description: Get a Livedoc Template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: livedocs-templates.getlivedoctemplate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-template-input-fields
+      description: Get Template Input Fields
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: livedocs-templates.getlivedoctemplateinputs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: preview-livedoc-template
+      description: Preview a Livedoc Template
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: livedocs-templates.previewlivedoctemplate
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

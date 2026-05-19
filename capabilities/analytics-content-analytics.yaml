@@ -1,0 +1,253 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic Analytics API — Content Analytics
+  description: 'Seismic Analytics API — Content Analytics. 3 operations. Lead operation: Get Content Analytics. Self-contained
+    Naftiko capability covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Content Analytics
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: analytics-content-analytics
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic Analytics API — Content Analytics business capability. Self-contained, no shared references.
+    resources:
+    - name: analytics-content
+      path: /analytics/content
+      operations:
+      - name: getcontentanalytics
+        method: GET
+        description: Get Content Analytics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contentId
+          in: query
+          type: string
+          description: Filter analytics for a specific content item.
+        - name: contentProfileId
+          in: query
+          type: string
+          description: Filter analytics by content profile.
+        - name: folderId
+          in: query
+          type: string
+          description: Filter analytics by folder.
+        - name: startDate
+          in: query
+          type: string
+          description: Start date for the analytics period (ISO 8601 format).
+        - name: endDate
+          in: query
+          type: string
+          description: End date for the analytics period (ISO 8601 format).
+        - name: granularity
+          in: query
+          type: string
+          description: Time granularity for the analytics data.
+        - name: sortBy
+          in: query
+          type: string
+          description: Metric to sort results by.
+        - name: sortOrder
+          in: query
+          type: string
+          description: Sort order direction.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    - name: analytics-content-top
+      path: /analytics/content/top
+      operations:
+      - name: gettopcontent
+        method: GET
+        description: Get Top-performing Content
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: metric
+          in: query
+          type: string
+          description: Metric to rank content by.
+          required: true
+        - name: startDate
+          in: query
+          type: string
+          description: Start date for the analytics period.
+        - name: endDate
+          in: query
+          type: string
+          description: End date for the analytics period.
+        - name: limit
+          in: query
+          type: integer
+          description: Number of top content items to return.
+    - name: analytics-content-contentId
+      path: /analytics/content/{contentId}
+      operations:
+      - name: getcontentitemanalytics
+        method: GET
+        description: Get Analytics for a Content Item
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: contentId
+          in: path
+          type: string
+          description: Unique identifier of the content item.
+          required: true
+        - name: startDate
+          in: query
+          type: string
+          description: Start date for the analytics period.
+        - name: endDate
+          in: query
+          type: string
+          description: End date for the analytics period.
+        - name: granularity
+          in: query
+          type: string
+          description: Time granularity for time-series data.
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: analytics-content-analytics-rest
+    port: 8080
+    description: REST adapter for Seismic Analytics API — Content Analytics. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/analytics/content
+      name: analytics-content
+      description: REST surface for analytics-content.
+      operations:
+      - method: GET
+        name: getcontentanalytics
+        description: Get Content Analytics
+        call: analytics-content-analytics.getcontentanalytics
+        with:
+          contentId: rest.contentId
+          contentProfileId: rest.contentProfileId
+          folderId: rest.folderId
+          startDate: rest.startDate
+          endDate: rest.endDate
+          granularity: rest.granularity
+          sortBy: rest.sortBy
+          sortOrder: rest.sortOrder
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/analytics/content/top
+      name: analytics-content-top
+      description: REST surface for analytics-content-top.
+      operations:
+      - method: GET
+        name: gettopcontent
+        description: Get Top-performing Content
+        call: analytics-content-analytics.gettopcontent
+        with:
+          metric: rest.metric
+          startDate: rest.startDate
+          endDate: rest.endDate
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/analytics/content/{contentid}
+      name: analytics-content-contentid
+      description: REST surface for analytics-content-contentId.
+      operations:
+      - method: GET
+        name: getcontentitemanalytics
+        description: Get Analytics for a Content Item
+        call: analytics-content-analytics.getcontentitemanalytics
+        with:
+          contentId: rest.contentId
+          startDate: rest.startDate
+          endDate: rest.endDate
+          granularity: rest.granularity
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: analytics-content-analytics-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic Analytics API — Content Analytics. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-content-analytics
+      description: Get Content Analytics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: analytics-content-analytics.getcontentanalytics
+      with:
+        contentId: tools.contentId
+        contentProfileId: tools.contentProfileId
+        folderId: tools.folderId
+        startDate: tools.startDate
+        endDate: tools.endDate
+        granularity: tools.granularity
+        sortBy: tools.sortBy
+        sortOrder: tools.sortOrder
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-top-performing-content
+      description: Get Top-performing Content
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: analytics-content-analytics.gettopcontent
+      with:
+        metric: tools.metric
+        startDate: tools.startDate
+        endDate: tools.endDate
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-analytics-content-item
+      description: Get Analytics for a Content Item
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: analytics-content-analytics.getcontentitemanalytics
+      with:
+        contentId: tools.contentId
+        startDate: tools.startDate
+        endDate: tools.endDate
+        granularity: tools.granularity
+      outputParameters:
+      - type: object
+        mapping: $.

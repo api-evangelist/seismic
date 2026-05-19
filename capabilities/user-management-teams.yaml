@@ -1,0 +1,187 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic User Management API — Teams
+  description: 'Seismic User Management API — Teams. 3 operations. Lead operation: List Teams. Self-contained Naftiko capability
+    covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Teams
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: user-management-teams
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic User Management API — Teams business capability. Self-contained, no shared references.
+    resources:
+    - name: teams
+      path: /teams
+      operations:
+      - name: listteams
+        method: GET
+        description: List Teams
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Search query to filter teams by name.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    - name: teams-teamId
+      path: /teams/{teamId}
+      operations:
+      - name: getteam
+        method: GET
+        description: Get a Team
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: teamId
+          in: path
+          type: string
+          description: Unique identifier of the team.
+          required: true
+    - name: teams-teamId-members
+      path: /teams/{teamId}/members
+      operations:
+      - name: listteammembers
+        method: GET
+        description: List Team Members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: teamId
+          in: path
+          type: string
+          description: Unique identifier of the team.
+          required: true
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: user-management-teams-rest
+    port: 8080
+    description: REST adapter for Seismic User Management API — Teams. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/teams
+      name: teams
+      description: REST surface for teams.
+      operations:
+      - method: GET
+        name: listteams
+        description: List Teams
+        call: user-management-teams.listteams
+        with:
+          query: rest.query
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/teams/{teamid}
+      name: teams-teamid
+      description: REST surface for teams-teamId.
+      operations:
+      - method: GET
+        name: getteam
+        description: Get a Team
+        call: user-management-teams.getteam
+        with:
+          teamId: rest.teamId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/teams/{teamid}/members
+      name: teams-teamid-members
+      description: REST surface for teams-teamId-members.
+      operations:
+      - method: GET
+        name: listteammembers
+        description: List Team Members
+        call: user-management-teams.listteammembers
+        with:
+          teamId: rest.teamId
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: user-management-teams-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic User Management API — Teams. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-teams
+      description: List Teams
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: user-management-teams.listteams
+      with:
+        query: tools.query
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-team
+      description: Get a Team
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: user-management-teams.getteam
+      with:
+        teamId: tools.teamId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-team-members
+      description: List Team Members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: user-management-teams.listteammembers
+      with:
+        teamId: tools.teamId
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.

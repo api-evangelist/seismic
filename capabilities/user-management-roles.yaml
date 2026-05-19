@@ -1,0 +1,127 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic User Management API — Roles
+  description: 'Seismic User Management API — Roles. 2 operations. Lead operation: List Roles. Self-contained Naftiko capability
+    covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Roles
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: user-management-roles
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic User Management API — Roles business capability. Self-contained, no shared references.
+    resources:
+    - name: roles
+      path: /roles
+      operations:
+      - name: listroles
+        method: GET
+        description: List Roles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    - name: roles-roleId
+      path: /roles/{roleId}
+      operations:
+      - name: getrole
+        method: GET
+        description: Get a Role
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: roleId
+          in: path
+          type: string
+          description: Unique identifier of the role.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: user-management-roles-rest
+    port: 8080
+    description: REST adapter for Seismic User Management API — Roles. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/roles
+      name: roles
+      description: REST surface for roles.
+      operations:
+      - method: GET
+        name: listroles
+        description: List Roles
+        call: user-management-roles.listroles
+        with:
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/roles/{roleid}
+      name: roles-roleid
+      description: REST surface for roles-roleId.
+      operations:
+      - method: GET
+        name: getrole
+        description: Get a Role
+        call: user-management-roles.getrole
+        with:
+          roleId: rest.roleId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: user-management-roles-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic User Management API — Roles. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-roles
+      description: List Roles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: user-management-roles.listroles
+      with:
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-role
+      description: Get a Role
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: user-management-roles.getrole
+      with:
+        roleId: tools.roleId
+      outputParameters:
+      - type: object
+        mapping: $.

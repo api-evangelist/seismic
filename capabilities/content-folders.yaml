@@ -1,0 +1,218 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic Content API — Folders
+  description: 'Seismic Content API — Folders. 5 operations. Lead operation: List Folders. Self-contained Naftiko capability
+    covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Folders
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-folders
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic Content API — Folders business capability. Self-contained, no shared references.
+    resources:
+    - name: folders
+      path: /folders
+      operations:
+      - name: listfolders
+        method: GET
+        description: List Folders
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: parentId
+          in: query
+          type: string
+          description: Filter by parent folder ID to retrieve child folders.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+      - name: createfolder
+        method: POST
+        description: Create a Folder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: folders-folderId
+      path: /folders/{folderId}
+      operations:
+      - name: getfolder
+        method: GET
+        description: Get a Folder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatefolder
+        method: PATCH
+        description: Update a Folder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletefolder
+        method: DELETE
+        description: Delete a Folder
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-folders-rest
+    port: 8080
+    description: REST adapter for Seismic Content API — Folders. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/folders
+      name: folders
+      description: REST surface for folders.
+      operations:
+      - method: GET
+        name: listfolders
+        description: List Folders
+        call: content-folders.listfolders
+        with:
+          parentId: rest.parentId
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createfolder
+        description: Create a Folder
+        call: content-folders.createfolder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/folders/{folderid}
+      name: folders-folderid
+      description: REST surface for folders-folderId.
+      operations:
+      - method: GET
+        name: getfolder
+        description: Get a Folder
+        call: content-folders.getfolder
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatefolder
+        description: Update a Folder
+        call: content-folders.updatefolder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletefolder
+        description: Delete a Folder
+        call: content-folders.deletefolder
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-folders-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic Content API — Folders. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-folders
+      description: List Folders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-folders.listfolders
+      with:
+        parentId: tools.parentId
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-folder
+      description: Create a Folder
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: content-folders.createfolder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-folder
+      description: Get a Folder
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-folders.getfolder
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-folder
+      description: Update a Folder
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: content-folders.updatefolder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-folder
+      description: Delete a Folder
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: content-folders.deletefolder
+      outputParameters:
+      - type: object
+        mapping: $.

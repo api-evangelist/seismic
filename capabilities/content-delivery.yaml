@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic Content API — Delivery
+  description: 'Seismic Content API — Delivery. 1 operations. Lead operation: Get Content Url. Self-contained Naftiko capability
+    covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Delivery
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-delivery
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic Content API — Delivery business capability. Self-contained, no shared references.
+    resources:
+    - name: content-contentId-url
+      path: /content/{contentId}/url
+      operations:
+      - name: getcontenturl
+        method: GET
+        description: Get Content Url
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-delivery-rest
+    port: 8080
+    description: REST adapter for Seismic Content API — Delivery. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/content/{contentid}/url
+      name: content-contentid-url
+      description: REST surface for content-contentId-url.
+      operations:
+      - method: GET
+        name: getcontenturl
+        description: Get Content Url
+        call: content-delivery.getcontenturl
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-delivery-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic Content API — Delivery. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-content-url
+      description: Get Content Url
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-delivery.getcontenturl
+      outputParameters:
+      - type: object
+        mapping: $.

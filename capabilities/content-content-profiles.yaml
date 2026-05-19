@@ -1,0 +1,127 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Seismic Content API — Content Profiles
+  description: 'Seismic Content API — Content Profiles. 2 operations. Lead operation: List Content Profiles. Self-contained
+    Naftiko capability covering one Seismic business surface.'
+  tags:
+  - Seismic
+  - Content Profiles
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SEISMIC_API_KEY: SEISMIC_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-content-profiles
+    baseUri: https://api.seismic.com/integration/v2
+    description: Seismic Content API — Content Profiles business capability. Self-contained, no shared references.
+    resources:
+    - name: content-profiles
+      path: /content-profiles
+      operations:
+      - name: listcontentprofiles
+        method: GET
+        description: List Content Profiles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: offset
+          in: query
+          type: integer
+          description: Number of items to skip for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of items to return.
+    - name: content-profiles-profileId
+      path: /content-profiles/{profileId}
+      operations:
+      - name: getcontentprofile
+        method: GET
+        description: Get a Content Profile
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: profileId
+          in: path
+          type: string
+          description: Unique identifier of the content profile.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SEISMIC_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-content-profiles-rest
+    port: 8080
+    description: REST adapter for Seismic Content API — Content Profiles. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/content-profiles
+      name: content-profiles
+      description: REST surface for content-profiles.
+      operations:
+      - method: GET
+        name: listcontentprofiles
+        description: List Content Profiles
+        call: content-content-profiles.listcontentprofiles
+        with:
+          offset: rest.offset
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content-profiles/{profileid}
+      name: content-profiles-profileid
+      description: REST surface for content-profiles-profileId.
+      operations:
+      - method: GET
+        name: getcontentprofile
+        description: Get a Content Profile
+        call: content-content-profiles.getcontentprofile
+        with:
+          profileId: rest.profileId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-content-profiles-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Seismic Content API — Content Profiles. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-content-profiles
+      description: List Content Profiles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content-profiles.listcontentprofiles
+      with:
+        offset: tools.offset
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-content-profile
+      description: Get a Content Profile
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-content-profiles.getcontentprofile
+      with:
+        profileId: tools.profileId
+      outputParameters:
+      - type: object
+        mapping: $.
