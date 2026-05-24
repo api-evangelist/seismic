@@ -179,6 +179,8 @@ common:
   url: capabilities/sales-enablement.yaml
 - type: Integrations
   url: https://www.seismic.com/platform/integrations/
+- type: LLMsTxt
+  url: https://developer.seismic.com/llms.txt
 integrations:
 - name: Become a Partner
 - name: Directory
