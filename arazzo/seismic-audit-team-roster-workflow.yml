@@ -1,0 +1,70 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Audit a Team Roster
+  summary: Resolve a team by name, read its detail, and list its members.
+  description: >-
+    A read-only audit flow. The workflow finds a team by name, reads the team
+    detail to confirm it, and lists the team's members so the roster can be
+    reviewed. Every step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: userManagementApi
+  url: ../openapi/seismic-user-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: audit-team-roster
+  summary: Resolve a team by name and list its members for review.
+  description: >-
+    Finds a team by name, confirms it exists, and lists its members so the
+    roster can be audited.
+  inputs:
+    type: object
+    required:
+    - teamName
+    properties:
+      teamName:
+        type: string
+        description: Name of the team to audit.
+  steps:
+  - stepId: findTeam
+    description: Find the team by name, returning the first match.
+    operationId: listTeams
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.teamName
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teamId: $response.body#/items/0/id
+  - stepId: getTeam
+    description: Read the team detail to confirm it exists.
+    operationId: getTeam
+    parameters:
+    - name: teamId
+      in: path
+      value: $steps.findTeam.outputs.teamId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      teamId: $response.body#/id
+      name: $response.body#/name
+  - stepId: listMembers
+    description: List the members of the resolved team for roster review.
+    operationId: listTeamMembers
+    parameters:
+    - name: teamId
+      in: path
+      value: $steps.getTeam.outputs.teamId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      memberCount: $response.body#/totalCount
+      firstMemberId: $response.body#/items/0/id
+  outputs:
+    teamId: $steps.getTeam.outputs.teamId
+    memberCount: $steps.listMembers.outputs.memberCount

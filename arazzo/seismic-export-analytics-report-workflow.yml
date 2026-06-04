@@ -1,0 +1,98 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Export an Analytics Report
+  summary: Resolve a report by type, read its data, and kick off an export job.
+  description: >-
+    Produces a downloadable export of an analytical report. The workflow lists
+    available reports filtered by type, reads the first report's data for a date
+    range, and then initiates an export job that returns a download URL when
+    ready. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: analyticsApi
+  url: ../openapi/seismic-analytics-openapi.yml
+  type: openapi
+workflows:
+- workflowId: export-analytics-report
+  summary: Resolve a report by type and initiate an export job for it.
+  description: >-
+    Lists reports of a given type, reads the first report's data over a date
+    range, and starts an export job for that report.
+  inputs:
+    type: object
+    required:
+    - reportType
+    properties:
+      reportType:
+        type: string
+        description: Report type to select (content, user, delivery, engagement, adoption).
+      startDate:
+        type: string
+        description: Start date for the report period (YYYY-MM-DD).
+      endDate:
+        type: string
+        description: End date for the report period (YYYY-MM-DD).
+      format:
+        type: string
+        description: Export format (csv, xlsx, or pdf).
+  steps:
+  - stepId: findReport
+    description: List reports of the requested type, returning the first match.
+    operationId: listReports
+    parameters:
+    - name: type
+      in: query
+      value: $inputs.reportType
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reportId: $response.body#/items/0/id
+  - stepId: getReport
+    description: Read the report data over the supplied date range to confirm it resolves.
+    operationId: getReport
+    parameters:
+    - name: reportId
+      in: path
+      value: $steps.findReport.outputs.reportId
+    - name: startDate
+      in: query
+      value: $inputs.startDate
+    - name: endDate
+      in: query
+      value: $inputs.endDate
+    - name: format
+      in: query
+      value: json
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      reportData: $response.body
+  - stepId: exportReport
+    description: >-
+      Initiate an export job for the report, returning an export ID and a
+      download URL when the export is ready.
+    operationId: exportReport
+    parameters:
+    - name: reportId
+      in: path
+      value: $steps.findReport.outputs.reportId
+    requestBody:
+      contentType: application/json
+      payload:
+        format: $inputs.format
+        startDate: $inputs.startDate
+        endDate: $inputs.endDate
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      exportId: $response.body#/exportId
+      status: $response.body#/status
+      downloadUrl: $response.body#/downloadUrl
+  outputs:
+    reportId: $steps.findReport.outputs.reportId
+    exportId: $steps.exportReport.outputs.exportId
+    downloadUrl: $steps.exportReport.outputs.downloadUrl

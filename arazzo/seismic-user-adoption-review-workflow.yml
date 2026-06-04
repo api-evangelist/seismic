@@ -1,0 +1,97 @@
+arazzo: 1.0.1
+info:
+  title: Seismic User Adoption Review
+  summary: Rank user activity, resolve the top user's profile, and pull their detailed analytics.
+  description: >-
+    A cross-domain adoption flow spanning the analytics and user-management
+    libraries. The workflow retrieves user activity analytics for a group over a
+    date range, resolves the top user's profile from the user-management API,
+    and then pulls that user's detailed activity analytics. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: analyticsApi
+  url: ../openapi/seismic-analytics-openapi.yml
+  type: openapi
+- name: userManagementApi
+  url: ../openapi/seismic-user-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: user-adoption-review
+  summary: Identify a top active user, resolve their profile, and pull their analytics.
+  description: >-
+    Retrieves user analytics for a group, resolves the leading user's profile,
+    and pulls that user's detailed activity analytics.
+  inputs:
+    type: object
+    required:
+    - groupId
+    properties:
+      groupId:
+        type: string
+        description: User group to scope the adoption analytics to.
+      startDate:
+        type: string
+        description: Start date for the analytics period (YYYY-MM-DD).
+      endDate:
+        type: string
+        description: End date for the analytics period (YYYY-MM-DD).
+  steps:
+  - stepId: getUserAnalytics
+    description: >-
+      Retrieve user activity analytics for the group over the date range,
+      returning the leading user record.
+    operationId: getUserAnalytics
+    parameters:
+    - name: groupId
+      in: query
+      value: $inputs.groupId
+    - name: startDate
+      in: query
+      value: $inputs.startDate
+    - name: endDate
+      in: query
+      value: $inputs.endDate
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/items/0/userId
+  - stepId: getUserProfile
+    description: Resolve the top user's profile from the user-management API.
+    operationId: getUser
+    parameters:
+    - name: userId
+      in: path
+      value: $steps.getUserAnalytics.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/id
+      email: $response.body#/email
+  - stepId: getUserActivity
+    description: >-
+      Retrieve detailed activity analytics for the resolved user over the same
+      date range.
+    operationId: getUserActivityAnalytics
+    parameters:
+    - name: userId
+      in: path
+      value: $steps.getUserProfile.outputs.userId
+    - name: startDate
+      in: query
+      value: $inputs.startDate
+    - name: endDate
+      in: query
+      value: $inputs.endDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      activity: $response.body
+  outputs:
+    userId: $steps.getUserProfile.outputs.userId
+    email: $steps.getUserProfile.outputs.email
+    activity: $steps.getUserActivity.outputs.activity

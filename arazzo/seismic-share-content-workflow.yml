@@ -1,0 +1,88 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Share a Content Item
+  summary: Find a content item in the library and produce a time-limited shareable URL.
+  description: >-
+    A core sales enablement flow. The workflow lists content items in the
+    Seismic library filtered by a search query, reads the full detail of the
+    first matching item to confirm it is published, and then mints a temporary,
+    time-limited URL suitable for embedding or sharing with a buyer. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: contentApi
+  url: ../openapi/seismic-content-openapi.yml
+  type: openapi
+workflows:
+- workflowId: share-content
+  summary: Resolve a content item by search and return a shareable temporary URL.
+  description: >-
+    Searches the library for a content item matching a query, reads its detail,
+    and retrieves a temporary access URL that can be shared with a prospect.
+  inputs:
+    type: object
+    required:
+    - query
+    properties:
+      query:
+        type: string
+        description: Search text used to find the content item by name or metadata.
+      folderId:
+        type: string
+        description: Optional folder ID to scope the search to a single folder.
+  steps:
+  - stepId: findContent
+    description: >-
+      List content items matching the query, returning at most one item so the
+      flow can resolve a single target to share.
+    operationId: listContentItems
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: folderId
+      in: query
+      value: $inputs.folderId
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/items/0/id
+      totalCount: $response.body#/totalCount
+  - stepId: getContent
+    description: >-
+      Read the full detail of the matched content item to confirm its name and
+      publication status before sharing.
+    operationId: getContentItem
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.findContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/id
+      name: $response.body#/name
+      status: $response.body#/status
+  - stepId: getShareUrl
+    description: >-
+      Mint a temporary, time-limited URL for the content item that can be
+      embedded or shared with a buyer.
+    operationId: getContentUrl
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      url: $response.body#/url
+      expiresAt: $response.body#/expiresAt
+  outputs:
+    contentId: $steps.getContent.outputs.contentId
+    name: $steps.getContent.outputs.name
+    url: $steps.getShareUrl.outputs.url
+    expiresAt: $steps.getShareUrl.outputs.expiresAt

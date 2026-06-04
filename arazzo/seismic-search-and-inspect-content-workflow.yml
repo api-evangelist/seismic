@@ -1,0 +1,90 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Search and Inspect Content
+  summary: Run a full-text content search, inspect the top hit, and get a shareable URL.
+  description: >-
+    Uses the Seismic full-text search endpoint with structured filters to find
+    the most relevant content, reads the full detail of the top result, and
+    retrieves a temporary access URL for it. Useful for surfacing the best
+    asset for a buyer conversation. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: contentApi
+  url: ../openapi/seismic-content-openapi.yml
+  type: openapi
+workflows:
+- workflowId: search-and-inspect-content
+  summary: Search content with filters, inspect the top result, and return a URL.
+  description: >-
+    Performs a filtered full-text search, reads the detail of the highest
+    ranked result, and mints a temporary access URL for it.
+  inputs:
+    type: object
+    required:
+    - query
+    properties:
+      query:
+        type: string
+        description: Full-text search query.
+      contentProfileIds:
+        type: array
+        description: Optional list of content profile IDs to filter the search by.
+        items:
+          type: string
+      fileTypes:
+        type: array
+        description: Optional list of file types to filter the search by.
+        items:
+          type: string
+  steps:
+  - stepId: searchContent
+    description: >-
+      Run a relevance-ranked full-text search constrained by the supplied
+      profile and file-type filters, returning the single best match.
+    operationId: searchContent
+    requestBody:
+      contentType: application/json
+      payload:
+        query: $inputs.query
+        filters:
+          contentProfileIds: $inputs.contentProfileIds
+          fileTypes: $inputs.fileTypes
+        limit: 1
+        sortBy: relevance
+        sortOrder: desc
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/items/0/id
+      totalCount: $response.body#/totalCount
+  - stepId: getContent
+    description: Read the full detail of the top search result.
+    operationId: getContentItem
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.searchContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/id
+      name: $response.body#/name
+      fileType: $response.body#/fileType
+  - stepId: getShareUrl
+    description: Mint a temporary access URL for the top search result.
+    operationId: getContentUrl
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      url: $response.body#/url
+      expiresAt: $response.body#/expiresAt
+  outputs:
+    contentId: $steps.getContent.outputs.contentId
+    name: $steps.getContent.outputs.name
+    url: $steps.getShareUrl.outputs.url

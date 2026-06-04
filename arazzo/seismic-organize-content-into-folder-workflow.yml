@@ -1,0 +1,86 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Organize Content into a Folder
+  summary: Create a destination folder and move a matching content item into it.
+  description: >-
+    A library curation flow. The workflow creates a new folder, finds a content
+    item by search query, and moves that item into the newly created folder by
+    patching its folder assignment. Useful for re-organizing assets into
+    campaign or deal-specific folders. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: contentApi
+  url: ../openapi/seismic-content-openapi.yml
+  type: openapi
+workflows:
+- workflowId: organize-content-into-folder
+  summary: Create a folder and move a found content item into it.
+  description: >-
+    Creates a destination folder, resolves a content item by search, and
+    updates that item's folder assignment to place it inside the new folder.
+  inputs:
+    type: object
+    required:
+    - folderName
+    - query
+    properties:
+      folderName:
+        type: string
+        description: Name of the new folder to create.
+      parentId:
+        type: string
+        description: Optional parent folder ID for the new folder.
+      query:
+        type: string
+        description: Search text used to find the content item to move.
+  steps:
+  - stepId: createFolder
+    description: Create the destination folder that the content item will be moved into.
+    operationId: createFolder
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.folderName
+        parentId: $inputs.parentId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      folderId: $response.body#/id
+      path: $response.body#/path
+  - stepId: findContent
+    description: Find the content item to move, returning at most one match.
+    operationId: listContentItems
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/items/0/id
+  - stepId: moveContent
+    description: >-
+      Patch the content item's folder assignment so it lives inside the newly
+      created destination folder.
+    operationId: updateContentItem
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.findContent.outputs.contentId
+    requestBody:
+      contentType: application/json
+      payload:
+        folderId: $steps.createFolder.outputs.folderId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/id
+      folderId: $response.body#/folderId
+  outputs:
+    folderId: $steps.createFolder.outputs.folderId
+    contentId: $steps.moveContent.outputs.contentId

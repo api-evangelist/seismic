@@ -1,0 +1,97 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Top Content Performance Review
+  summary: Rank top content by a metric, read the leader's library detail, and pull its analytics.
+  description: >-
+    A reporting flow that spans the analytics and content libraries. The
+    workflow ranks the top-performing content for a chosen metric over a date
+    range, reads the leading item's library detail to resolve its name, and then
+    retrieves detailed time-series analytics for that item. Every step spells
+    out its request inline so the flow can be read and executed without opening
+    the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: analyticsApi
+  url: ../openapi/seismic-analytics-openapi.yml
+  type: openapi
+- name: contentApi
+  url: ../openapi/seismic-content-openapi.yml
+  type: openapi
+workflows:
+- workflowId: top-content-performance
+  summary: Identify the top content item by a metric and pull its detailed analytics.
+  description: >-
+    Ranks the top content by the chosen metric, resolves the leader's library
+    detail, and retrieves its detailed time-series analytics.
+  inputs:
+    type: object
+    required:
+    - metric
+    properties:
+      metric:
+        type: string
+        description: Metric to rank content by (views, downloads, shares, engagement, completionRate).
+      startDate:
+        type: string
+        description: Start date for the analytics period (YYYY-MM-DD).
+      endDate:
+        type: string
+        description: End date for the analytics period (YYYY-MM-DD).
+  steps:
+  - stepId: getTopContent
+    description: >-
+      Retrieve the single highest-ranked content item for the chosen metric over
+      the supplied date range.
+    operationId: getTopContent
+    parameters:
+    - name: metric
+      in: query
+      value: $inputs.metric
+    - name: startDate
+      in: query
+      value: $inputs.startDate
+    - name: endDate
+      in: query
+      value: $inputs.endDate
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/items/0/contentId
+  - stepId: getContentDetail
+    description: Read the leading content item's library detail to resolve its name.
+    operationId: getContentItem
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getTopContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/id
+      name: $response.body#/name
+  - stepId: getItemAnalytics
+    description: >-
+      Retrieve detailed time-series analytics for the top content item over the
+      same date range.
+    operationId: getContentItemAnalytics
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getContentDetail.outputs.contentId
+    - name: startDate
+      in: query
+      value: $inputs.startDate
+    - name: endDate
+      in: query
+      value: $inputs.endDate
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      analytics: $response.body
+  outputs:
+    contentId: $steps.getContentDetail.outputs.contentId
+    name: $steps.getContentDetail.outputs.name
+    analytics: $steps.getItemAnalytics.outputs.analytics

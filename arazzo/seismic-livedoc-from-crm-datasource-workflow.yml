@@ -1,0 +1,114 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Generate a Livedoc from a CRM Data Source
+  summary: Pick a connected CRM data source and template, then merge a CRM record into a Livedoc.
+  description: >-
+    Generates a Livedoc populated directly from a CRM record such as a
+    Salesforce opportunity. The workflow lists configured data sources filtered
+    by type, confirms the chosen source is connected, finds a template, and
+    submits a generation request that pulls merge data from the named CRM
+    record. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: livedocsApi
+  url: ../openapi/seismic-livedocs-openapi.yml
+  type: openapi
+workflows:
+- workflowId: livedoc-from-crm-datasource
+  summary: Generate a Livedoc by merging a CRM record from a connected data source.
+  description: >-
+    Resolves a connected CRM data source by type, confirms its connection
+    status, finds a template, and generates a Livedoc that pulls merge data
+    from the supplied CRM record ID.
+  inputs:
+    type: object
+    required:
+    - dataSourceType
+    - templateQuery
+    - recordId
+    - name
+    properties:
+      dataSourceType:
+        type: string
+        description: Data source type to select (salesforce, dynamics, hubspot, or custom).
+      templateQuery:
+        type: string
+        description: Search text used to find the Livedoc template by name.
+      recordId:
+        type: string
+        description: ID of the CRM record to merge (e.g. a Salesforce opportunity ID).
+      name:
+        type: string
+        description: Name for the generated document.
+      outputFormat:
+        type: string
+        description: Desired output format (pptx, pdf, docx, or xlsx).
+  steps:
+  - stepId: findDataSource
+    description: List data sources of the requested type, returning the first match.
+    operationId: listDataSources
+    parameters:
+    - name: type
+      in: query
+      value: $inputs.dataSourceType
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      dataSourceId: $response.body#/items/0/id
+  - stepId: getDataSource
+    description: >-
+      Read the data source detail to confirm it is connected before relying on
+      it for merge data.
+    operationId: getDataSource
+    parameters:
+    - name: dataSourceId
+      in: path
+      value: $steps.findDataSource.outputs.dataSourceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      dataSourceId: $response.body#/id
+      status: $response.body#/status
+  - stepId: findTemplate
+    description: Find the Livedoc template by name, returning the single best match.
+    operationId: listLiveDocTemplates
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.templateQuery
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      templateId: $response.body#/items/0/id
+  - stepId: generate
+    description: >-
+      Submit a Livedoc generation request that merges the named CRM record from
+      the connected data source into the resolved template.
+    operationId: generateLiveDoc
+    requestBody:
+      contentType: application/json
+      payload:
+        templateId: $steps.findTemplate.outputs.templateId
+        name: $inputs.name
+        outputFormat: $inputs.outputFormat
+        dataSourceId: $steps.getDataSource.outputs.dataSourceId
+        recordId: $inputs.recordId
+        async: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      documentId: $response.body#/id
+      contentId: $response.body#/contentId
+      downloadUrl: $response.body#/downloadUrl
+  outputs:
+    dataSourceId: $steps.getDataSource.outputs.dataSourceId
+    templateId: $steps.findTemplate.outputs.templateId
+    documentId: $steps.generate.outputs.documentId
+    downloadUrl: $steps.generate.outputs.downloadUrl

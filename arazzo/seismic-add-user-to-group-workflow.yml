@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Add a User to a Group
+  summary: Resolve a group by name, add a user to it, and confirm the membership.
+  description: >-
+    A membership management flow. The workflow finds a group by name, reads the
+    group detail to confirm it, adds the supplied user as a member, and lists
+    the group members to verify the addition. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: userManagementApi
+  url: ../openapi/seismic-user-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: add-user-to-group
+  summary: Add a user to a named group and confirm the membership.
+  description: >-
+    Resolves a group by name, confirms it exists, adds the user as a member,
+    and lists the group members to verify the result.
+  inputs:
+    type: object
+    required:
+    - groupName
+    - userId
+    properties:
+      groupName:
+        type: string
+        description: Name of the group to add the user to.
+      userId:
+        type: string
+        description: ID of the user to add to the group.
+  steps:
+  - stepId: findGroup
+    description: Find the group by name, returning the first match.
+    operationId: listGroups
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.groupName
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groupId: $response.body#/items/0/id
+  - stepId: getGroup
+    description: Read the group detail to confirm it exists before adding the member.
+    operationId: getGroup
+    parameters:
+    - name: groupId
+      in: path
+      value: $steps.findGroup.outputs.groupId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groupId: $response.body#/id
+      name: $response.body#/name
+  - stepId: addMember
+    description: Add the supplied user as a member of the resolved group.
+    operationId: addGroupMember
+    parameters:
+    - name: groupId
+      in: path
+      value: $steps.getGroup.outputs.groupId
+    requestBody:
+      contentType: application/json
+      payload:
+        userId: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 201
+  - stepId: listMembers
+    description: List the group members to verify the user was added.
+    operationId: listGroupMembers
+    parameters:
+    - name: groupId
+      in: path
+      value: $steps.getGroup.outputs.groupId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      memberCount: $response.body#/totalCount
+  outputs:
+    groupId: $steps.getGroup.outputs.groupId
+    memberCount: $steps.listMembers.outputs.memberCount

@@ -1,0 +1,96 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Onboard a User
+  summary: Create a user account, confirm it, and assign its group memberships.
+  description: >-
+    A standard provisioning flow. The workflow creates a new user account with
+    a role, reads back the created user to confirm it, and then sets the user's
+    full group membership in one call. Every step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: userManagementApi
+  url: ../openapi/seismic-user-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: onboard-user
+  summary: Provision a new user and assign their group memberships.
+  description: >-
+    Creates a user account, reads the created user back to confirm the account,
+    and replaces the user's group memberships with the supplied set of groups.
+  inputs:
+    type: object
+    required:
+    - email
+    - firstName
+    - lastName
+    - groupIds
+    properties:
+      email:
+        type: string
+        description: Email address for the new user account.
+      firstName:
+        type: string
+        description: First name of the user.
+      lastName:
+        type: string
+        description: Last name of the user.
+      title:
+        type: string
+        description: Optional job title of the user.
+      roleId:
+        type: string
+        description: Optional ID of the role to assign to the user.
+      groupIds:
+        type: array
+        description: IDs of the groups the user should belong to.
+        items:
+          type: string
+  steps:
+  - stepId: createUser
+    description: Create the user account, sending an invitation email.
+    operationId: createUser
+    requestBody:
+      contentType: application/json
+      payload:
+        email: $inputs.email
+        firstName: $inputs.firstName
+        lastName: $inputs.lastName
+        title: $inputs.title
+        roleId: $inputs.roleId
+        sendInvitation: true
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      userId: $response.body#/id
+      email: $response.body#/email
+  - stepId: getUser
+    description: Read the created user back to confirm the account exists.
+    operationId: getUser
+    parameters:
+    - name: userId
+      in: path
+      value: $steps.createUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/id
+  - stepId: setGroups
+    description: Replace the user's group memberships with the supplied set of groups.
+    operationId: setUserGroups
+    parameters:
+    - name: userId
+      in: path
+      value: $steps.getUser.outputs.userId
+    requestBody:
+      contentType: application/json
+      payload:
+        groupIds: $inputs.groupIds
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      groupCount: $response.body#/items
+  outputs:
+    userId: $steps.getUser.outputs.userId
+    email: $steps.createUser.outputs.email

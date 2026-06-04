@@ -1,0 +1,96 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Preview and Generate a Livedoc
+  summary: Read a template, preview it with sample data, then generate the final document.
+  description: >-
+    Verifies a Livedoc template renders correctly before committing to a full
+    generation. The workflow reads the template detail, requests a preview with
+    the supplied sample inputs, and then submits a synchronous generation
+    request using the same inputs. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: livedocsApi
+  url: ../openapi/seismic-livedocs-openapi.yml
+  type: openapi
+workflows:
+- workflowId: preview-and-generate-livedoc
+  summary: Preview a template with sample data, then generate the final Livedoc.
+  description: >-
+    Reads a template, generates a preview URL from the supplied inputs to
+    confirm rendering, and then runs the final synchronous generation.
+  inputs:
+    type: object
+    required:
+    - templateId
+    - name
+    - inputs
+    properties:
+      templateId:
+        type: string
+        description: ID of the Livedoc template to preview and generate.
+      name:
+        type: string
+        description: Name for the generated document.
+      outputFormat:
+        type: string
+        description: Desired output format (pptx, pdf, docx, or xlsx).
+      inputs:
+        type: object
+        description: Key-value pairs of input data keyed by template field name.
+  steps:
+  - stepId: getTemplate
+    description: Read the template detail to confirm it is active and capture its formats.
+    operationId: getLiveDocTemplate
+    parameters:
+    - name: templateId
+      in: path
+      value: $inputs.templateId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      templateId: $response.body#/id
+      status: $response.body#/status
+  - stepId: preview
+    description: >-
+      Generate a preview of the template with the supplied sample data to verify
+      rendering before the full generation.
+    operationId: previewLiveDocTemplate
+    parameters:
+    - name: templateId
+      in: path
+      value: $steps.getTemplate.outputs.templateId
+    requestBody:
+      contentType: application/json
+      payload:
+        inputs: $inputs.inputs
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      previewUrl: $response.body#/previewUrl
+      expiresAt: $response.body#/expiresAt
+  - stepId: generate
+    description: >-
+      Submit a synchronous Livedoc generation request using the same inputs that
+      were previewed.
+    operationId: generateLiveDoc
+    requestBody:
+      contentType: application/json
+      payload:
+        templateId: $steps.getTemplate.outputs.templateId
+        name: $inputs.name
+        outputFormat: $inputs.outputFormat
+        inputs: $inputs.inputs
+        async: false
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      documentId: $response.body#/id
+      contentId: $response.body#/contentId
+      downloadUrl: $response.body#/downloadUrl
+  outputs:
+    previewUrl: $steps.preview.outputs.previewUrl
+    documentId: $steps.generate.outputs.documentId
+    contentId: $steps.generate.outputs.contentId
+    downloadUrl: $steps.generate.outputs.downloadUrl

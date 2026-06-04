@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Download a Content Version
+  summary: Resolve a content item, inspect its versions, and download a specific or latest version.
+  description: >-
+    Retrieves the binary file for a content item, optionally pinned to a
+    specific historical version. The workflow reads the content item detail,
+    lists its versions, and then branches: when the version list contains
+    entries it downloads the most recent version, otherwise it downloads the
+    current file directly. Every step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: contentApi
+  url: ../openapi/seismic-content-openapi.yml
+  type: openapi
+workflows:
+- workflowId: download-content-version
+  summary: Download the file for a content item, preferring its latest known version.
+  description: >-
+    Confirms the content item exists, lists its versions, and downloads either
+    the latest version when one is found or the current file when no version
+    history is present.
+  inputs:
+    type: object
+    required:
+    - contentId
+    properties:
+      contentId:
+        type: string
+        description: Unique identifier of the content item to download.
+  steps:
+  - stepId: getContent
+    description: Read the content item detail to confirm it exists and capture its file type.
+    operationId: getContentItem
+    parameters:
+    - name: contentId
+      in: path
+      value: $inputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      contentId: $response.body#/id
+      fileType: $response.body#/fileType
+  - stepId: listVersions
+    description: >-
+      List the versions of the content item so the most recent version can be
+      targeted for download.
+    operationId: listContentVersions
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      versionId: $response.body#/items/0/id
+      totalCount: $response.body#/totalCount
+    onSuccess:
+    - name: hasVersions
+      type: goto
+      stepId: downloadVersion
+      criteria:
+      - context: $response.body
+        condition: $.items.length > 0
+        type: jsonpath
+    - name: noVersions
+      type: goto
+      stepId: downloadCurrent
+      criteria:
+      - context: $response.body
+        condition: $.items.length == 0
+        type: jsonpath
+  - stepId: downloadVersion
+    description: Download the file for the most recent version found in the version list.
+    operationId: downloadContentFile
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getContent.outputs.contentId
+    - name: versionId
+      in: query
+      value: $steps.listVersions.outputs.versionId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      downloadedVersionId: $steps.listVersions.outputs.versionId
+    onSuccess:
+    - name: done
+      type: end
+  - stepId: downloadCurrent
+    description: Download the current file when the content item has no version history.
+    operationId: downloadContentFile
+    parameters:
+    - name: contentId
+      in: path
+      value: $steps.getContent.outputs.contentId
+    successCriteria:
+    - condition: $statusCode == 200
+  outputs:
+    contentId: $steps.getContent.outputs.contentId
+    downloadedVersionId: $steps.downloadVersion.outputs.downloadedVersionId

@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: Seismic Generate a Livedoc Asynchronously
+  summary: Resolve a template, inspect its inputs, generate a Livedoc async, and poll the job.
+  description: >-
+    Generates a personalized Livedoc document from a template using
+    asynchronous generation suited to larger documents. The workflow lists
+    templates, reads the template's input field definitions, submits an async
+    generation request, and then branches on the response: when the platform
+    accepts the job (202) it polls the generation job for status, otherwise it
+    captures the synchronously returned result. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: livedocsApi
+  url: ../openapi/seismic-livedocs-openapi.yml
+  type: openapi
+workflows:
+- workflowId: generate-livedoc-async
+  summary: Generate a Livedoc from a template asynchronously and poll the job.
+  description: >-
+    Resolves a template by name, reads its input definitions, submits an
+    asynchronous generation request, and branches to poll the generation job
+    when the request is accepted or to capture the inline result otherwise.
+  inputs:
+    type: object
+    required:
+    - templateQuery
+    - name
+    - inputs
+    properties:
+      templateQuery:
+        type: string
+        description: Search text used to find the Livedoc template by name.
+      name:
+        type: string
+        description: Name for the generated document.
+      outputFormat:
+        type: string
+        description: Desired output format (pptx, pdf, docx, or xlsx).
+      inputs:
+        type: object
+        description: Key-value pairs of input data keyed by template field name.
+      folderId:
+        type: string
+        description: Optional folder ID to save the generated document in.
+  steps:
+  - stepId: findTemplate
+    description: Find the Livedoc template by name, returning the single best match.
+    operationId: listLiveDocTemplates
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.templateQuery
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      templateId: $response.body#/items/0/id
+  - stepId: getTemplateInputs
+    description: >-
+      Read the template's input field definitions to confirm which fields the
+      generation request must supply.
+    operationId: getLiveDocTemplateInputs
+    parameters:
+    - name: templateId
+      in: path
+      value: $steps.findTemplate.outputs.templateId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      inputCount: $response.body#/totalCount
+  - stepId: generate
+    description: >-
+      Submit an asynchronous Livedoc generation request using the resolved
+      template and supplied merge inputs.
+    operationId: generateLiveDoc
+    requestBody:
+      contentType: application/json
+      payload:
+        templateId: $steps.findTemplate.outputs.templateId
+        name: $inputs.name
+        outputFormat: $inputs.outputFormat
+        inputs: $inputs.inputs
+        folderId: $inputs.folderId
+        async: true
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      jobId: $response.body#/id
+      status: $response.body#/status
+    onSuccess:
+    - name: accepted
+      type: goto
+      stepId: pollJob
+      criteria:
+      - condition: $statusCode == 202
+  - stepId: pollJob
+    description: >-
+      Read the generation job to capture its status and, when complete, the
+      resulting document identifiers.
+    operationId: getGenerationJob
+    parameters:
+    - name: jobId
+      in: path
+      value: $steps.generate.outputs.jobId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/status
+      progress: $response.body#/progress
+      contentId: $response.body#/result/contentId
+      downloadUrl: $response.body#/result/downloadUrl
+  outputs:
+    jobId: $steps.generate.outputs.jobId
+    status: $steps.pollJob.outputs.status
+    contentId: $steps.pollJob.outputs.contentId
+    downloadUrl: $steps.pollJob.outputs.downloadUrl
