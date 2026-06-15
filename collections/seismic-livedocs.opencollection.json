@@ -1,0 +1,267 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic LiveDocs API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LiveDocs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate a Livedoc",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/livedocs/generate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new LiveDoc document by merging data into a specified template. The generation can be synchronous for small documents or asynchronous for larger ones."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Livedoc Templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/templates",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter templates by name."
+              },
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "query",
+                "description": "Filter templates by folder ID."
+              },
+              {
+                "name": "outputFormat",
+                "value": "",
+                "type": "query",
+                "description": "Filter templates by supported output format."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of available LiveDoc templates that can be used for document generation."
+        },
+        {
+          "info": {
+            "name": "Get a Livedoc Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/templates/:templateId",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the LiveDoc template."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific LiveDoc template, including its input fields and configuration."
+        },
+        {
+          "info": {
+            "name": "Get Template Input Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/templates/:templateId/inputs",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the LiveDoc template."
+              }
+            ]
+          },
+          "docs": "Retrieves the input field definitions for a specific LiveDoc template, describing what data is required for generation."
+        },
+        {
+          "info": {
+            "name": "Preview a Livedoc Template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/livedocs/templates/:templateId/preview",
+            "params": [
+              {
+                "name": "templateId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the LiveDoc template."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a preview of a LiveDoc template with sample data. Useful for verifying template configuration before full generation."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Generation Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Generation Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/jobs",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter jobs by status."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of asynchronous LiveDoc generation jobs and their statuses."
+        },
+        {
+          "info": {
+            "name": "Get a Generation Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the generation job."
+              }
+            ]
+          },
+          "docs": "Retrieves the status and result of a specific generation job."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Data Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Data Sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/datasources",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter data sources by type."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of configured data sources that can be used for LiveDoc generation, such as CRM connections."
+        },
+        {
+          "info": {
+            "name": "Get a Data Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/livedocs/datasources/:dataSourceId",
+            "params": [
+              {
+                "name": "dataSourceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the data source."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific data source configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

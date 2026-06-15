@@ -1,0 +1,3916 @@
+{
+  "info": {
+    "_postman_id": "0264923e-deda-42d0-865e-7ecc2bec0044",
+    "name": "Seismic Analytics API",
+    "description": "API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.\n\nContact Support:\n Name: Seismic Support\n Email: support@seismic.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:16:24.000Z",
+    "updatedAt": "2026-06-05T15:16:24.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0264923e-deda-42d0-865e-7ecc2bec0044"
+  },
+  "item": [
+    {
+      "name": "analytics",
+      "item": [
+        {
+          "name": "content",
+          "item": [
+            {
+              "name": "{contentId}",
+              "item": [
+                {
+                  "name": "Get Analytics for a Content Item",
+                  "id": "de88367d-fcbb-4f33-8c6c-48387fe409a3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content/:contentId?startDate=<date>&endDate=<date>&granularity=daily",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content",
+                        ":contentId"
+                      ],
+                      "query": [
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for time-series data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "b6dfdb70-8ccf-4069-9e9f-47c2198bc706",
+                          "key": "contentId",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the content item."
+                        }
+                      ]
+                    },
+                    "description": "Retrieves detailed analytics data for a specific content item, including time-series data on views, downloads, and engagement."
+                  },
+                  "response": [
+                    {
+                      "id": "de9e8162-b2de-4317-8586-4b472f322954",
+                      "name": "Detailed content analytics.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/:contentId?startDate=<date>&endDate=<date>&granularity=daily",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            ":contentId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Time granularity for time-series data.",
+                              "key": "granularity",
+                              "value": "daily"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "contentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"contentId\": \"<string>\",\n  \"contentName\": \"<string>\",\n  \"summary\": {\n    \"contentId\": \"<string>\",\n    \"contentName\": \"<string>\",\n    \"views\": \"<integer>\",\n    \"uniqueViews\": \"<integer>\",\n    \"downloads\": \"<integer>\",\n    \"shares\": \"<integer>\",\n    \"engagementScore\": \"<float>\",\n    \"averageViewDuration\": \"<float>\",\n    \"completionRate\": \"<float>\"\n  },\n  \"timeSeries\": [\n    {\n      \"date\": \"<date>\",\n      \"views\": \"<integer>\",\n      \"downloads\": \"<integer>\",\n      \"shares\": \"<integer>\",\n      \"engagementScore\": \"<float>\"\n    },\n    {\n      \"date\": \"<date>\",\n      \"views\": \"<integer>\",\n      \"downloads\": \"<integer>\",\n      \"shares\": \"<integer>\",\n      \"engagementScore\": \"<float>\"\n    }\n  ],\n  \"viewerBreakdown\": [\n    {\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\",\n      \"views\": \"<integer>\",\n      \"lastViewedAt\": \"<dateTime>\"\n    },\n    {\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\",\n      \"views\": \"<integer>\",\n      \"lastViewedAt\": \"<dateTime>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-de9e8162-b2de-4317-8586-4b472f322954"
+                    },
+                    {
+                      "id": "14057528-e409-431b-8c2e-0c7beef14453",
+                      "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/:contentId?startDate=<date>&endDate=<date>&granularity=daily",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            ":contentId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Time granularity for time-series data.",
+                              "key": "granularity",
+                              "value": "daily"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "contentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-14057528-e409-431b-8c2e-0c7beef14453"
+                    },
+                    {
+                      "id": "7a01b449-b242-4323-8a44-1e2dc1d4607c",
+                      "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/:contentId?startDate=<date>&endDate=<date>&granularity=daily",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            ":contentId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Time granularity for time-series data.",
+                              "key": "granularity",
+                              "value": "daily"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "contentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-7a01b449-b242-4323-8a44-1e2dc1d4607c"
+                    },
+                    {
+                      "id": "7040ec60-a62f-4071-8444-a50d72cb69d5",
+                      "name": "Not found. The requested resource does not exist.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/:contentId?startDate=<date>&endDate=<date>&granularity=daily",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            ":contentId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Time granularity for time-series data.",
+                              "key": "granularity",
+                              "value": "daily"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "contentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-7040ec60-a62f-4071-8444-a50d72cb69d5"
+                    },
+                    {
+                      "id": "d8cf48bb-0491-4c06-af15-e18e0d799d80",
+                      "name": "Too many requests. Rate limit exceeded.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/:contentId?startDate=<date>&endDate=<date>&granularity=daily",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            ":contentId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Time granularity for time-series data.",
+                              "key": "granularity",
+                              "value": "daily"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "contentId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Number of seconds to wait before making another request.",
+                            "type": "text/plain"
+                          },
+                          "key": "Retry-After",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-d8cf48bb-0491-4c06-af15-e18e0d799d80"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-de88367d-fcbb-4f33-8c6c-48387fe409a3"
+                }
+              ],
+              "id": "0287baec-1ea3-4d64-b92d-b946b2c4666f",
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-0287baec-1ea3-4d64-b92d-b946b2c4666f"
+            },
+            {
+              "name": "top",
+              "item": [
+                {
+                  "name": "Get Top-performing Content",
+                  "id": "d5ee3299-7466-4068-a607-b30bb30ec174",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content/top?metric=views&startDate=<date>&endDate=<date>&limit=10",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content",
+                        "top"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Metric to rank content by.",
+                          "key": "metric",
+                          "value": "views"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Number of top content items to return.",
+                          "key": "limit",
+                          "value": "10"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a ranked list of the top-performing content items based on engagement, views, or other metrics."
+                  },
+                  "response": [
+                    {
+                      "id": "ebd9f909-408e-4e93-9832-f242093a8784",
+                      "name": "Top-performing content items.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/top?metric=views&startDate=<date>&endDate=<date>&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            "top"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Metric to rank content by.",
+                              "key": "metric",
+                              "value": "views"
+                            },
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Number of top content items to return.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"items\": [\n    {\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"views\": \"<integer>\",\n      \"uniqueViews\": \"<integer>\",\n      \"downloads\": \"<integer>\",\n      \"shares\": \"<integer>\",\n      \"engagementScore\": \"<float>\",\n      \"averageViewDuration\": \"<float>\",\n      \"completionRate\": \"<float>\"\n    },\n    {\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"views\": \"<integer>\",\n      \"uniqueViews\": \"<integer>\",\n      \"downloads\": \"<integer>\",\n      \"shares\": \"<integer>\",\n      \"engagementScore\": \"<float>\",\n      \"averageViewDuration\": \"<float>\",\n      \"completionRate\": \"<float>\"\n    }\n  ],\n  \"metric\": \"<string>\",\n  \"period\": {\n    \"startDate\": \"<date>\",\n    \"endDate\": \"<date>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-ebd9f909-408e-4e93-9832-f242093a8784"
+                    },
+                    {
+                      "id": "3aabcd35-b76c-45b0-83d7-773a571785e5",
+                      "name": "Bad request. The request was invalid or cannot be processed.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/top?metric=views&startDate=<date>&endDate=<date>&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            "top"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Metric to rank content by.",
+                              "key": "metric",
+                              "value": "views"
+                            },
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Number of top content items to return.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-3aabcd35-b76c-45b0-83d7-773a571785e5"
+                    },
+                    {
+                      "id": "c33bd381-f7b3-4145-aa02-f5845eda7e04",
+                      "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/top?metric=views&startDate=<date>&endDate=<date>&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            "top"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Metric to rank content by.",
+                              "key": "metric",
+                              "value": "views"
+                            },
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Number of top content items to return.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-c33bd381-f7b3-4145-aa02-f5845eda7e04"
+                    },
+                    {
+                      "id": "bc5ef011-49c0-41b0-9e17-d5378d963986",
+                      "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/top?metric=views&startDate=<date>&endDate=<date>&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            "top"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Metric to rank content by.",
+                              "key": "metric",
+                              "value": "views"
+                            },
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Number of top content items to return.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-bc5ef011-49c0-41b0-9e17-d5378d963986"
+                    },
+                    {
+                      "id": "53c979d1-181f-4db6-9db7-a99af5c947f9",
+                      "name": "Too many requests. Rate limit exceeded.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/content/top?metric=views&startDate=<date>&endDate=<date>&limit=10",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "content",
+                            "top"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Metric to rank content by.",
+                              "key": "metric",
+                              "value": "views"
+                            },
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Number of top content items to return.",
+                              "key": "limit",
+                              "value": "10"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Number of seconds to wait before making another request.",
+                            "type": "text/plain"
+                          },
+                          "key": "Retry-After",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-53c979d1-181f-4db6-9db7-a99af5c947f9"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-d5ee3299-7466-4068-a607-b30bb30ec174"
+                }
+              ],
+              "id": "c57170c8-5572-4a06-a126-0d2e6b760db4",
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-c57170c8-5572-4a06-a126-0d2e6b760db4"
+            },
+            {
+              "name": "Get Content Analytics",
+              "id": "8a4593dd-c2a5-4118-96f1-2fa2e860d6b6",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/analytics/content?contentId=<string>&contentProfileId=<string>&folderId=<string>&startDate=<date>&endDate=<date>&granularity=daily&sortBy=views&sortOrder=desc&offset=0&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "analytics",
+                    "content"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter analytics for a specific content item.",
+                      "key": "contentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter analytics by content profile.",
+                      "key": "contentProfileId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter analytics by folder.",
+                      "key": "folderId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Start date for the analytics period (ISO 8601 format).",
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "End date for the analytics period (ISO 8601 format).",
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "Time granularity for the analytics data.",
+                      "key": "granularity",
+                      "value": "daily"
+                    },
+                    {
+                      "description": "Metric to sort results by.",
+                      "key": "sortBy",
+                      "value": "views"
+                    },
+                    {
+                      "description": "Sort order direction.",
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "description": "Number of items to skip for pagination.",
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Maximum number of items to return.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                },
+                "description": "Retrieves analytics data for content items, including views, downloads, shares, and engagement metrics."
+              },
+              "response": [
+                {
+                  "id": "185642a8-db61-4a79-8b1d-c5d1529edba9",
+                  "name": "Content analytics data.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content?contentId=<string>&contentProfileId=<string>&folderId=<string>&startDate=<date>&endDate=<date>&granularity=daily&sortBy=views&sortOrder=desc&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by content profile.",
+                          "key": "contentProfileId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by folder.",
+                          "key": "folderId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period (ISO 8601 format).",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period (ISO 8601 format).",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Metric to sort results by.",
+                          "key": "sortBy",
+                          "value": "views"
+                        },
+                        {
+                          "description": "Sort order direction.",
+                          "key": "sortOrder",
+                          "value": "desc"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"items\": [\n    {\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"views\": \"<integer>\",\n      \"uniqueViews\": \"<integer>\",\n      \"downloads\": \"<integer>\",\n      \"shares\": \"<integer>\",\n      \"engagementScore\": \"<float>\",\n      \"averageViewDuration\": \"<float>\",\n      \"completionRate\": \"<float>\"\n    },\n    {\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"views\": \"<integer>\",\n      \"uniqueViews\": \"<integer>\",\n      \"downloads\": \"<integer>\",\n      \"shares\": \"<integer>\",\n      \"engagementScore\": \"<float>\",\n      \"averageViewDuration\": \"<float>\",\n      \"completionRate\": \"<float>\"\n    }\n  ],\n  \"totalCount\": \"<integer>\",\n  \"period\": {\n    \"startDate\": \"<date>\",\n    \"endDate\": \"<date>\"\n  },\n  \"summary\": {\n    \"totalViews\": \"<integer>\",\n    \"totalDownloads\": \"<integer>\",\n    \"totalShares\": \"<integer>\",\n    \"averageEngagementScore\": \"<float>\",\n    \"activeContentCount\": \"<integer>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-185642a8-db61-4a79-8b1d-c5d1529edba9"
+                },
+                {
+                  "id": "cca65fbb-0a47-4c4a-9a1c-a482ce4db024",
+                  "name": "Bad request. The request was invalid or cannot be processed.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content?contentId=<string>&contentProfileId=<string>&folderId=<string>&startDate=<date>&endDate=<date>&granularity=daily&sortBy=views&sortOrder=desc&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by content profile.",
+                          "key": "contentProfileId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by folder.",
+                          "key": "folderId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period (ISO 8601 format).",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period (ISO 8601 format).",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Metric to sort results by.",
+                          "key": "sortBy",
+                          "value": "views"
+                        },
+                        {
+                          "description": "Sort order direction.",
+                          "key": "sortOrder",
+                          "value": "desc"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-cca65fbb-0a47-4c4a-9a1c-a482ce4db024"
+                },
+                {
+                  "id": "ab20d1c9-2142-4957-a8df-c819c0edb5c0",
+                  "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content?contentId=<string>&contentProfileId=<string>&folderId=<string>&startDate=<date>&endDate=<date>&granularity=daily&sortBy=views&sortOrder=desc&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by content profile.",
+                          "key": "contentProfileId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by folder.",
+                          "key": "folderId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period (ISO 8601 format).",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period (ISO 8601 format).",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Metric to sort results by.",
+                          "key": "sortBy",
+                          "value": "views"
+                        },
+                        {
+                          "description": "Sort order direction.",
+                          "key": "sortOrder",
+                          "value": "desc"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-ab20d1c9-2142-4957-a8df-c819c0edb5c0"
+                },
+                {
+                  "id": "f4f8b781-5366-47df-892c-bf44a75ca786",
+                  "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content?contentId=<string>&contentProfileId=<string>&folderId=<string>&startDate=<date>&endDate=<date>&granularity=daily&sortBy=views&sortOrder=desc&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by content profile.",
+                          "key": "contentProfileId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by folder.",
+                          "key": "folderId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period (ISO 8601 format).",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period (ISO 8601 format).",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Metric to sort results by.",
+                          "key": "sortBy",
+                          "value": "views"
+                        },
+                        {
+                          "description": "Sort order direction.",
+                          "key": "sortOrder",
+                          "value": "desc"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-f4f8b781-5366-47df-892c-bf44a75ca786"
+                },
+                {
+                  "id": "27a169e5-9ce7-4e8b-a684-a44a5150f4c4",
+                  "name": "Too many requests. Rate limit exceeded.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/content?contentId=<string>&contentProfileId=<string>&folderId=<string>&startDate=<date>&endDate=<date>&granularity=daily&sortBy=views&sortOrder=desc&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "content"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by content profile.",
+                          "key": "contentProfileId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by folder.",
+                          "key": "folderId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period (ISO 8601 format).",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period (ISO 8601 format).",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Metric to sort results by.",
+                          "key": "sortBy",
+                          "value": "views"
+                        },
+                        {
+                          "description": "Sort order direction.",
+                          "key": "sortOrder",
+                          "value": "desc"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Number of seconds to wait before making another request.",
+                        "type": "text/plain"
+                      },
+                      "key": "Retry-After",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-27a169e5-9ce7-4e8b-a684-a44a5150f4c4"
+                }
+              ],
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-8a4593dd-c2a5-4118-96f1-2fa2e860d6b6"
+            }
+          ],
+          "id": "fa424b41-5908-4be4-aed2-41a043a6fd08",
+          "createdAt": "2026-06-05T15:16:24.000Z",
+          "updatedAt": "2026-06-05T15:16:24.000Z",
+          "uid": "35240-fa424b41-5908-4be4-aed2-41a043a6fd08"
+        },
+        {
+          "name": "users",
+          "item": [
+            {
+              "name": "{userId}",
+              "item": [
+                {
+                  "name": "Get Analytics for a User",
+                  "id": "9173407e-3a78-4456-b8c2-08f90e5f1c4e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/users/:userId?startDate=<date>&endDate=<date>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "users",
+                        ":userId"
+                      ],
+                      "query": [
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "ae76b6d9-7192-4012-afd1-f06526bbcba1",
+                          "key": "userId",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the user."
+                        }
+                      ]
+                    },
+                    "description": "Retrieves detailed analytics data for a specific user, including activity history and content engagement."
+                  },
+                  "response": [
+                    {
+                      "id": "100a466b-659a-4001-9ca1-3e00cdb4febe",
+                      "name": "Detailed user analytics.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/users/:userId?startDate=<date>&endDate=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "users",
+                            ":userId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "userId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"userId\": \"<string>\",\n  \"userName\": \"<string>\",\n  \"summary\": {\n    \"userId\": \"<string>\",\n    \"userName\": \"<string>\",\n    \"email\": \"<string>\",\n    \"loginCount\": \"<integer>\",\n    \"lastLoginAt\": \"<dateTime>\",\n    \"contentViewed\": \"<integer>\",\n    \"contentDownloaded\": \"<integer>\",\n    \"contentShared\": \"<integer>\",\n    \"adoptionScore\": \"<float>\"\n  },\n  \"recentActivity\": [\n    {\n      \"action\": \"upload\",\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"timestamp\": \"<dateTime>\"\n    },\n    {\n      \"action\": \"upload\",\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"timestamp\": \"<dateTime>\"\n    }\n  ],\n  \"topContent\": [\n    {\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"views\": \"<integer>\"\n    },\n    {\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"views\": \"<integer>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-100a466b-659a-4001-9ca1-3e00cdb4febe"
+                    },
+                    {
+                      "id": "37599586-a4cf-49f4-afb1-75f491cbc776",
+                      "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/users/:userId?startDate=<date>&endDate=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "users",
+                            ":userId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "userId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-37599586-a4cf-49f4-afb1-75f491cbc776"
+                    },
+                    {
+                      "id": "2806e747-4852-4d03-9e47-6e8b45dc00c4",
+                      "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/users/:userId?startDate=<date>&endDate=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "users",
+                            ":userId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "userId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-2806e747-4852-4d03-9e47-6e8b45dc00c4"
+                    },
+                    {
+                      "id": "11a870fc-8037-48d8-9cd5-bcfd80d00620",
+                      "name": "Not found. The requested resource does not exist.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/users/:userId?startDate=<date>&endDate=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "users",
+                            ":userId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "userId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-11a870fc-8037-48d8-9cd5-bcfd80d00620"
+                    },
+                    {
+                      "id": "5b944061-2a17-4796-b94d-59c16482942e",
+                      "name": "Too many requests. Rate limit exceeded.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/users/:userId?startDate=<date>&endDate=<date>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "users",
+                            ":userId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the analytics period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the analytics period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "userId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Number of seconds to wait before making another request.",
+                            "type": "text/plain"
+                          },
+                          "key": "Retry-After",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-5b944061-2a17-4796-b94d-59c16482942e"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-9173407e-3a78-4456-b8c2-08f90e5f1c4e"
+                }
+              ],
+              "id": "5deebf7f-3a2e-4dcf-af20-0aae4bb29c86",
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-5deebf7f-3a2e-4dcf-af20-0aae4bb29c86"
+            },
+            {
+              "name": "Get User Analytics",
+              "id": "c79388a3-9e87-46d0-9433-a6780365307d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/analytics/users?userId=<string>&groupId=<string>&startDate=<date>&endDate=<date>&granularity=daily&offset=0&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "analytics",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter analytics for a specific user.",
+                      "key": "userId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter analytics by user group.",
+                      "key": "groupId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Start date for the analytics period.",
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "End date for the analytics period.",
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "Time granularity for the analytics data.",
+                      "key": "granularity",
+                      "value": "daily"
+                    },
+                    {
+                      "description": "Number of items to skip for pagination.",
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Maximum number of items to return.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                },
+                "description": "Retrieves analytics data on user activity, including content usage, login frequency, and adoption metrics."
+              },
+              "response": [
+                {
+                  "id": "7fbeffcf-27ac-4ad1-99e7-c1b67f323769",
+                  "name": "User analytics data.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/users?userId=<string>&groupId=<string>&startDate=<date>&endDate=<date>&granularity=daily&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific user.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by user group.",
+                          "key": "groupId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"items\": [\n    {\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"loginCount\": \"<integer>\",\n      \"lastLoginAt\": \"<dateTime>\",\n      \"contentViewed\": \"<integer>\",\n      \"contentDownloaded\": \"<integer>\",\n      \"contentShared\": \"<integer>\",\n      \"adoptionScore\": \"<float>\"\n    },\n    {\n      \"userId\": \"<string>\",\n      \"userName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"loginCount\": \"<integer>\",\n      \"lastLoginAt\": \"<dateTime>\",\n      \"contentViewed\": \"<integer>\",\n      \"contentDownloaded\": \"<integer>\",\n      \"contentShared\": \"<integer>\",\n      \"adoptionScore\": \"<float>\"\n    }\n  ],\n  \"totalCount\": \"<integer>\",\n  \"period\": {\n    \"startDate\": \"<date>\",\n    \"endDate\": \"<date>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-7fbeffcf-27ac-4ad1-99e7-c1b67f323769"
+                },
+                {
+                  "id": "11b3fe78-4f72-41f7-863e-4b19e711db6c",
+                  "name": "Bad request. The request was invalid or cannot be processed.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/users?userId=<string>&groupId=<string>&startDate=<date>&endDate=<date>&granularity=daily&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific user.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by user group.",
+                          "key": "groupId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-11b3fe78-4f72-41f7-863e-4b19e711db6c"
+                },
+                {
+                  "id": "afa2734f-2998-44f7-aa6d-7745f32e90c8",
+                  "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/users?userId=<string>&groupId=<string>&startDate=<date>&endDate=<date>&granularity=daily&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific user.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by user group.",
+                          "key": "groupId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-afa2734f-2998-44f7-aa6d-7745f32e90c8"
+                },
+                {
+                  "id": "7162bbc3-120e-4620-9432-c8ded23e22b7",
+                  "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/users?userId=<string>&groupId=<string>&startDate=<date>&endDate=<date>&granularity=daily&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific user.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by user group.",
+                          "key": "groupId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-7162bbc3-120e-4620-9432-c8ded23e22b7"
+                },
+                {
+                  "id": "2825e062-b1ed-43bc-a253-898622798019",
+                  "name": "Too many requests. Rate limit exceeded.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/users?userId=<string>&groupId=<string>&startDate=<date>&endDate=<date>&granularity=daily&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "users"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter analytics for a specific user.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter analytics by user group.",
+                          "key": "groupId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Time granularity for the analytics data.",
+                          "key": "granularity",
+                          "value": "daily"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Number of seconds to wait before making another request.",
+                        "type": "text/plain"
+                      },
+                      "key": "Retry-After",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-2825e062-b1ed-43bc-a253-898622798019"
+                }
+              ],
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-c79388a3-9e87-46d0-9433-a6780365307d"
+            }
+          ],
+          "id": "ec7b96fc-8d76-455c-9446-9dd8f942b86c",
+          "createdAt": "2026-06-05T15:16:24.000Z",
+          "updatedAt": "2026-06-05T15:16:24.000Z",
+          "uid": "35240-ec7b96fc-8d76-455c-9446-9dd8f942b86c"
+        },
+        {
+          "name": "deliveries",
+          "item": [
+            {
+              "name": "Get Delivery Analytics",
+              "id": "f26bd006-8953-41fd-ab67-d6a9c4234263",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/analytics/deliveries?userId=<string>&contentId=<string>&startDate=<date>&endDate=<date>&offset=0&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "analytics",
+                    "deliveries"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter deliveries by sender user ID.",
+                      "key": "userId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter deliveries by content item.",
+                      "key": "contentId",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Start date for the analytics period.",
+                      "key": "startDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "End date for the analytics period.",
+                      "key": "endDate",
+                      "value": "<date>"
+                    },
+                    {
+                      "description": "Number of items to skip for pagination.",
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Maximum number of items to return.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                },
+                "description": "Retrieves analytics data on content deliveries to buyers, including open rates, view durations, and engagement scores."
+              },
+              "response": [
+                {
+                  "id": "4ae73f39-c5df-4f69-a96a-e8d4aba97036",
+                  "name": "Delivery analytics data.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/deliveries?userId=<string>&contentId=<string>&startDate=<date>&endDate=<date>&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "deliveries"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter deliveries by sender user ID.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter deliveries by content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"items\": [\n    {\n      \"deliveryId\": \"<string>\",\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"senderUserId\": \"<string>\",\n      \"recipientEmail\": \"<string>\",\n      \"sentAt\": \"<dateTime>\",\n      \"opened\": \"<boolean>\",\n      \"openedAt\": \"<dateTime>\",\n      \"viewCount\": \"<integer>\",\n      \"viewDuration\": \"<float>\",\n      \"completionRate\": \"<float>\"\n    },\n    {\n      \"deliveryId\": \"<string>\",\n      \"contentId\": \"<string>\",\n      \"contentName\": \"<string>\",\n      \"senderUserId\": \"<string>\",\n      \"recipientEmail\": \"<string>\",\n      \"sentAt\": \"<dateTime>\",\n      \"opened\": \"<boolean>\",\n      \"openedAt\": \"<dateTime>\",\n      \"viewCount\": \"<integer>\",\n      \"viewDuration\": \"<float>\",\n      \"completionRate\": \"<float>\"\n    }\n  ],\n  \"totalCount\": \"<integer>\",\n  \"period\": {\n    \"startDate\": \"<date>\",\n    \"endDate\": \"<date>\"\n  },\n  \"summary\": {\n    \"totalDeliveries\": \"<integer>\",\n    \"openRate\": \"<float>\",\n    \"averageViewDuration\": \"<float>\",\n    \"averageCompletionRate\": \"<float>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-4ae73f39-c5df-4f69-a96a-e8d4aba97036"
+                },
+                {
+                  "id": "315739cd-decf-4076-b702-0b03f291d174",
+                  "name": "Bad request. The request was invalid or cannot be processed.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/deliveries?userId=<string>&contentId=<string>&startDate=<date>&endDate=<date>&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "deliveries"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter deliveries by sender user ID.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter deliveries by content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-315739cd-decf-4076-b702-0b03f291d174"
+                },
+                {
+                  "id": "4cd5f0a5-4280-4e35-bf18-1a9afa963a25",
+                  "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/deliveries?userId=<string>&contentId=<string>&startDate=<date>&endDate=<date>&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "deliveries"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter deliveries by sender user ID.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter deliveries by content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-4cd5f0a5-4280-4e35-bf18-1a9afa963a25"
+                },
+                {
+                  "id": "a559365e-43bf-45c9-afbb-dc48d27244bd",
+                  "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/deliveries?userId=<string>&contentId=<string>&startDate=<date>&endDate=<date>&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "deliveries"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter deliveries by sender user ID.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter deliveries by content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-a559365e-43bf-45c9-afbb-dc48d27244bd"
+                },
+                {
+                  "id": "4971a2aa-ad5f-4c8f-b551-fd8a851d7b09",
+                  "name": "Too many requests. Rate limit exceeded.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/deliveries?userId=<string>&contentId=<string>&startDate=<date>&endDate=<date>&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "deliveries"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter deliveries by sender user ID.",
+                          "key": "userId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter deliveries by content item.",
+                          "key": "contentId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Start date for the analytics period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the analytics period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Number of seconds to wait before making another request.",
+                        "type": "text/plain"
+                      },
+                      "key": "Retry-After",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-4971a2aa-ad5f-4c8f-b551-fd8a851d7b09"
+                }
+              ],
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-f26bd006-8953-41fd-ab67-d6a9c4234263"
+            }
+          ],
+          "id": "5343e81c-f731-4091-b59d-bf398c88bc1c",
+          "createdAt": "2026-06-05T15:16:24.000Z",
+          "updatedAt": "2026-06-05T15:16:24.000Z",
+          "uid": "35240-5343e81c-f731-4091-b59d-bf398c88bc1c"
+        },
+        {
+          "name": "reports",
+          "item": [
+            {
+              "name": "{reportId}",
+              "item": [
+                {
+                  "name": "export",
+                  "item": [
+                    {
+                      "name": "Export a Report",
+                      "id": "47112b24-a1d9-4ef9-9588-5b7c7f3ddbb0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "reports",
+                            ":reportId",
+                            "export"
+                          ],
+                          "variable": [
+                            {
+                              "id": "dfe31529-1c69-4262-bea4-e9781c9f2218",
+                              "key": "reportId",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the report."
+                            }
+                          ]
+                        },
+                        "description": "Initiates an export of a report. Returns a download URL when the export is ready."
+                      },
+                      "response": [
+                        {
+                          "id": "3bd2327d-3bc0-4e29-8725-3b8f672e6dfd",
+                          "name": "Export job accepted.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "analytics",
+                                "reports",
+                                ":reportId",
+                                "export"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reportId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Accepted",
+                          "code": 202,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"exportId\": \"<string>\",\n  \"status\": \"pending\",\n  \"downloadUrl\": \"<uri>\"\n}",
+                          "createdAt": "2026-06-05T15:16:24.000Z",
+                          "updatedAt": "2026-06-05T15:16:24.000Z",
+                          "uid": "35240-3bd2327d-3bc0-4e29-8725-3b8f672e6dfd"
+                        },
+                        {
+                          "id": "7a910955-45a8-4740-bf1b-fa974e744d6d",
+                          "name": "Bad request. The request was invalid or cannot be processed.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "analytics",
+                                "reports",
+                                ":reportId",
+                                "export"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reportId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                          "createdAt": "2026-06-05T15:16:24.000Z",
+                          "updatedAt": "2026-06-05T15:16:24.000Z",
+                          "uid": "35240-7a910955-45a8-4740-bf1b-fa974e744d6d"
+                        },
+                        {
+                          "id": "c2bf96e8-068f-4049-a952-f6e6a8881d13",
+                          "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "analytics",
+                                "reports",
+                                ":reportId",
+                                "export"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reportId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                          "createdAt": "2026-06-05T15:16:24.000Z",
+                          "updatedAt": "2026-06-05T15:16:24.000Z",
+                          "uid": "35240-c2bf96e8-068f-4049-a952-f6e6a8881d13"
+                        },
+                        {
+                          "id": "bd1d2a51-6ebd-4895-8772-097b2d876e7d",
+                          "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "analytics",
+                                "reports",
+                                ":reportId",
+                                "export"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reportId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                          "createdAt": "2026-06-05T15:16:24.000Z",
+                          "updatedAt": "2026-06-05T15:16:24.000Z",
+                          "uid": "35240-bd1d2a51-6ebd-4895-8772-097b2d876e7d"
+                        },
+                        {
+                          "id": "791abccb-2b7e-4ab5-bf9a-52f632af0879",
+                          "name": "Not found. The requested resource does not exist.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "analytics",
+                                "reports",
+                                ":reportId",
+                                "export"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reportId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                          "createdAt": "2026-06-05T15:16:24.000Z",
+                          "updatedAt": "2026-06-05T15:16:24.000Z",
+                          "uid": "35240-791abccb-2b7e-4ab5-bf9a-52f632af0879"
+                        },
+                        {
+                          "id": "dd061957-c035-4ebd-989e-69482907ceab",
+                          "name": "Too many requests. Rate limit exceeded.",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"format\": \"csv\",\n  \"startDate\": \"<date>\",\n  \"endDate\": \"<date>\",\n  \"filters\": {\n    \"anim_e42\": 72947465.86715445\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/analytics/reports/:reportId/export",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "analytics",
+                                "reports",
+                                ":reportId",
+                                "export"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "reportId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Too Many Requests",
+                          "code": 429,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            },
+                            {
+                              "disabled": false,
+                              "description": {
+                                "content": "Number of seconds to wait before making another request.",
+                                "type": "text/plain"
+                              },
+                              "key": "Retry-After",
+                              "value": "<integer>"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                          "createdAt": "2026-06-05T15:16:24.000Z",
+                          "updatedAt": "2026-06-05T15:16:24.000Z",
+                          "uid": "35240-dd061957-c035-4ebd-989e-69482907ceab"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-47112b24-a1d9-4ef9-9588-5b7c7f3ddbb0"
+                    }
+                  ],
+                  "id": "55bf1529-8e56-4ffe-91ad-c4d78e247e8f",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-55bf1529-8e56-4ffe-91ad-c4d78e247e8f"
+                },
+                {
+                  "name": "Get a Report",
+                  "id": "d21199cf-6adc-468c-9533-ba4d0532fd77",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/reports/:reportId?startDate=<date>&endDate=<date>&format=json",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "reports",
+                        ":reportId"
+                      ],
+                      "query": [
+                        {
+                          "description": "Start date for the report period.",
+                          "key": "startDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "End date for the report period.",
+                          "key": "endDate",
+                          "value": "<date>"
+                        },
+                        {
+                          "description": "Output format for the report data.",
+                          "key": "format",
+                          "value": "json"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "a82e460e-21b4-4400-95e5-cf37b7a76799",
+                          "key": "reportId",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the report."
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a specific analytical report with its data."
+                  },
+                  "response": [
+                    {
+                      "id": "8eddc4d6-23ef-48ac-90b4-0f1527e1f898",
+                      "name": "Report data.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/reports/:reportId?startDate=<date>&endDate=<date>&format=json",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "reports",
+                            ":reportId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the report period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the report period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Output format for the report data.",
+                              "key": "format",
+                              "value": "json"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "reportId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"reportId\": \"<string>\",\n  \"reportName\": \"<string>\",\n  \"period\": {\n    \"startDate\": \"<date>\",\n    \"endDate\": \"<date>\"\n  },\n  \"columns\": [\n    {\n      \"name\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"type\": \"integer\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"displayName\": \"<string>\",\n      \"type\": \"float\"\n    }\n  ],\n  \"rows\": [\n    {\n      \"commodo1\": true,\n      \"veniam2\": -85411874,\n      \"est_ef\": 55937746\n    },\n    {\n      \"cillum_f\": -65377625\n    }\n  ],\n  \"totalRows\": \"<integer>\"\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-8eddc4d6-23ef-48ac-90b4-0f1527e1f898"
+                    },
+                    {
+                      "id": "d636fd75-33d4-4388-896a-54f6e08d52af",
+                      "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/reports/:reportId?startDate=<date>&endDate=<date>&format=json",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "reports",
+                            ":reportId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the report period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the report period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Output format for the report data.",
+                              "key": "format",
+                              "value": "json"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "reportId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-d636fd75-33d4-4388-896a-54f6e08d52af"
+                    },
+                    {
+                      "id": "63f98975-3a0b-4dbd-81a7-b36e1340f50e",
+                      "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/reports/:reportId?startDate=<date>&endDate=<date>&format=json",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "reports",
+                            ":reportId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the report period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the report period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Output format for the report data.",
+                              "key": "format",
+                              "value": "json"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "reportId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-63f98975-3a0b-4dbd-81a7-b36e1340f50e"
+                    },
+                    {
+                      "id": "8c5ede60-3e34-4ae3-911d-835c363a68da",
+                      "name": "Not found. The requested resource does not exist.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/reports/:reportId?startDate=<date>&endDate=<date>&format=json",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "reports",
+                            ":reportId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the report period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the report period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Output format for the report data.",
+                              "key": "format",
+                              "value": "json"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "reportId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-8c5ede60-3e34-4ae3-911d-835c363a68da"
+                    },
+                    {
+                      "id": "c27b944a-d948-424c-b82f-f5106bd2058e",
+                      "name": "Too many requests. Rate limit exceeded.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/analytics/reports/:reportId?startDate=<date>&endDate=<date>&format=json",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "analytics",
+                            "reports",
+                            ":reportId"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start date for the report period.",
+                              "key": "startDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "End date for the report period.",
+                              "key": "endDate",
+                              "value": "<date>"
+                            },
+                            {
+                              "description": "Output format for the report data.",
+                              "key": "format",
+                              "value": "json"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "reportId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Number of seconds to wait before making another request.",
+                            "type": "text/plain"
+                          },
+                          "key": "Retry-After",
+                          "value": "<integer>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:16:24.000Z",
+                      "updatedAt": "2026-06-05T15:16:24.000Z",
+                      "uid": "35240-c27b944a-d948-424c-b82f-f5106bd2058e"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-d21199cf-6adc-468c-9533-ba4d0532fd77"
+                }
+              ],
+              "id": "8a05e9f2-9e6b-4736-ba67-25f6bb9475bd",
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-8a05e9f2-9e6b-4736-ba67-25f6bb9475bd"
+            },
+            {
+              "name": "List Available Reports",
+              "id": "4593a2f1-edd2-4942-9593-e3d9ad38c4d5",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/analytics/reports?type=delivery&offset=0&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "analytics",
+                    "reports"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter reports by type.",
+                      "key": "type",
+                      "value": "delivery"
+                    },
+                    {
+                      "description": "Number of items to skip for pagination.",
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "description": "Maximum number of items to return.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                },
+                "description": "Retrieves a list of available analytical reports."
+              },
+              "response": [
+                {
+                  "id": "ff8ae1dd-5283-433c-bb00-f004056f77b6",
+                  "name": "A list of available reports.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/reports?type=delivery&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "reports"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter reports by type.",
+                          "key": "type",
+                          "value": "delivery"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"type\": \"user\",\n      \"createdAt\": \"<dateTime>\",\n      \"modifiedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"type\": \"delivery\",\n      \"createdAt\": \"<dateTime>\",\n      \"modifiedAt\": \"<dateTime>\"\n    }\n  ],\n  \"totalCount\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-ff8ae1dd-5283-433c-bb00-f004056f77b6"
+                },
+                {
+                  "id": "cdbac249-6a44-447e-b652-6018d349451f",
+                  "name": "Unauthorized. Authentication credentials are missing or invalid.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/reports?type=delivery&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "reports"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter reports by type.",
+                          "key": "type",
+                          "value": "delivery"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-cdbac249-6a44-447e-b652-6018d349451f"
+                },
+                {
+                  "id": "9d81a252-2106-478d-be97-a795b39d79c7",
+                  "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/reports?type=delivery&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "reports"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter reports by type.",
+                          "key": "type",
+                          "value": "delivery"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-9d81a252-2106-478d-be97-a795b39d79c7"
+                },
+                {
+                  "id": "57271d70-2713-41ea-8b03-e7587aad4857",
+                  "name": "Too many requests. Rate limit exceeded.",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/analytics/reports?type=delivery&offset=0&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "analytics",
+                        "reports"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter reports by type.",
+                          "key": "type",
+                          "value": "delivery"
+                        },
+                        {
+                          "description": "Number of items to skip for pagination.",
+                          "key": "offset",
+                          "value": "0"
+                        },
+                        {
+                          "description": "Maximum number of items to return.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "disabled": false,
+                      "description": {
+                        "content": "Number of seconds to wait before making another request.",
+                        "type": "text/plain"
+                      },
+                      "key": "Retry-After",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\",\n    \"details\": [\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      },\n      {\n        \"field\": \"<string>\",\n        \"message\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "createdAt": "2026-06-05T15:16:24.000Z",
+                  "updatedAt": "2026-06-05T15:16:24.000Z",
+                  "uid": "35240-57271d70-2713-41ea-8b03-e7587aad4857"
+                }
+              ],
+              "createdAt": "2026-06-05T15:16:24.000Z",
+              "updatedAt": "2026-06-05T15:16:24.000Z",
+              "uid": "35240-4593a2f1-edd2-4942-9593-e3d9ad38c4d5"
+            }
+          ],
+          "id": "d67ced1c-e230-4b7f-a012-716d954322cf",
+          "createdAt": "2026-06-05T15:16:24.000Z",
+          "updatedAt": "2026-06-05T15:16:24.000Z",
+          "uid": "35240-d67ced1c-e230-4b7f-a012-716d954322cf"
+        }
+      ],
+      "id": "d6b78a11-e6e8-409c-8024-4a93b7db1f9a",
+      "createdAt": "2026-06-05T15:16:24.000Z",
+      "updatedAt": "2026-06-05T15:16:24.000Z",
+      "uid": "35240-d6b78a11-e6e8-409c-8024-4a93b7db1f9a"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.seismic.com/integration/v2"
+    }
+  ]
+}

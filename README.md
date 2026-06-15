@@ -1,13 +1,13 @@
-# Seismic
+# Seismic (seismic)
 
 Seismic is the global leader in enablement, helping organizations engage customers, enable teams, and ignite revenue growth. The Seismic platform provides content management, learning and coaching, dynamic document generation, and buyer engagement capabilities through a comprehensive suite of APIs.
 
-**URL:** [https://seismic.com](https://seismic.com)
+**APIs.json:** [https://seismic.com](https://seismic.com)
 
 ## Timestamps
 
 - **Created:** 2025-02-10
-- **Modified:** 2026-05-02
+- **Modified:** 2026-05-19
 
 ## APIs
 
@@ -15,156 +15,119 @@ Seismic is the global leader in enablement, helping organizations engage custome
 
 API for managing and accessing content within the Seismic platform, including documents, presentations, folders, and other sales materials. Supports uploading, organizing, searching, delivering, and managing content items.
 
-**Human URL:** [https://seismic.com/products/content-management/](https://seismic.com/products/content-management/)
+- **Human URL:** [https://seismic.com/products/content-management/](https://seismic.com/products/content-management/)
+- **Base URL:** `https://api.seismic.com/integration/v2`
 
 #### Tags
 
-- Content, Content Management, Documents, Sales Enablement
+- Content
+- Content Management
+- Documents
+- Sales Enablement
 
 #### Properties
 
 - [Documentation](https://developer.seismic.com/seismicsoftware/reference/content-api)
-- [OpenAPI](openapi/seismic-content-openapi.yml)
+- [OpenAPI](openapi/seismic-content-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/seismic-content.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/seismic-content.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 - [Authentication](https://developer.seismic.com/seismicsoftware/docs/authentication)
-- [JSONSchema - Content Item](json-schema/seismic-content-item-schema.json)
-- [JSONSchema - Folder](json-schema/seismic-folder-schema.json)
-- [JSONStructure - Content Item](json-structure/seismic-content-item-structure.json)
-
----
+- [JSON Schema](json-schema/seismic-content-item-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/seismic-folder-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Structure](json-structure/seismic-content-item-structure.json)
 
 ### Seismic LiveDocs API
 
 API for creating and managing LiveDocs, Seismic's dynamic document generation solution. Enables automated creation of personalized proposals, presentations, and sales materials by merging CRM and other data into templates.
 
-**Human URL:** [https://seismic.com/products/livedocs/](https://seismic.com/products/livedocs/)
+- **Human URL:** [https://seismic.com/products/livedocs/](https://seismic.com/products/livedocs/)
+- **Base URL:** `https://api.seismic.com/integration/v2`
 
 #### Tags
 
-- Document Generation, Dynamic Content, LiveDocs, Sales Enablement
+- Document Generation
+- Dynamic Content
+- LiveDocs
+- Sales Enablement
 
 #### Properties
 
 - [Documentation](https://developer.seismic.com/seismicsoftware/reference/livedocs-api)
-- [OpenAPI](openapi/seismic-livedocs-openapi.yml)
-- [JSONSchema - LiveDoc Template](json-schema/seismic-livedoc-template-schema.json)
-
----
+- [OpenAPI](openapi/seismic-livedocs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/seismic-livedocs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/seismic-livedocs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/seismic-livedoc-template-schema.json) — [JSON Schema](https://json-schema.org/specification)
 
 ### Seismic Analytics API
 
 API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness. Provides insights into content performance, user adoption, buyer engagement, and exportable reports.
 
-**Human URL:** [https://seismic.com/products/analytics/](https://seismic.com/products/analytics/)
+- **Human URL:** [https://seismic.com/products/analytics/](https://seismic.com/products/analytics/)
+- **Base URL:** `https://api.seismic.com/integration/v2`
 
 #### Tags
 
-- Analytics, Insights, Metrics, Reporting
+- Analytics
+- Insights
+- Metrics
+- Reporting
 
 #### Properties
 
 - [Documentation](https://developer.seismic.com/seismicsoftware/reference/analytics-api)
-- [OpenAPI](openapi/seismic-analytics-openapi.yml)
-
----
+- [OpenAPI](openapi/seismic-analytics-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/seismic-analytics.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/seismic-analytics.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ### Seismic User Management API
 
 API for managing users, groups, roles, teams, and permissions within the Seismic platform. Supports creating and organizing users, managing group hierarchies, assigning roles, and team structures for access control.
 
-**Human URL:** [https://seismic.com](https://seismic.com)
+- **Human URL:** [https://seismic.com](https://seismic.com)
+- **Base URL:** `https://api.seismic.com/integration/v2`
 
 #### Tags
 
-- Administration, Groups, Permissions, Users
+- Administration
+- Groups
+- Permissions
+- Users
 
 #### Properties
 
 - [Documentation](https://developer.seismic.com/seismicsoftware/reference/user-management-api)
-- [OpenAPI](openapi/seismic-user-management-openapi.yml)
-- [JSONSchema - User](json-schema/seismic-user-schema.json)
-- [JSONSchema - Group](json-schema/seismic-group-schema.json)
+- [OpenAPI](openapi/seismic-user-management-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/seismic-user-management.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/seismic-user-management.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/seismic-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/seismic-group-schema.json) — [JSON Schema](https://json-schema.org/specification)
 
----
+## Common Properties
 
-## Common Resources
-
-| Resource | URL |
-|---|---|
-| Developer Portal | [https://developer.seismic.com/](https://developer.seismic.com/) |
-| Getting Started | [https://developer.seismic.com/seismicsoftware/docs/getting-started](https://developer.seismic.com/seismicsoftware/docs/getting-started) |
-| Authentication | [https://developer.seismic.com/seismicsoftware/docs/authentication](https://developer.seismic.com/seismicsoftware/docs/authentication) |
-| Rate Limits | [https://developer.seismic.com/seismicsoftware/docs/rate-limits](https://developer.seismic.com/seismicsoftware/docs/rate-limits) |
-| Webhooks | [https://developer.seismic.com/seismicsoftware/docs/webhooks](https://developer.seismic.com/seismicsoftware/docs/webhooks) |
-| Status | [https://status.seismic.com/](https://status.seismic.com/) |
-| Change Log | [https://developer.seismic.com/seismicsoftware/changelog](https://developer.seismic.com/seismicsoftware/changelog) |
-| Blog | [https://seismic.com/resources/blog/](https://seismic.com/resources/blog/) |
-
-## Artifacts
-
-### OpenAPI Specifications
-
-| API | File |
-|---|---|
-| Seismic Content API | [openapi/seismic-content-openapi.yml](openapi/seismic-content-openapi.yml) |
-| Seismic LiveDocs API | [openapi/seismic-livedocs-openapi.yml](openapi/seismic-livedocs-openapi.yml) |
-| Seismic Analytics API | [openapi/seismic-analytics-openapi.yml](openapi/seismic-analytics-openapi.yml) |
-| Seismic User Management API | [openapi/seismic-user-management-openapi.yml](openapi/seismic-user-management-openapi.yml) |
-
-### JSON Schemas
-
-| Schema | File |
-|---|---|
-| Content Item | [json-schema/seismic-content-item-schema.json](json-schema/seismic-content-item-schema.json) |
-| Folder | [json-schema/seismic-folder-schema.json](json-schema/seismic-folder-schema.json) |
-| LiveDoc Template | [json-schema/seismic-livedoc-template-schema.json](json-schema/seismic-livedoc-template-schema.json) |
-| User | [json-schema/seismic-user-schema.json](json-schema/seismic-user-schema.json) |
-| Group | [json-schema/seismic-group-schema.json](json-schema/seismic-group-schema.json) |
-
-### JSON Structures
-
-| Structure | File |
-|---|---|
-| Content Item | [json-structure/seismic-content-item-structure.json](json-structure/seismic-content-item-structure.json) |
-
-### Rules
-
-| Ruleset | File |
-|---|---|
-| Seismic API Rules | [rules/seismic-rules.yml](rules/seismic-rules.yml) |
-
-### Capabilities
-
-#### Workflow Capabilities
-
-| Workflow | Description | File |
-|---|---|---|
-| Content Management | Content management and analytics workflow for content teams | [capabilities/content-management.yaml](capabilities/content-management.yaml) |
-| Sales Enablement | Full sales enablement workflow combining content, LiveDocs, analytics, and user management | [capabilities/sales-enablement.yaml](capabilities/sales-enablement.yaml) |
-
-#### Shared Per-API Definitions
-
-| API | File |
-|---|---|
-| Content API | [capabilities/shared/content-api.yaml](capabilities/shared/content-api.yaml) |
-| Analytics API | [capabilities/shared/analytics-api.yaml](capabilities/shared/analytics-api.yaml) |
-| LiveDocs API | [capabilities/shared/livedocs-api.yaml](capabilities/shared/livedocs-api.yaml) |
-| User Management API | [capabilities/shared/user-management-api.yaml](capabilities/shared/user-management-api.yaml) |
-
-### JSON-LD Context
-
-- [json-ld/seismic-context.jsonld](json-ld/seismic-context.jsonld)
-
-### Examples
-
-| Example | File |
-|---|---|
-| List Content Items | [examples/seismic-list-content-items-example.json](examples/seismic-list-content-items-example.json) |
-| Generate LiveDoc | [examples/seismic-generate-livedoc-example.json](examples/seismic-generate-livedoc-example.json) |
-
-### Vocabulary
-
-- [vocabulary/seismic-vocabulary.yml](vocabulary/seismic-vocabulary.yml)
+- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
+- [LinkedIn](https://www.linkedin.com/company/seismic)
+- [Portal](https://developer.seismic.com/)
+- [Getting Started](https://developer.seismic.com/seismicsoftware/docs/getting-started)
+- [Authentication](https://developer.seismic.com/seismicsoftware/docs/authentication)
+- [Rate Limits](https://developer.seismic.com/seismicsoftware/docs/rate-limits)
+- [Webhooks](https://developer.seismic.com/seismicsoftware/docs/webhooks)
+- [Support](https://seismic.com/support/)
+- [Privacy Policy](https://seismic.com/privacy-policy/)
+- [Terms of Service](https://seismic.com/terms-of-service/)
+- [Status Page](https://status.seismic.com/)
+- [Documentation](https://developer.seismic.com/seismicsoftware/docs)
+- [Changelog](https://developer.seismic.com/seismicsoftware/changelog)
+- [Website](https://seismic.com)
+- [Blog](https://seismic.com/resources/blog/)
+- [Login](https://login.seismic.com/)
+- [Spectral Rules](rules/seismic-rules.yml)
+- [J S O N L D Context](json-ld/seismic-context.jsonld)
+- [Vocabulary](vocabulary/seismic-vocabulary.yml)
+- [Integrations](https://www.seismic.com/platform/integrations/)
+- [L L Ms Txt](https://developer.seismic.com/llms.txt)
 
 ## Maintainers
 
-- **Kin Lane** — [kin@apievangelist.com](mailto:kin@apievangelist.com)
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com
+**URL:** https://apievangelist.com

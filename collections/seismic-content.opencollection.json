@@ -1,0 +1,512 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Content API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Content Items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "query",
+                "description": "Filter content items by folder ID."
+              },
+              {
+                "name": "contentProfileId",
+                "value": "",
+                "type": "query",
+                "description": "Filter content items by content profile ID."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter content items by name or metadata."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order direction."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content items from the Seismic platform. Supports filtering by folder, content profile, and other criteria."
+        },
+        {
+          "info": {
+            "name": "Create a Content Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/content",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "name",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "folderId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "contentProfileId",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "description",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "properties",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a new content item in the Seismic platform by uploading a file with associated metadata."
+        },
+        {
+          "info": {
+            "name": "Get a Content Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific content item by its ID."
+        },
+        {
+          "info": {
+            "name": "Update a Content Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the metadata or properties of a specific content item."
+        },
+        {
+          "info": {
+            "name": "Delete a Content Item",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ]
+          },
+          "docs": "Deletes a specific content item from the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Download Content File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId/file",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              },
+              {
+                "name": "versionId",
+                "value": "",
+                "type": "query",
+                "description": "Specific version of the file to download."
+              }
+            ]
+          },
+          "docs": "Downloads the file associated with a specific content item."
+        },
+        {
+          "info": {
+            "name": "Replace Content File",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId/file",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Replaces the file associated with a content item with a new version."
+        },
+        {
+          "info": {
+            "name": "List Content Versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId/versions",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of versions for a specific content item."
+        },
+        {
+          "info": {
+            "name": "Get Content Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId/url",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ]
+          },
+          "docs": "Retrieves a temporary URL for accessing or viewing a content item. The URL is time-limited and suitable for embedding or sharing."
+        },
+        {
+          "info": {
+            "name": "Search Content",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for content items across the Seismic platform using full-text search and filtering capabilities."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Folders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/folders",
+            "params": [
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by parent folder ID to retrieve child folders."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content folders from the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Create a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/folders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new content folder in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/folders/:folderId",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific folder by its ID."
+        },
+        {
+          "info": {
+            "name": "Update a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.seismic.com/integration/v2/folders/:folderId",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name or other properties of a specific folder."
+        },
+        {
+          "info": {
+            "name": "Delete a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.seismic.com/integration/v2/folders/:folderId",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ]
+          },
+          "docs": "Deletes a specific folder from the Seismic platform."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Content Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Content Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-properties",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content property definitions configured in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Content Property",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-properties/:propertyId",
+            "params": [
+              {
+                "name": "propertyId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content property."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific content property definition by its ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Content Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Content Profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-profiles",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content profiles that define content type configurations in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Content Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-profiles/:profileId",
+            "params": [
+              {
+                "name": "profileId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content profile."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific content profile by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
