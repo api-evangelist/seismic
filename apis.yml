@@ -110,48 +110,45 @@ apis:
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/seismic/overview
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-      - url: arazzo/seismic-add-user-to-group-workflow.yml
-        name: Seismic Add a User to a Group
-        summary: Resolve a group by name, add a user to it, and confirm the membership.
-      - url: arazzo/seismic-audit-team-roster-workflow.yml
-        name: Seismic Audit a Team Roster
-        summary: Resolve a team by name, read its detail, and list its members.
-      - url: arazzo/seismic-download-content-version-workflow.yml
-        name: Seismic Download a Content Version
-        summary: Resolve a content item, inspect its versions, and download a specific or latest version.
-      - url: arazzo/seismic-export-analytics-report-workflow.yml
-        name: Seismic Export an Analytics Report
-        summary: Resolve a report by type, read its data, and kick off an export job.
-      - url: arazzo/seismic-generate-livedoc-async-workflow.yml
-        name: Seismic Generate a Livedoc Asynchronously
-        summary: Resolve a template, inspect its inputs, generate a Livedoc async, and poll the job.
-      - url: arazzo/seismic-livedoc-from-crm-datasource-workflow.yml
-        name: Seismic Generate a Livedoc from a CRM Data Source
-        summary: Pick a connected CRM data source and template, then merge a CRM record into a Livedoc.
-      - url: arazzo/seismic-onboard-user-workflow.yml
-        name: Seismic Onboard a User
-        summary: Create a user account, confirm it, and assign its group memberships.
-      - url: arazzo/seismic-organize-content-into-folder-workflow.yml
-        name: Seismic Organize Content into a Folder
-        summary: Create a destination folder and move a matching content item into it.
-      - url: arazzo/seismic-preview-and-generate-livedoc-workflow.yml
-        name: Seismic Preview and Generate a Livedoc
-        summary: Read a template, preview it with sample data, then generate the final document.
-      - url: arazzo/seismic-search-and-inspect-content-workflow.yml
-        name: Seismic Search and Inspect Content
-        summary: Run a full-text content search, inspect the top hit, and get a shareable URL.
-      - url: arazzo/seismic-share-content-workflow.yml
-        name: Seismic Share a Content Item
-        summary: Find a content item in the library and produce a time-limited shareable URL.
-      - url: arazzo/seismic-top-content-performance-workflow.yml
-        name: Seismic Top Content Performance Review
-        summary: Rank top content by a metric, read the leader's library detail, and pull its analytics.
-      - url: arazzo/seismic-user-adoption-review-workflow.yml
-        name: Seismic User Adoption Review
-        summary: Rank user activity, resolve the top user's profile, and pull their detailed analytics.
+  - type: Arazzo
+    url: arazzo/seismic-add-user-to-group-workflow.yml
+    name: Seismic Add a User to a Group
+  - type: Arazzo
+    url: arazzo/seismic-audit-team-roster-workflow.yml
+    name: Seismic Audit a Team Roster
+  - type: Arazzo
+    url: arazzo/seismic-download-content-version-workflow.yml
+    name: Seismic Download a Content Version
+  - type: Arazzo
+    url: arazzo/seismic-export-analytics-report-workflow.yml
+    name: Seismic Export an Analytics Report
+  - type: Arazzo
+    url: arazzo/seismic-generate-livedoc-async-workflow.yml
+    name: Seismic Generate a Livedoc Asynchronously
+  - type: Arazzo
+    url: arazzo/seismic-livedoc-from-crm-datasource-workflow.yml
+    name: Seismic Generate a Livedoc from a CRM Data Source
+  - type: Arazzo
+    url: arazzo/seismic-onboard-user-workflow.yml
+    name: Seismic Onboard a User
+  - type: Arazzo
+    url: arazzo/seismic-organize-content-into-folder-workflow.yml
+    name: Seismic Organize Content into a Folder
+  - type: Arazzo
+    url: arazzo/seismic-preview-and-generate-livedoc-workflow.yml
+    name: Seismic Preview and Generate a Livedoc
+  - type: Arazzo
+    url: arazzo/seismic-search-and-inspect-content-workflow.yml
+    name: Seismic Search and Inspect Content
+  - type: Arazzo
+    url: arazzo/seismic-share-content-workflow.yml
+    name: Seismic Share a Content Item
+  - type: Arazzo
+    url: arazzo/seismic-top-content-performance-workflow.yml
+    name: Seismic Top Content Performance Review
+  - type: Arazzo
+    url: arazzo/seismic-user-adoption-review-workflow.yml
+    name: Seismic User Adoption Review
   - type: LinkedIn
     url: https://www.linkedin.com/company/seismic
   - type: Portal
@@ -190,7 +187,7 @@ common:
     url: vocabulary/seismic-vocabulary.yml
   - type: Integrations
     url: https://www.seismic.com/platform/integrations/
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://developer.seismic.com/llms.txt
 integrations:
   - name: Become a Partner
