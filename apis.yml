@@ -108,6 +108,10 @@ apis:
         email: support@seismic.com
         url: https://seismic.com/support/
 common:
+  - type: DomainSecurity
+    url: security/seismic-domain-security.yml
+  - type: Authentication
+    url: authentication/seismic-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/seismic/overview
   - type: Arazzo

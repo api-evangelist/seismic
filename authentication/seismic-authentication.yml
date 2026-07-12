@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/seismic-analytics-openapi.yml, openapi/seismic-content-openapi.yml, openapi/seismic-livedocs-openapi.yml,
+  openapi/seismic-user-management-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow.
+    See https://developer.seismic.com/seismicsoftware/docs/authentication
+  sources:
+  - openapi/seismic-analytics-openapi.yml
+  - openapi/seismic-content-openapi.yml
+  - openapi/seismic-livedocs-openapi.yml
+  - openapi/seismic-user-management-openapi.yml

@@ -1,0 +1,34 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: developer.seismic.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  2 21:07:53 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: seismic.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 24 22:45:09 2026 GMT
+  hsts: true
+  hsts_max_age: 63072000
+- host: api.seismic.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jul 30 23:59:59 2026 GMT
+  hsts: null
+domains:
+- domain: seismic.com
+  dnssec: true
+  caa:
+  - 0 issue "pki.goog"
+  - 0 issuewild "awstrust.com"
+  - 0 issuewild "digicert.com"
+  - 0 issuewild "letsencrypt.org"
+  - 0 issuewild "pki.goog"
+  - 0 iodef "mailto:security@seismic.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
