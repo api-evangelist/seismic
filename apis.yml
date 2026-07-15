@@ -108,6 +108,8 @@ apis:
         email: support@seismic.com
         url: https://seismic.com/support/
 common:
+  - type: AgenticAccess
+    url: agentic-access/seismic-agentic-access.yml
   - type: DomainSecurity
     url: security/seismic-domain-security.yml
   - type: Authentication
