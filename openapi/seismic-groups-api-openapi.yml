@@ -1,0 +1,552 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Groups API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Groups
+  description: Operations for managing user groups and teams.
+paths:
+  /users/{userId}/groups:
+    get:
+      operationId: getUserGroups
+      summary: Get User Groups
+      description: Retrieves the groups that a specific user belongs to.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: List of groups the user belongs to.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    put:
+      operationId: setUserGroups
+      summary: Set User Group Memberships
+      description: Replaces the user's group memberships with the specified set of groups.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/userId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - groupIds
+              properties:
+                groupIds:
+                  type: array
+                  items:
+                    type: string
+                  description: IDs of the groups to assign to the user.
+      responses:
+        '200':
+          description: User group memberships updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /groups:
+    get:
+      operationId: listGroups
+      summary: List Groups
+      description: Retrieves a list of user groups in the Seismic platform.
+      tags:
+      - Groups
+      parameters:
+      - name: query
+        in: query
+        description: Search query to filter groups by name.
+        schema:
+          type: string
+      - name: parentId
+        in: query
+        description: Filter by parent group ID for hierarchical groups.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of groups.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+                  totalCount:
+                    type: integer
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: createGroup
+      summary: Create a Group
+      description: Creates a new user group in the Seismic platform.
+      tags:
+      - Groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Name of the group.
+                description:
+                  type: string
+                  description: Description of the group.
+                parentId:
+                  type: string
+                  description: ID of the parent group for hierarchical grouping.
+      responses:
+        '201':
+          description: Group created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '409':
+          description: Conflict. A group with this name already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /groups/{groupId}:
+    get:
+      operationId: getGroup
+      summary: Get a Group
+      description: Retrieves details of a specific group by its ID.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/groupId'
+      responses:
+        '200':
+          description: Group details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: updateGroup
+      summary: Update a Group
+      description: Updates the name or other properties of a specific group.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/groupId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Updated group name.
+                description:
+                  type: string
+                  description: Updated group description.
+                parentId:
+                  type: string
+                  description: Updated parent group ID.
+      responses:
+        '200':
+          description: Group updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: deleteGroup
+      summary: Delete a Group
+      description: Deletes a specific group from the Seismic platform.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/groupId'
+      responses:
+        '204':
+          description: Group deleted successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /groups/{groupId}/members:
+    get:
+      operationId: listGroupMembers
+      summary: List Group Members
+      description: Retrieves a list of users who are members of a specific group.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/groupId'
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of group members.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: addGroupMember
+      summary: Add a Member to a Group
+      description: Adds a user as a member of a specific group.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/groupId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - userId
+              properties:
+                userId:
+                  type: string
+                  description: ID of the user to add to the group.
+      responses:
+        '201':
+          description: User added to group successfully.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Conflict. User is already a member of the group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /groups/{groupId}/members/{userId}:
+    delete:
+      operationId: removeGroupMember
+      summary: Remove a Member from a Group
+      description: Removes a user from a specific group.
+      tags:
+      - Groups
+      parameters:
+      - $ref: '#/components/parameters/groupId'
+      - $ref: '#/components/parameters/userId'
+      responses:
+        '204':
+          description: User removed from group successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: Unique identifier of the user.
+      schema:
+        type: string
+    groupId:
+      name: groupId
+      in: path
+      required: true
+      description: Unique identifier of the group.
+      schema:
+        type: string
+  schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the group.
+        name:
+          type: string
+          description: Name of the group.
+        description:
+          type: string
+          description: Description of the group.
+        parentId:
+          type: string
+          description: ID of the parent group.
+        memberCount:
+          type: integer
+          description: Number of members in the group.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the group was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the group was last modified.
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the user.
+        email:
+          type: string
+          format: email
+          description: Email address of the user.
+        firstName:
+          type: string
+          description: First name of the user.
+        lastName:
+          type: string
+          description: Last name of the user.
+        displayName:
+          type: string
+          description: Display name of the user.
+        title:
+          type: string
+          description: Job title of the user.
+        department:
+          type: string
+          description: Department the user belongs to.
+        roleId:
+          type: string
+          description: ID of the assigned role.
+        roleName:
+          type: string
+          description: Name of the assigned role.
+        teamId:
+          type: string
+          description: ID of the team the user belongs to.
+        teamName:
+          type: string
+          description: Name of the team the user belongs to.
+        status:
+          type: string
+          description: Account status.
+          enum:
+          - active
+          - inactive
+          - pending
+          - suspended
+        avatarUrl:
+          type: string
+          format: uri
+          description: URL of the user's avatar image.
+        lastLoginAt:
+          type: string
+          format: date-time
+          description: Timestamp of the user's last login.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the user account was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the user account was last modified.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

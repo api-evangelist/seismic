@@ -1,0 +1,302 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Folders API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Folders
+  description: Operations for managing content folders and organizational structure.
+paths:
+  /folders:
+    get:
+      operationId: listFolders
+      summary: List Folders
+      description: Retrieves a list of content folders from the Seismic platform.
+      tags:
+      - Folders
+      parameters:
+      - name: parentId
+        in: query
+        description: Filter by parent folder ID to retrieve child folders.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of folders.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Folder'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      operationId: createFolder
+      summary: Create a Folder
+      description: Creates a new content folder in the Seismic platform.
+      tags:
+      - Folders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Name of the folder.
+                parentId:
+                  type: string
+                  description: ID of the parent folder.
+                description:
+                  type: string
+                  description: Description of the folder.
+      responses:
+        '201':
+          description: Folder created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /folders/{folderId}:
+    get:
+      operationId: getFolder
+      summary: Get a Folder
+      description: Retrieves details of a specific folder by its ID.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      responses:
+        '200':
+          description: Folder details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      operationId: updateFolder
+      summary: Update a Folder
+      description: Updates the name or other properties of a specific folder.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Updated folder name.
+                description:
+                  type: string
+                  description: Updated folder description.
+                parentId:
+                  type: string
+                  description: ID of the new parent folder to move this folder to.
+      responses:
+        '200':
+          description: Folder updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      operationId: deleteFolder
+      summary: Delete a Folder
+      description: Deletes a specific folder from the Seismic platform.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      responses:
+        '204':
+          description: Folder deleted successfully.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the folder.
+        name:
+          type: string
+          description: Name of the folder.
+        description:
+          type: string
+          description: Description of the folder.
+        parentId:
+          type: string
+          description: ID of the parent folder.
+        path:
+          type: string
+          description: Full path of the folder in the folder hierarchy.
+        contentCount:
+          type: integer
+          description: Number of content items in the folder.
+        childFolderCount:
+          type: integer
+          description: Number of child folders.
+        createdBy:
+          type: string
+          description: ID of the user who created the folder.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the folder was created.
+        modifiedBy:
+          type: string
+          description: ID of the user who last modified the folder.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the folder was last modified.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  parameters:
+    folderId:
+      name: folderId
+      in: path
+      required: true
+      description: Unique identifier of the folder.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

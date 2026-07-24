@@ -1,0 +1,288 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics User Analytics API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: User Analytics
+  description: Analytics on user activity and adoption metrics.
+paths:
+  /analytics/users:
+    get:
+      operationId: getUserAnalytics
+      summary: Get User Analytics
+      description: Retrieves analytics data on user activity, including content usage, login frequency, and adoption metrics.
+      tags:
+      - User Analytics
+      parameters:
+      - name: userId
+        in: query
+        description: Filter analytics for a specific user.
+        schema:
+          type: string
+      - name: groupId
+        in: query
+        description: Filter analytics by user group.
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start date for the analytics period.
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        description: End date for the analytics period.
+        schema:
+          type: string
+          format: date
+      - name: granularity
+        in: query
+        description: Time granularity for the analytics data.
+        schema:
+          type: string
+          enum:
+          - daily
+          - weekly
+          - monthly
+          default: daily
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: User analytics data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserAnalytics'
+                  totalCount:
+                    type: integer
+                  period:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        format: date
+                      endDate:
+                        type: string
+                        format: date
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /analytics/users/{userId}:
+    get:
+      operationId: getUserActivityAnalytics
+      summary: Get Analytics for a User
+      description: Retrieves detailed analytics data for a specific user, including activity history and content engagement.
+      tags:
+      - User Analytics
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        description: Unique identifier of the user.
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start date for the analytics period.
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        description: End date for the analytics period.
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Detailed user analytics.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAnalyticsDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    UserAnalyticsDetail:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: ID of the user.
+        userName:
+          type: string
+          description: Display name of the user.
+        summary:
+          $ref: '#/components/schemas/UserAnalytics'
+        recentActivity:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+                enum:
+                - view
+                - download
+                - share
+                - upload
+                - login
+              contentId:
+                type: string
+              contentName:
+                type: string
+              timestamp:
+                type: string
+                format: date-time
+          description: Recent activity history for the user.
+        topContent:
+          type: array
+          items:
+            type: object
+            properties:
+              contentId:
+                type: string
+              contentName:
+                type: string
+              views:
+                type: integer
+          description: Most-viewed content items by this user.
+    UserAnalytics:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: ID of the user.
+        userName:
+          type: string
+          description: Display name of the user.
+        email:
+          type: string
+          description: Email address of the user.
+        loginCount:
+          type: integer
+          description: Number of logins during the period.
+        lastLoginAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last login.
+        contentViewed:
+          type: integer
+          description: Number of content items viewed.
+        contentDownloaded:
+          type: integer
+          description: Number of content items downloaded.
+        contentShared:
+          type: integer
+          description: Number of content items shared.
+        adoptionScore:
+          type: number
+          format: float
+          description: User adoption score (0-100).
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

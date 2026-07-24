@@ -1,0 +1,355 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Templates API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Templates
+  description: Operations for managing LiveDoc templates.
+paths:
+  /livedocs/templates:
+    get:
+      operationId: listLiveDocTemplates
+      summary: List Livedoc Templates
+      description: Retrieves a list of available LiveDoc templates that can be used for document generation.
+      tags:
+      - Templates
+      parameters:
+      - name: query
+        in: query
+        description: Search query to filter templates by name.
+        schema:
+          type: string
+      - name: folderId
+        in: query
+        description: Filter templates by folder ID.
+        schema:
+          type: string
+      - name: outputFormat
+        in: query
+        description: Filter templates by supported output format.
+        schema:
+          type: string
+          enum:
+          - pptx
+          - pdf
+          - docx
+          - xlsx
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of LiveDoc templates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LiveDocTemplate'
+                  totalCount:
+                    type: integer
+                  offset:
+                    type: integer
+                  limit:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /livedocs/templates/{templateId}:
+    get:
+      operationId: getLiveDocTemplate
+      summary: Get a Livedoc Template
+      description: Retrieves details of a specific LiveDoc template, including its input fields and configuration.
+      tags:
+      - Templates
+      parameters:
+      - $ref: '#/components/parameters/templateId'
+      responses:
+        '200':
+          description: LiveDoc template details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveDocTemplate'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /livedocs/templates/{templateId}/inputs:
+    get:
+      operationId: getLiveDocTemplateInputs
+      summary: Get Template Input Fields
+      description: Retrieves the input field definitions for a specific LiveDoc template, describing what data is required for generation.
+      tags:
+      - Templates
+      parameters:
+      - $ref: '#/components/parameters/templateId'
+      responses:
+        '200':
+          description: Template input field definitions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateInput'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /livedocs/templates/{templateId}/preview:
+    post:
+      operationId: previewLiveDocTemplate
+      summary: Preview a Livedoc Template
+      description: Generates a preview of a LiveDoc template with sample data. Useful for verifying template configuration before full generation.
+      tags:
+      - Templates
+      parameters:
+      - $ref: '#/components/parameters/templateId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inputs:
+                  type: object
+                  description: Sample data to merge into the template for preview.
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Template preview generated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  previewUrl:
+                    type: string
+                    format: uri
+                    description: URL to view the generated preview.
+                  expiresAt:
+                    type: string
+                    format: date-time
+                    description: Expiration time of the preview URL.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    templateId:
+      name: templateId
+      in: path
+      required: true
+      description: Unique identifier of the LiveDoc template.
+      schema:
+        type: string
+  schemas:
+    TemplateInput:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the input field.
+        name:
+          type: string
+          description: Name of the input field (used as key in generation requests).
+        displayName:
+          type: string
+          description: Display label for the input field.
+        type:
+          type: string
+          description: Data type of the input field.
+          enum:
+          - text
+          - number
+          - date
+          - boolean
+          - image
+          - table
+          - dropdown
+        required:
+          type: boolean
+          description: Whether the input field is required for generation.
+        defaultValue:
+          description: Default value for the input field.
+        description:
+          type: string
+          description: Description or help text for the input field.
+        options:
+          type: array
+          items:
+            type: string
+          description: Available options for dropdown-type inputs.
+        dataSourceField:
+          type: string
+          description: Name of the data source field this input maps to for automatic population.
+    LiveDocTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the template.
+        name:
+          type: string
+          description: Name of the template.
+        description:
+          type: string
+          description: Description of the template.
+        outputFormats:
+          type: array
+          items:
+            type: string
+            enum:
+            - pptx
+            - pdf
+            - docx
+            - xlsx
+          description: Supported output formats for this template.
+        folderId:
+          type: string
+          description: ID of the folder containing this template.
+        inputCount:
+          type: integer
+          description: Number of input fields defined in the template.
+        dataSourceId:
+          type: string
+          description: ID of the default data source for this template.
+        status:
+          type: string
+          description: Status of the template.
+          enum:
+          - active
+          - inactive
+          - draft
+        createdBy:
+          type: string
+          description: ID of the user who created the template.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the template was created.
+        modifiedBy:
+          type: string
+          description: ID of the user who last modified the template.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the template was last modified.
+        thumbnailUrl:
+          type: string
+          format: uri
+          description: URL for the template thumbnail image.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

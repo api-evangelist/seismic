@@ -1,0 +1,184 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Content Properties API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Content Properties
+  description: Operations for managing content metadata properties and custom fields.
+paths:
+  /content-properties:
+    get:
+      operationId: listContentProperties
+      summary: List Content Properties
+      description: Retrieves a list of content property definitions configured in the Seismic platform.
+      tags:
+      - Content Properties
+      parameters:
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of content property definitions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContentProperty'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /content-properties/{propertyId}:
+    get:
+      operationId: getContentProperty
+      summary: Get a Content Property
+      description: Retrieves a specific content property definition by its ID.
+      tags:
+      - Content Properties
+      parameters:
+      - name: propertyId
+        in: path
+        required: true
+        description: Unique identifier of the content property.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Content property details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentProperty'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ContentProperty:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the content property.
+        name:
+          type: string
+          description: Name of the content property.
+        displayName:
+          type: string
+          description: Display name shown in the UI.
+        type:
+          type: string
+          description: Data type of the property.
+          enum:
+          - text
+          - number
+          - date
+          - dropdown
+          - multiSelect
+          - boolean
+        required:
+          type: boolean
+          description: Whether the property is required.
+        options:
+          type: array
+          items:
+            type: string
+          description: Available options for dropdown and multi-select properties.
+        description:
+          type: string
+          description: Description of the content property.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

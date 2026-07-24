@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Delivery Analytics API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Delivery Analytics
+  description: Analytics on content delivery and buyer engagement.
+paths:
+  /analytics/deliveries:
+    get:
+      operationId: getDeliveryAnalytics
+      summary: Get Delivery Analytics
+      description: Retrieves analytics data on content deliveries to buyers, including open rates, view durations, and engagement scores.
+      tags:
+      - Delivery Analytics
+      parameters:
+      - name: userId
+        in: query
+        description: Filter deliveries by sender user ID.
+        schema:
+          type: string
+      - name: contentId
+        in: query
+        description: Filter deliveries by content item.
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start date for the analytics period.
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        description: End date for the analytics period.
+        schema:
+          type: string
+          format: date
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: Delivery analytics data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeliveryAnalytics'
+                  totalCount:
+                    type: integer
+                  period:
+                    type: object
+                    properties:
+                      startDate:
+                        type: string
+                        format: date
+                      endDate:
+                        type: string
+                        format: date
+                  summary:
+                    $ref: '#/components/schemas/DeliveryAnalyticsSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    DeliveryAnalyticsSummary:
+      type: object
+      properties:
+        totalDeliveries:
+          type: integer
+          description: Total number of deliveries.
+        openRate:
+          type: number
+          format: float
+          description: Percentage of deliveries opened (0-100).
+        averageViewDuration:
+          type: number
+          format: float
+          description: Average view duration in seconds.
+        averageCompletionRate:
+          type: number
+          format: float
+          description: Average content completion rate (0-100).
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+    DeliveryAnalytics:
+      type: object
+      properties:
+        deliveryId:
+          type: string
+          description: Unique identifier of the delivery.
+        contentId:
+          type: string
+          description: ID of the delivered content.
+        contentName:
+          type: string
+          description: Name of the delivered content.
+        senderUserId:
+          type: string
+          description: ID of the user who sent the delivery.
+        recipientEmail:
+          type: string
+          description: Email of the delivery recipient.
+        sentAt:
+          type: string
+          format: date-time
+          description: Timestamp when the delivery was sent.
+        opened:
+          type: boolean
+          description: Whether the delivery was opened.
+        openedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the delivery was first opened.
+        viewCount:
+          type: integer
+          description: Total number of views by the recipient.
+        viewDuration:
+          type: number
+          format: float
+          description: Total view duration in seconds.
+        completionRate:
+          type: number
+          format: float
+          description: Percentage of content viewed (0-100).
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

@@ -1,0 +1,339 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Reports API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Reports
+  description: Operations for generating and retrieving analytical reports.
+paths:
+  /analytics/reports:
+    get:
+      operationId: listReports
+      summary: List Available Reports
+      description: Retrieves a list of available analytical reports.
+      tags:
+      - Reports
+      parameters:
+      - name: type
+        in: query
+        description: Filter reports by type.
+        schema:
+          type: string
+          enum:
+          - content
+          - user
+          - delivery
+          - engagement
+          - adoption
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of available reports.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Report'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /analytics/reports/{reportId}:
+    get:
+      operationId: getReport
+      summary: Get a Report
+      description: Retrieves a specific analytical report with its data.
+      tags:
+      - Reports
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        description: Unique identifier of the report.
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start date for the report period.
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        description: End date for the report period.
+        schema:
+          type: string
+          format: date
+      - name: format
+        in: query
+        description: Output format for the report data.
+        schema:
+          type: string
+          enum:
+          - json
+          - csv
+          default: json
+      responses:
+        '200':
+          description: Report data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportData'
+            text/csv:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /analytics/reports/{reportId}/export:
+    post:
+      operationId: exportReport
+      summary: Export a Report
+      description: Initiates an export of a report. Returns a download URL when the export is ready.
+      tags:
+      - Reports
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        description: Unique identifier of the report.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                format:
+                  type: string
+                  description: Export format.
+                  enum:
+                  - csv
+                  - xlsx
+                  - pdf
+                  default: csv
+                startDate:
+                  type: string
+                  format: date
+                  description: Start date for the report period.
+                endDate:
+                  type: string
+                  format: date
+                  description: End date for the report period.
+                filters:
+                  type: object
+                  description: Additional filters to apply to the report.
+                  additionalProperties: true
+      responses:
+        '202':
+          description: Export job accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  exportId:
+                    type: string
+                    description: ID of the export job.
+                  status:
+                    type: string
+                    enum:
+                    - pending
+                    - processing
+                    - completed
+                    - failed
+                  downloadUrl:
+                    type: string
+                    format: uri
+                    description: URL to download the export when ready.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Report:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the report.
+        name:
+          type: string
+          description: Name of the report.
+        description:
+          type: string
+          description: Description of the report.
+        type:
+          type: string
+          description: Type of report.
+          enum:
+          - content
+          - user
+          - delivery
+          - engagement
+          - adoption
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was last modified.
+    ReportData:
+      type: object
+      properties:
+        reportId:
+          type: string
+          description: ID of the report.
+        reportName:
+          type: string
+          description: Name of the report.
+        period:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+            endDate:
+              type: string
+              format: date
+        columns:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              displayName:
+                type: string
+              type:
+                type: string
+                enum:
+                - string
+                - integer
+                - float
+                - date
+                - boolean
+          description: Column definitions for the report data.
+        rows:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+          description: Report data rows.
+        totalRows:
+          type: integer
+          description: Total number of data rows.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication

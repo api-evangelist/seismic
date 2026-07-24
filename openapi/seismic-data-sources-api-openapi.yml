@@ -1,0 +1,201 @@
+openapi: 3.1.0
+info:
+  title: Seismic Analytics Content Analytics Data Sources API
+  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  version: 2.0.0
+  termsOfService: https://seismic.com/terms-of-service/
+  contact:
+    name: Seismic Support
+    url: https://seismic.com/support/
+    email: support@seismic.com
+  license:
+    name: Proprietary
+    url: https://seismic.com/terms-of-service/
+servers:
+- url: https://api.seismic.com/integration/v2
+  description: Seismic API v2 Production
+security:
+- bearerAuth: []
+tags:
+- name: Data Sources
+  description: Operations for managing data source connections used in LiveDoc generation.
+paths:
+  /livedocs/datasources:
+    get:
+      operationId: listDataSources
+      summary: List Data Sources
+      description: Retrieves a list of configured data sources that can be used for LiveDoc generation, such as CRM connections.
+      tags:
+      - Data Sources
+      parameters:
+      - name: type
+        in: query
+        description: Filter data sources by type.
+        schema:
+          type: string
+          enum:
+          - salesforce
+          - dynamics
+          - hubspot
+          - custom
+      - name: offset
+        in: query
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      - name: limit
+        in: query
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 25
+          maximum: 100
+      responses:
+        '200':
+          description: A list of data sources.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataSource'
+                  totalCount:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+  /livedocs/datasources/{dataSourceId}:
+    get:
+      operationId: getDataSource
+      summary: Get a Data Source
+      description: Retrieves details of a specific data source configuration.
+      tags:
+      - Data Sources
+      parameters:
+      - name: dataSourceId
+        in: path
+        required: true
+        description: Unique identifier of the data source.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Data source details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+components:
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    DataSource:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the data source.
+        name:
+          type: string
+          description: Name of the data source.
+        type:
+          type: string
+          description: Type of data source integration.
+          enum:
+          - salesforce
+          - dynamics
+          - hubspot
+          - custom
+        status:
+          type: string
+          description: Connection status of the data source.
+          enum:
+          - connected
+          - disconnected
+          - error
+        description:
+          type: string
+          description: Description of the data source.
+        objectTypes:
+          type: array
+          items:
+            type: string
+          description: Available object types from the data source (e.g., Account, Opportunity, Contact).
+        lastSyncAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last data synchronization.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the data source was configured.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow. See https://developer.seismic.com/seismicsoftware/docs/authentication
