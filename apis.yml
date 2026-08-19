@@ -20,7 +20,7 @@ image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
 url: https://seismic.com
 created: '2025-02-10'
 modified: '2026-05-19'
-specificationVersion: '0.18'
+specificationVersion: '0.23'
 apis:
 - aid: seismic:seismic-content-analytics-api
   name: Seismic Content Analytics API
