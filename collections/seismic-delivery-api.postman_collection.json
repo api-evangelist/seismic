@@ -1,0 +1,357 @@
+{
+  "item": [
+    {
+      "id": "b40b9d4f-f921-48b2-ab14-d41d5e79ca5f",
+      "name": "Delivery",
+      "description": {
+        "content": "Operations for delivering and sharing content with buyers and teams.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1d430f12-fa26-4d5f-8123-29a3719727a3",
+          "name": "Get Content Url",
+          "request": {
+            "name": "Get Content Url",
+            "description": {
+              "content": "Retrieves a temporary URL for accessing or viewing a content item. The URL is time-limited and suitable for embedding or sharing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "content",
+                ":contentId",
+                "url"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "contentId",
+                  "description": "(Required) Unique identifier of the content item."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2692b5f7-51da-43bb-96f0-0ded630d03cf",
+              "name": "Content URL details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "content",
+                    ":contentId",
+                    "url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contentId",
+                      "description": "(Required) Unique identifier of the content item."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"url\": \"https://tKPpFXnDvXnAKlONoytKCbSRSIQKTr.wgmsKI6Y-TwG4xElEN1kidHdfQLHnbafbf.e42p7nZqJIAFGLMP9Is7R\",\n  \"expiresAt\": \"1961-09-19T20:07:27.161Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "abaeb5e4-b17c-410d-bd82-812a72d9539f",
+              "name": "Unauthorized. Authentication credentials are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "content",
+                    ":contentId",
+                    "url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contentId",
+                      "description": "(Required) Unique identifier of the content item."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1d0a6c87-6ca0-480b-826f-db27decebb30",
+              "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "content",
+                    ":contentId",
+                    "url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contentId",
+                      "description": "(Required) Unique identifier of the content item."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e168f6d-b836-4242-b88b-97acf56dc9c5",
+              "name": "Not found. The requested resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "content",
+                    ":contentId",
+                    "url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contentId",
+                      "description": "(Required) Unique identifier of the content item."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96369f47-d961-4658-a47d-f7af8cbd579c",
+              "name": "Too many requests. Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "content",
+                    ":contentId",
+                    "url"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "contentId",
+                      "description": "(Required) Unique identifier of the content item."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of seconds to wait before making another request.",
+                  "key": "Retry-After",
+                  "value": "3465"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.seismic.com/integration/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3a78fbdd-7bc6-470e-a960-c2ffd0cc27f3",
+    "name": "Seismic Analytics Content Analytics Delivery API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.\n\nContact Support:\n Name: Seismic Support\n Email: support@seismic.com",
+      "type": "text/plain"
+    }
+  }
+}

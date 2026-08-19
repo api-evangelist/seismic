@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Folders API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Folders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/folders",
+            "params": [
+              {
+                "name": "parentId",
+                "value": "",
+                "type": "query",
+                "description": "Filter by parent folder ID to retrieve child folders."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content folders from the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Create a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/folders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new content folder in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/folders/:folderId",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific folder by its ID."
+        },
+        {
+          "info": {
+            "name": "Update a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.seismic.com/integration/v2/folders/:folderId",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name or other properties of a specific folder."
+        },
+        {
+          "info": {
+            "name": "Delete a Folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.seismic.com/integration/v2/folders/:folderId",
+            "params": [
+              {
+                "name": "folderId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ]
+          },
+          "docs": "Deletes a specific folder from the Seismic platform."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,460 @@
+{
+  "item": [
+    {
+      "id": "e815b6d6-a896-47e9-9c19-8a17b4979ce6",
+      "name": "LiveDocs",
+      "description": {
+        "content": "Operations for generating and managing LiveDoc documents.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ba0d9ad2-be4d-4d5b-9532-74135c57e3d4",
+          "name": "Generate a Livedoc",
+          "request": {
+            "name": "Generate a Livedoc",
+            "description": {
+              "content": "Generates a new LiveDoc document by merging data into a specified template. The generation can be synchronous for small documents or asynchronous for larger ones.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "livedocs",
+                "generate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": 6836\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e11b8499-f093-4276-9d5d-026d4d02f53d",
+              "name": "LiveDoc generated successfully (synchronous).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"templateId\": \"string\",\n  \"contentId\": \"string\",\n  \"outputFormat\": \"xlsx\",\n  \"downloadUrl\": \"https://IoLmDwJugsTNBaIEHNg.woVXonGQW+HijGDkM8gW61vb59XJyrtV+tkoS40pW5dNHpMnPn1aAsJhK\",\n  \"folderId\": \"string\",\n  \"createdBy\": \"string\",\n  \"createdAt\": \"1964-05-13T07:36:49.910Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b3d3e4a-37fa-401b-8233-232fb6112095",
+              "name": "LiveDoc generation job accepted (asynchronous).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"templateId\": \"string\",\n  \"status\": \"failed\",\n  \"progress\": 53,\n  \"result\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"templateId\": \"string\",\n    \"contentId\": \"string\",\n    \"outputFormat\": \"pdf\",\n    \"downloadUrl\": \"http://WdHzJcPJxj.wopmsVHqutpiF\",\n    \"folderId\": \"string\",\n    \"createdBy\": \"string\",\n    \"createdAt\": \"1969-11-03T11:40:24.312Z\"\n  },\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  },\n  \"createdBy\": \"string\",\n  \"createdAt\": \"2000-03-28T03:56:44.132Z\",\n  \"completedAt\": \"2015-07-24T00:40:18.968Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d0edbd5-a0ba-406b-a375-8c77a91ed442",
+              "name": "Bad request. The request was invalid or cannot be processed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a132976-e23f-492b-ad9c-ef095dcde5ea",
+              "name": "Unauthorized. Authentication credentials are missing or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15a95b7d-b6da-4ac0-baad-2b818b0ed4ad",
+              "name": "Forbidden. The authenticated user does not have permission to perform this action.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e99840d-4e0f-46f0-9d4c-31d1b2ccca82",
+              "name": "Not found. The requested resource does not exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daeab3eb-dd16-44f9-be5c-26cea3d5d212",
+              "name": "Too many requests. Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livedocs",
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"templateId\": \"<string>\",\n  \"name\": \"<string>\",\n  \"outputFormat\": \"<string>\",\n  \"inputs\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7792,\n    \"key_2\": 9257\n  },\n  \"dataSourceId\": \"<string>\",\n  \"recordId\": \"<string>\",\n  \"folderId\": \"<string>\",\n  \"async\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Number of seconds to wait before making another request.",
+                  "key": "Retry-After",
+                  "value": "3151"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\",\n    \"details\": [\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      },\n      {\n        \"field\": \"string\",\n        \"message\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.seismic.com/integration/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fca1dc6f-6539-48a3-b96a-757304f44255",
+    "name": "Seismic Analytics Content Analytics LiveDocs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.\n\nContact Support:\n Name: Seismic Support\n Email: support@seismic.com",
+      "type": "text/plain"
+    }
+  }
+}

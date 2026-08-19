@@ -1,0 +1,115 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Reports API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Available Reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/analytics/reports",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter reports by type."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of available analytical reports."
+        },
+        {
+          "info": {
+            "name": "Get a Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/analytics/reports/:reportId",
+            "params": [
+              {
+                "name": "reportId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the report."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date for the report period."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date for the report period."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Output format for the report data."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific analytical report with its data."
+        },
+        {
+          "info": {
+            "name": "Export a Report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/analytics/reports/:reportId/export",
+            "params": [
+              {
+                "name": "reportId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the report."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates an export of a report. Returns a download URL when the export is ready."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Roles API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Roles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/roles",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of available roles in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/roles/:roleId",
+            "params": [
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the role."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific role by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

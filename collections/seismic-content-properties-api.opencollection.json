@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Content Properties API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Content Properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-properties",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content property definitions configured in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Content Property",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-properties/:propertyId",
+            "params": [
+              {
+                "name": "propertyId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content property."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific content property definition by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

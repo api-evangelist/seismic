@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Teams API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/teams",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter teams by name."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of teams in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/teams/:teamId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific team by its ID."
+        },
+        {
+          "info": {
+            "name": "List Team Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/teams/:teamId/members",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of users who are members of a specific team."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

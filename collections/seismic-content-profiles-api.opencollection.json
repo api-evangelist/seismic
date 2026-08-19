@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Content Profiles API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Content Profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-profiles",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of content profiles that define content type configurations in the Seismic platform."
+        },
+        {
+          "info": {
+            "name": "Get a Content Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content-profiles/:profileId",
+            "params": [
+              {
+                "name": "profileId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content profile."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific content profile by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

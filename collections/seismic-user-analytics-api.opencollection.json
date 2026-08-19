@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics User Analytics API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get User Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/analytics/users",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "query",
+                "description": "Filter analytics for a specific user."
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "query",
+                "description": "Filter analytics by user group."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date for the analytics period."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date for the analytics period."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Time granularity for the analytics data."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves analytics data on user activity, including content usage, login frequency, and adoption metrics."
+        },
+        {
+          "info": {
+            "name": "Get Analytics for a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/analytics/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date for the analytics period."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date for the analytics period."
+              }
+            ]
+          },
+          "docs": "Retrieves detailed analytics data for a specific user, including activity history and content engagement."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

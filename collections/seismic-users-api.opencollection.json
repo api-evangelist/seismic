@@ -1,0 +1,215 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Users API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/users",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search query to filter users by name or email."
+              },
+              {
+                "name": "groupId",
+                "value": "",
+                "type": "query",
+                "description": "Filter users by group membership."
+              },
+              {
+                "name": "roleId",
+                "value": "",
+                "type": "query",
+                "description": "Filter users by assigned role."
+              },
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "query",
+                "description": "Filter users by team membership."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter users by account status."
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Sort order direction."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              }
+            ]
+          },
+          "docs": "Retrieves a list of users in the Seismic platform. Supports filtering by group, role, status, and search query."
+        },
+        {
+          "info": {
+            "name": "Create a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user account in the Seismic platform. An invitation email will be sent to the user."
+        },
+        {
+          "info": {
+            "name": "Get a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific user by their ID."
+        },
+        {
+          "info": {
+            "name": "Update a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.seismic.com/integration/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the profile or settings of a specific user."
+        },
+        {
+          "info": {
+            "name": "Delete a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.seismic.com/integration/v2/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              },
+              {
+                "name": "reassignTo",
+                "value": "",
+                "type": "query",
+                "description": "ID of the user to reassign content to."
+              }
+            ]
+          },
+          "docs": "Deactivates and removes a user account from the Seismic platform. Content owned by the user may be reassigned."
+        },
+        {
+          "info": {
+            "name": "Get User Groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/users/:userId/groups",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              }
+            ]
+          },
+          "docs": "Retrieves the groups that a specific user belongs to."
+        },
+        {
+          "info": {
+            "name": "Set User Group Memberships",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.seismic.com/integration/v2/users/:userId/groups",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces the user's group memberships with the specified set of groups."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

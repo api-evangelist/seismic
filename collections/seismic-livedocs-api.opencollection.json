@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics LiveDocs API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "LiveDocs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate a Livedoc",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.seismic.com/integration/v2/livedocs/generate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new LiveDoc document by merging data into a specified template. The generation can be synchronous for small documents or asynchronous for larger ones."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Seismic Analytics Content Analytics Delivery API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Delivery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Content Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.seismic.com/integration/v2/content/:contentId/url",
+            "params": [
+              {
+                "name": "contentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the content item."
+              }
+            ]
+          },
+          "docs": "Retrieves a temporary URL for accessing or viewing a content item. The URL is time-limited and suitable for embedding or sharing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
