@@ -10,8 +10,8 @@ info:
     executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: analyticsApi
-  url: ../openapi/seismic-analytics-openapi.yml
+- name: reportsApi
+  url: ../openapi/seismic-reports-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: export-analytics-report

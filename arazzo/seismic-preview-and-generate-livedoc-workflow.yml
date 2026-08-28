@@ -12,7 +12,10 @@ info:
   version: 1.0.0
 sourceDescriptions:
 - name: livedocsApi
-  url: ../openapi/seismic-livedocs-openapi.yml
+  url: ../openapi/seismic-livedocs-api-openapi.yml
+  type: openapi
+- name: templatesApi
+  url: ../openapi/seismic-templates-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: preview-and-generate-livedoc

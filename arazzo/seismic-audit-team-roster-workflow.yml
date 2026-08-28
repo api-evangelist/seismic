@@ -9,8 +9,8 @@ info:
     and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: userManagementApi
-  url: ../openapi/seismic-user-management-openapi.yml
+- name: teamsApi
+  url: ../openapi/seismic-teams-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: audit-team-roster

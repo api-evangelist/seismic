@@ -11,11 +11,11 @@ info:
     the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: analyticsApi
-  url: ../openapi/seismic-analytics-openapi.yml
+- name: userAnalyticsApi
+  url: ../openapi/seismic-user-analytics-api-openapi.yml
   type: openapi
-- name: userManagementApi
-  url: ../openapi/seismic-user-management-openapi.yml
+- name: usersApi
+  url: ../openapi/seismic-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: user-adoption-review

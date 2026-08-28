@@ -10,8 +10,8 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: userManagementApi
-  url: ../openapi/seismic-user-management-openapi.yml
+- name: groupsApi
+  url: ../openapi/seismic-groups-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: add-user-to-group

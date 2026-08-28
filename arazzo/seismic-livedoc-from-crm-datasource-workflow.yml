@@ -11,8 +11,14 @@ info:
     executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
+- name: dataSourcesApi
+  url: ../openapi/seismic-data-sources-api-openapi.yml
+  type: openapi
 - name: livedocsApi
-  url: ../openapi/seismic-livedocs-openapi.yml
+  url: ../openapi/seismic-livedocs-api-openapi.yml
+  type: openapi
+- name: templatesApi
+  url: ../openapi/seismic-templates-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: livedoc-from-crm-datasource

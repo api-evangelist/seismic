@@ -12,7 +12,10 @@ info:
   version: 1.0.0
 sourceDescriptions:
 - name: contentApi
-  url: ../openapi/seismic-content-openapi.yml
+  url: ../openapi/seismic-content-api-openapi.yml
+  type: openapi
+- name: foldersApi
+  url: ../openapi/seismic-folders-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: organize-content-into-folder

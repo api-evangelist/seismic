@@ -11,11 +11,11 @@ info:
     the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: analyticsApi
-  url: ../openapi/seismic-analytics-openapi.yml
+- name: contentAnalyticsApi
+  url: ../openapi/seismic-content-analytics-api-openapi.yml
   type: openapi
 - name: contentApi
-  url: ../openapi/seismic-content-openapi.yml
+  url: ../openapi/seismic-content-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: top-content-performance
