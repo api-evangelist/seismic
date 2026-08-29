@@ -3,6 +3,18 @@ description: >-
   Seismic is the global leader in enablement, helping organizations engage customers, enable teams, and ignite revenue
   growth. The Seismic platform provides content management, learning and coaching, dynamic document generation, and
   buyer engagement capabilities through a comprehensive suite of APIs.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: enterprise
   onboarding: self-serve
