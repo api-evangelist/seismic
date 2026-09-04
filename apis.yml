@@ -17,16 +17,17 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: enterprise
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Enterprise · Self-serve signup
-  confidence: high
+  label: Enterprise
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
 url: https://seismic.com
