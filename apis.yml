@@ -1,8 +1,7 @@
 name: Seismic
-description: >-
-  Seismic is the global leader in enablement, helping organizations engage customers, enable teams, and ignite revenue
-  growth. The Seismic platform provides content management, learning and coaching, dynamic document generation, and
-  buyer engagement capabilities through a comprehensive suite of APIs.
+description: Seismic is the global leader in enablement, helping organizations engage customers, enable teams, and
+  ignite revenue growth. The Seismic platform provides content management, learning and coaching, dynamic document
+  generation, and buyer engagement capabilities through a comprehensive suite of APIs.
 deliveryModel:
   model: saas
   open_source: false
@@ -11,8 +10,8 @@ deliveryModel:
   label: Hosted service · you call their endpoint
   confidence: high
   source:
-  - openapi
-  - pricing
+    - openapi
+    - pricing
   generated: '2026-08-28'
   method: derived
 accessModel:
@@ -24,569 +23,502 @@ accessModel:
   label: Enterprise
   confidence: medium
   source:
-  - plans
-  - authentication
-  - security
+    - plans
+    - authentication
+    - security
   generated: '2026-09-03'
   method: derived
 image: https://seismic.com/wp-content/uploads/2023/02/seismic-logo.svg
 url: https://seismic.com
 created: '2025-02-10'
-modified: '2026-05-19'
+modified: '2026-09-17'
 specificationVersion: '0.23'
 apis:
-- aid: seismic:seismic-content-analytics-api
-  name: Seismic Content Analytics API
-  description: Analytics on content usage, views, and engagement.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Content Analytics
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-content-analytics-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-content-api
-  name: Seismic Content API
-  description: >-
-    Operations for managing content items including documents, presentations, and other sales materials.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Content
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-content-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-content-profiles-api
-  name: Seismic Content Profiles API
-  description: Operations for managing content profiles that define content configurations.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Content Profiles
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-content-profiles-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-content-properties-api
-  name: Seismic Content Properties API
-  description: Operations for managing content metadata properties and custom fields.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Content Properties
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-content-properties-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-data-sources-api
-  name: Seismic Data Sources API
-  description: Operations for managing data source connections used in LiveDoc generation.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Data Sources
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-data-sources-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-delivery-analytics-api
-  name: Seismic Delivery Analytics API
-  description: Analytics on content delivery and buyer engagement.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Delivery Analytics
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-delivery-analytics-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-delivery-api
-  name: Seismic Delivery API
-  description: Operations for delivering and sharing content with buyers and teams.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Delivery
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-delivery-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-folders-api
-  name: Seismic Folders API
-  description: Operations for managing content folders and organizational structure.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Folders
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-folders-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-generation-jobs-api
-  name: Seismic Generation Jobs API
-  description: Operations for managing asynchronous LiveDoc generation jobs.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Generation Jobs
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-generation-jobs-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-groups-api
-  name: Seismic Groups API
-  description: Operations for managing user groups and teams.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Group
-  tags_raw:
-  - Groups
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-groups-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-livedocs-api
-  name: Seismic LiveDocs API
-  description: Operations for generating and managing LiveDoc documents.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - LiveDocs
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-livedocs-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-reports-api
-  name: Seismic Reports API
-  description: Operations for generating and retrieving analytical reports.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Reports
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-reports-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-roles-api
-  name: Seismic Roles API
-  description: Operations for managing roles and permissions.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Roles
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-roles-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-teams-api
-  name: Seismic Teams API
-  description: Operations for managing team structures.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Team
-  tags_raw:
-  - Teams
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-teams-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-templates-api
-  name: Seismic Templates API
-  description: Operations for managing LiveDoc templates.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - Templates
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-templates-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-user-analytics-api
-  name: Seismic User Analytics API
-  description: Analytics on user activity and adoption metrics.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - User Analytics
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-user-analytics-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
-- aid: seismic:seismic-users-api
-  name: Seismic Users API
-  description: Operations for managing user accounts.
-  humanURL: https://seismic.com/products/content-management/
-  baseURL: https://api.seismic.com/integration/v2
-  tags:
-  - User
-  tags_raw:
-  - Users
-  properties:
-  - type: OpenAPI
-    url: openapi/seismic-users-api-openapi.yml
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/content-api
-  - type: Authentication
-    url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: JSONSchema
-    url: json-schema/seismic-content-item-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-folder-schema.json
-  - type: JSONStructure
-    url: json-structure/seismic-content-item-structure.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/livedocs-api
-  - type: JSONSchema
-    url: json-schema/seismic-livedoc-template-schema.json
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/analytics-api
-  - type: Documentation
-    url: https://developer.seismic.com/seismicsoftware/reference/user-management-api
-  - type: JSONSchema
-    url: json-schema/seismic-user-schema.json
-  - type: JSONSchema
-    url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-content-analytics-api
+    name: Seismic Content Analytics API
+    description: Analytics on content usage, views, and engagement.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Content Analytics
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-content-analytics-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-content-analytics-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-content-api
+    name: Seismic Content API
+    description: Operations for managing content items including documents, presentations, and other sales materials.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Content
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-content-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-content-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-content-profiles-api
+    name: Seismic Content Profiles API
+    description: Operations for managing content profiles that define content configurations.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Content Profiles
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-content-profiles-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-content-profiles-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-content-properties-api
+    name: Seismic Content Properties API
+    description: Operations for managing content metadata properties and custom fields.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Content Properties
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-content-properties-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-content-properties-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-data-sources-api
+    name: Seismic Data Sources API
+    description: Operations for managing data source connections used in LiveDoc generation.
+    humanURL: https://www.seismic.com/products/livedocs/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Data Sources
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-data-sources-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-data-sources-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-delivery-analytics-api
+    name: Seismic Delivery Analytics API
+    description: Analytics on content delivery and buyer engagement.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Delivery Analytics
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-delivery-analytics-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-delivery-analytics-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-delivery-api
+    name: Seismic Delivery API
+    description: Operations for delivering and sharing content with buyers and teams.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Delivery
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-delivery-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-delivery-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-folders-api
+    name: Seismic Folders API
+    description: Operations for managing content folders and organizational structure.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Folders
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-folders-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-folders-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-generation-jobs-api
+    name: Seismic Generation Jobs API
+    description: Operations for managing asynchronous LiveDoc generation jobs.
+    humanURL: https://www.seismic.com/products/livedocs/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Generation Jobs
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-generation-jobs-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-generation-jobs-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-groups-api
+    name: Seismic Groups API
+    description: Operations for managing user groups and teams.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Group
+    tags_raw:
+      - Groups
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-groups-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-groups-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-livedocs-api
+    name: Seismic LiveDocs API
+    description: Operations for generating and managing LiveDoc documents.
+    humanURL: https://www.seismic.com/products/livedocs/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - LiveDocs
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-livedocs-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-livedocs-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-reports-api
+    name: Seismic Reports API
+    description: Operations for generating and retrieving analytical reports.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Reports
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-reports-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-reports-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-roles-api
+    name: Seismic Roles API
+    description: Operations for managing roles and permissions.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Roles
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-roles-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-roles-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-teams-api
+    name: Seismic Teams API
+    description: Operations for managing team structures.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Team
+    tags_raw:
+      - Teams
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-teams-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-teams-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-templates-api
+    name: Seismic Templates API
+    description: Operations for managing LiveDoc templates.
+    humanURL: https://www.seismic.com/products/livedocs/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - Templates
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-templates-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-templates-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-user-analytics-api
+    name: Seismic User Analytics API
+    description: Analytics on user activity and adoption metrics.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - User Analytics
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-user-analytics-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-user-analytics-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
+  - aid: seismic:seismic-users-api
+    name: Seismic Users API
+    description: Operations for managing user accounts.
+    humanURL: https://www.seismic.com/platform/
+    baseURL: https://api.seismic.com/integration/v2
+    tags:
+      - User
+    tags_raw:
+      - Users
+    properties:
+      - type: OpenAPI
+        url: openapi/seismic-users-api-openapi.yml
+      - type: APIReference
+        url: https://developer.seismic.com/seismicsoftware/reference
+      - type: Overlay
+        url: overlays/seismic-users-overlay.yaml
+      - type: Authentication
+        url: https://developer.seismic.com/seismicsoftware/docs/authentication
+      - type: JSONSchema
+        url: json-schema/seismic-content-item-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-folder-schema.json
+      - type: JSONStructure
+        url: json-structure/seismic-content-item-structure.json
+      - type: JSONSchema
+        url: json-schema/seismic-livedoc-template-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-user-schema.json
+      - type: JSONSchema
+        url: json-schema/seismic-group-schema.json
 common:
+  - type: TrustCenter
+    url: security/seismic-trust-center.yml
   - type: AgenticAccess
     url: agentic-access/seismic-agentic-access.yml
   - type: DomainSecurity
@@ -642,12 +574,6 @@ common:
     url: https://developer.seismic.com/seismicsoftware/docs/getting-started
   - type: Authentication
     url: https://developer.seismic.com/seismicsoftware/docs/authentication
-  - type: RateLimits
-    url: https://developer.seismic.com/seismicsoftware/docs/rate-limits
-  - type: Webhooks
-    url: https://developer.seismic.com/seismicsoftware/docs/webhooks
-  - type: Support
-    url: https://seismic.com/support/
   - type: PrivacyPolicy
     url: https://seismic.com/privacy-policy/
   - type: TermsOfService
@@ -660,10 +586,6 @@ common:
     url: https://developer.seismic.com/seismicsoftware/changelog
   - type: Website
     url: https://seismic.com
-  - type: Blog
-    url: https://seismic.com/resources/blog/
-  - type: Login
-    url: https://login.seismic.com/
   - type: SpectralRules
     url: rules/seismic-rules.yml
   - type: JSONLDContext
@@ -672,8 +594,71 @@ common:
     url: vocabulary/seismic-vocabulary.yml
   - type: Integrations
     url: https://www.seismic.com/platform/integrations/
-  - type: LlmsText
-    url: https://developer.seismic.com/llms.txt
+  - type: Support
+    url: https://support.seismic.com/csm
+  - type: Blog
+    url: https://www.seismic.com/blog/
+  - type: Login
+    url: https://auth.seismic.com/
+  - type: RateLimits
+    url: rate-limits/seismic-rate-limits.yml
+  - type: RateLimits
+    url: https://developer.seismic.com/seismicsoftware/reference/rate-limiting
+    name: Rate limiting (provider docs)
+  - type: Webhooks
+    url: asyncapi/seismic-webhooks.yml
+  - type: Webhooks
+    url: https://developer.seismic.com/seismicsoftware/docs/webhooksoverview
+    name: Webhooks overview (provider docs)
+  - type: LLMsTxt
+    url: llms/seismic-llms.txt
+  - type: WellKnown
+    url: well-known/seismic-well-known.yml
+  - type: APICatalog
+    url: well-known/seismic-developer-api-catalog.json
+  - type: OpenIDConnect
+    url: well-known/seismic-auth-openid-configuration.json
+  - type: OAuthScopes
+    url: scopes/seismic-scopes.yml
+  - type: Conformance
+    url: conformance/seismic-conformance.yml
+  - type: Compliance
+    url: conformance/seismic-conformance.yml
+  - type: ErrorCatalog
+    url: errors/seismic-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/seismic-lifecycle.yml
+  - type: Deprecation
+    url: https://developer.seismic.com/seismicsoftware/reference/versioning
+  - type: Conventions
+    url: conventions/seismic-conventions.yml
+  - type: ChangeLog
+    url: changelog/seismic-changelog.yml
+  - type: Components
+    url: components/seismic-components.yml
+  - type: DataModel
+    url: data-model/seismic-data-model.yml
+  - type: Sandbox
+    url: sandbox/seismic-sandbox.yml
+  - type: Packages
+    url: packages/seismic-packages.yml
+  - type: MCPServer
+    url: mcp/seismic-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/seismic-tool-crosswalk.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: VulnerabilityDisclosure
+    url: security/seismic-vulnerability-disclosure.yml
+  - type: APIReference
+    url: https://developer.seismic.com/seismicsoftware/reference
+  - type: GitHubOrganization
+    url: https://github.com/seismic
+  - type: DeveloperPortal
+    url: https://developer.seismic.com/
+  - type: Postman
+    url: https://www.postman.com/kinlaneapi/seismic/overview
+    name: Postman workspace (API Evangelist)
 integrations:
   - name: Become a Partner
   - name: Directory
@@ -681,3 +666,19 @@ maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
     url: https://apievangelist.com
+tags:
+  - Sales Enablement
+  - Content Management
+  - Document Generation
+  - Sales Content
+  - Buyer Engagement
+  - Revenue Enablement
+  - Analytics
+  - Learning
+  - SCIM
+  - MCP
+x-enrichment:
+  date: '2026-09-17'
+  status: enriched
+  artifacts_added: 42
+  pass: local-v3
