@@ -2,11 +2,11 @@
   "repo": "seismic",
   "feeds": [
     {
-      "source": "https://seismic.com",
-      "feed_url": "https://seismic.com/blog/feed/",
+      "source": "https://support.seismic.com/csm",
+      "feed_url": "https://support.seismic.com/csm",
       "title": "",
       "saved": 0,
-      "method": "discovered"
+      "method": "none"
     },
     {
       "source": "https://seismic.com/blog/feed/",
@@ -16,7 +16,7 @@
       "method": "feed"
     }
   ],
-  "fetched": "2026-09-13T13:00:00Z",
+  "fetched": "2026-09-19T20:17:39Z",
   "post_count": 31,
   "feed_nature": "undetermined",
   "feed_nature_basis": null,
