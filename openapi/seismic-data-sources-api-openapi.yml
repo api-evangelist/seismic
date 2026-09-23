@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Seismic Analytics Content Analytics Data Sources API
-  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  title: Seismic LiveDocs Data Sources API
+  description: API for creating and managing LiveDocs, Seismic's dynamic document generation solution. LiveDocs enables automated creation of personalized sales materials by merging data from CRM systems and other sources into predefined templates. Supports generating presentations, proposals, and other dynamic content.
   version: 2.0.0
   termsOfService: https://seismic.com/terms-of-service/
   contact:
@@ -108,17 +108,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too many requests. Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before making another request.
-          schema:
-            type: integer
     Unauthorized:
       description: Unauthorized. Authentication credentials are missing or invalid.
       content:
@@ -131,7 +120,39 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
     DataSource:
       type: object
       properties:
@@ -172,27 +193,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the data source was configured.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,0 +1,50 @@
+generated: '2026-09-17'
+method: searched
+source: https://developer.seismic.com/seismicsoftware/changelog
+description: >-
+  Seismic publishes a dated developer changelog on its ReadMe portal, running at roughly two
+  release notes per month. Entries are labelled with ReadMe's Added / Improved / Fixed types;
+  no entry in the recent window is labelled as breaking.
+scheme: dated release notes (calendar month + week), no semantic version tags
+current_version: 'integration API v2 (per-route versioning — see lifecycle/seismic-lifecycle.yml)'
+url: https://developer.seismic.com/seismicsoftware/changelog
+cadence: approximately 2 release notes per month
+window: 2026-05 through 2026-09 (recent entries only)
+entries:
+- title: '2026 September Week 2 release: Updates to existing APIs'
+  date: '2026-09'
+  type: improved
+  breaking: false
+- title: '2026 August Week 1 release: Updates to existing APIs'
+  date: '2026-08'
+  type: improved
+  breaking: false
+- title: '2026 July Week 4 release: Updates to existing APIs'
+  date: '2026-07'
+  type: improved
+  breaking: false
+- title: '2026 July Week 2 release: Updates to existing APIs'
+  date: '2026-07'
+  type: improved
+  breaking: false
+- title: '2026 June Week 1 release: New APIs added and updates to existing APIs'
+  date: '2026-06'
+  type: improved
+  breaking: false
+  additions: true
+- title: '2026 May Week 4 release: New APIs added and updates to existing APIs'
+  date: '2026-05'
+  type: improved
+  breaking: false
+  additions: true
+- title: '2026 May Week 2 release: New APIs and features added'
+  date: '2026-05'
+  type: added
+  breaking: false
+  additions: true
+notes:
+- >-
+  Entry dates are recorded to month precision: the changelog renders relative dates
+  ("5 days ago", "about 1 month ago") rather than absolute ones, and the release titles carry the
+  month and week. No exact ISO publication date is exposed, so none is asserted here.
+- No RSS or JSON feed is offered for the changelog.

@@ -1,0 +1,56 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, api.github.com/orgs/seismic, and
+  https://developer.seismic.com/seismicsoftware/docs
+description: >-
+  Seismic publishes no first-party client SDK on any public package registry. This is a recorded
+  zero, not an unchecked field: the searches below were run and returned nothing first-party.
+package_count: 0
+official_package_count: 0
+packages: []
+searched:
+- registry: npm
+  queries: ['@seismic/*', 'seismic-sdk', 'seismic-api', '@seismicsoftware/*', '@seismic/client', '@seismic/mcp', full-text "seismic software sdk"]
+  result: none
+  detail: >-
+    Every candidate name returns 404 from registry.npmjs.org. The full-text search surfaces only
+    unrelated packages (seismic-orchestration, and geophysics/blockchain projects that share the
+    word).
+- registry: PyPI
+  queries: [seismic-api, seismic-sdk, seismicsoftware]
+  result: none
+  detail: >-
+    All 404. Seismic's own documentation covers reporting access from Python as a worked example
+    (https://developer.seismic.com/seismicsoftware/docs/extracting-reporting-data-with-python)
+    using plain HTTP, which confirms there is no library to import.
+- registry: RubyGems
+  queries: [seismic_api]
+  result: none
+  detail: >-
+    "This rubygem could not be found." A GitHub repository lessonly/seismic_api exists — Lessonly is
+    a company Seismic acquired in 2021 — but it is an unpublished third-party wrapper, not a
+    Seismic-published gem, so it is deliberately not recorded as an official SDK.
+- registry: GitHub
+  queries: [github.com/seismic]
+  result: none
+  detail: >-
+    The org github.com/seismic is genuinely Seismic Software (name "Seismic Software", blog
+    https://seismic.com, San Diego) but carries a single public repository, teams-policy-config,
+    which is not a client library.
+- registry: Maven Central / NuGet / pkg.go.dev / crates.io / Packagist
+  result: not-applicable
+  detail: No Seismic SDK is referenced anywhere in the developer documentation for these ecosystems.
+alternatives_offered_by_provider:
+- name: Postman collections
+  detail: Seismic documents a Postman OAuth2 flow and the API reference exposes per-operation Try It.
+  url: https://developer.seismic.com/seismicsoftware/reference/get-a-token-using-oauth2-flow-in-postman
+- name: Remote MCP server
+  detail: >-
+    The provider's investment went into an agent surface rather than language SDKs — a hosted MCP
+    server with tenant-scoped tools.
+  url: https://developer.seismic.com/seismicsoftware/docs/seismic-mcp-server
+note: >-
+  Because there are no packages, there are no version/published fields to record and no SDK
+  currency signal to read. No `SDKs` pointer is wired in apis.yml — asserting one would credit
+  Seismic with client libraries it does not ship.

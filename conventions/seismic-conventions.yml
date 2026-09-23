@@ -1,0 +1,144 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://developer.seismic.com/seismicsoftware/reference/introduction-overview ,
+  https://developer.seismic.com/seismicsoftware/reference/rate-limiting ,
+  https://developer.seismic.com/seismicsoftware/reference/versioning ,
+  https://developer.seismic.com/seismicsoftware/docs/scopes-1 ,
+  https://developer.seismic.com/seismicsoftware/docs/webhooksoverview ,
+  https://auth.seismic.com/.well-known/openid-configuration , and openapi/*.yml in this repo
+description: >-
+  Cross-cutting runtime semantics for the Seismic integration API — what an agent has to know before
+  it calls, beyond any single operation.
+authentication:
+  style: OAuth 2.0 bearer (JWT)
+  header: 'Authorization: Bearer <access_token>'
+  issuer: https://auth.seismic.com
+  token_endpoint: https://auth.seismic.com/connect/token
+  grants: [authorization_code, client_credentials, refresh_token, device_code, token-exchange]
+  pkce: S256
+  tenancy: >-
+    Tokens are tenant-scoped. Scope alone is not authorization — tenant administrators grant the
+    underlying permission separately, which is why a correctly-scoped token can still take a 403.
+  see: authentication/seismic-authentication.yml, scopes/seismic-scopes.yml
+base_urls:
+  production: https://api.seismic.com/integration/v2
+  scim: https://api.seismic.com/scim/v2
+  sandbox: https://api-sandbox.seismic.com
+  mcp: https://mcp.seismic.com/v1
+idempotency:
+  coverage: none
+  supported: false
+  header: null
+  scope: []
+  retention: null
+  evidence: https://developer.seismic.com/seismicsoftware/reference/introduction-overview
+  detail: >-
+    No Idempotency-Key header, request-key parameter, or any other replay-protection mechanism is
+    documented anywhere on Seismic's public developer surface, and none appears in any of the 60
+    operations in this repo's OpenAPI documents. The only defence against a duplicated write is the
+    409 Conflict declared on createUser, createGroup and addGroupMember — a collision signal after
+    the fact, not a replay guarantee. An agent retrying a timed-out POST /content, POST /folders,
+    POST /livedocs/generate or POST /analytics/reports/{reportId}/export must assume the first
+    attempt may have succeeded.
+reversibility:
+  grade: documented
+  detail: >-
+    Reversal paths exist and are named in the provider's own reference, but no reversal WINDOW is
+    stated anywhere — no retention period for deleted content, no cancel-before-N deadline, no
+    restore-within-N-days promise. Under the grading rule that is `documented`, not `verified`.
+  write_surfaces:
+  - surface: Content and folders
+    writes: [createContentItem, updateContentItem, deleteContentItem, replaceContentFile, createFolder, updateFolder, deleteFolder]
+    reversal: null
+    window: null
+    note: >-
+      DELETE /content/{contentId} and DELETE /folders/{folderId} return 204 with no documented
+      undo, recycle bin, or restore endpoint. listContentVersions / GET
+      /content/{contentId}/versions preserves prior FILE versions, so replaceContentFile is
+      effectively reversible by re-uploading a retained version, but an item delete is not.
+  - surface: Users and groups
+    writes: [createUser, updateUser, deleteUser, createGroup, updateGroup, deleteGroup, addGroupMember, removeGroupMember, setUserGroups]
+    reversal: null
+    window: null
+    note: >-
+      No undelete is documented on either the integration API or the SCIM 2.0 surface. Group
+      membership is restorable only by re-adding the member.
+  - surface: LiveDoc / LiveDocs Express generation
+    writes: [generateLiveDoc]
+    reversal: Cancel job
+    reversal_docs:
+    - https://developer.seismic.com/seismicsoftware/reference/seismiclivedocsexpressbatchcanceljob
+    - https://developer.seismic.com/seismicsoftware/reference/seismiclivedocsexpressbatchcancelscheduledprocess
+    window: null
+    note: >-
+      LiveDocs Express publishes cancel-job and cancel-scheduled-process operations. Neither states
+      the point past which a job can no longer be cancelled; the docs do not say, so this file does
+      not either.
+  - surface: Approval workflow
+    writes: [submit, approve step, reject step]
+    reversal: Recall a document from workflow / revoke a step
+    reversal_docs:
+    - https://developer.seismic.com/seismicsoftware/reference/seismiclibraryworkflowrecalladocumentfromworkflow
+    window: null
+    note: Recall and revoke-step exist as first-class operations; no time bound is published.
+  - surface: Delivery (LiveSend links, email)
+    writes: [createlinkdelivery, createanewlivesendlink]
+    reversal: Expire / update a LiveSend link
+    window: null
+    note: >-
+      LiveSend links carry expiry semantics (the LivesendExpiredV1 event exists), but the docs state
+      no fixed reversal window; expiry is configured per link.
+pagination:
+  style: offset-limit
+  parameters: [offset, limit]
+  evidence: openapi/seismic-content-api-openapi.yml
+  note: >-
+    List operations take offset and limit query parameters. No cursor/continuation token and no
+    documented maximum page size on the public reference.
+versioning:
+  style: path + per-route
+  base_path: /integration/v2
+  see: lifecycle/seismic-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{ statusCode, message, clientId, tenant }'
+  problem_details: false
+  see: errors/seismic-problem-types.yml
+rate_limit_signaling:
+  headers:
+    remaining: X-Seismic-Remaining-Calls
+    total: X-Seismic-Total-Calls
+    retry_after: false
+  status: 429
+  window: 60-second rolling, per tenant
+  note: >-
+    Non-standard header names (not RateLimit-* / X-RateLimit-*), and no Retry-After. The wait is
+    only in the prose message body, so a client must parse a sentence to size its backoff.
+  see: rate-limits/seismic-rate-limits.yml
+async_operations:
+  pattern: 202 + job polling
+  operations:
+  - generateLiveDoc (200 or 202)
+  - exportReport (202)
+  poll: GET /livedocs/jobs/{jobId} (getGenerationJob)
+  events: LiveDocCompletedV2 and LDXJobStatusV1 webhooks signal completion out of band.
+dry_run_mode:
+  supported: partial
+  detail: >-
+    previewLiveDocTemplate (POST /livedocs/templates/{templateId}/preview) and
+    getLiveDocTemplateInputs let an agent rehearse a generation before committing to it. There is
+    no general dry-run flag on the mutating surface.
+field_expansion: null
+metadata:
+  detail: Custom properties and custom schemas are first-class (seismic.custom_property.*, seismic.custom_schema.* scopes).
+request_tracing:
+  header: null
+  note: >-
+    No X-Request-Id or correlation header is documented on request or response. The error envelope
+    echoes clientId and tenant, which is the only correlation handle published.
+webhooks:
+  signing: HMAC-SHA256 in x-seismic-signature; x-seismic-signature-old for 30 minutes during rotation
+  retries: 'first retry +1 minute, second +10 minutes, then hourly for 24 more attempts (26 max)'
+  timeout: 10 seconds
+  see: asyncapi/seismic-webhooks.yml

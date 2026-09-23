@@ -1,0 +1,1 @@
+{"resource":"https://mcp.seismic.com/v1","authorization_servers":["https://auth.seismic.com/"],"scopes_supported":["seismic.mcp"],"bearer_methods_supported":["header"]}

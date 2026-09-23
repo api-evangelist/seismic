@@ -1,0 +1,16 @@
+generated: '2026-09-17'
+method: searched
+probe: true
+source: https://trust.seismic.com/
+url: https://trust.seismic.com/
+certifications:
+- SOC 2
+- ISO 27001
+- GDPR
+evidence:
+- source: https://trust.seismic.com/
+  keywords:
+  - soc 2
+  - iso/iec 27001
+  - trust center
+  - gdpr

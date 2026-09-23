@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Seismic Analytics Content Analytics Templates API
-  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  title: Seismic LiveDocs Templates API
+  description: API for creating and managing LiveDocs, Seismic's dynamic document generation solution. LiveDocs enables automated creation of personalized sales materials by merging data from CRM systems and other sources into predefined templates. Supports generating presentations, proposals, and other dynamic content.
   version: 2.0.0
   termsOfService: https://seismic.com/terms-of-service/
   contact:
@@ -193,6 +193,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: Too many requests. Rate limit exceeded.
       content:
@@ -204,72 +222,28 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    templateId:
-      name: templateId
-      in: path
-      required: true
-      description: Unique identifier of the LiveDoc template.
-      schema:
-        type: string
   schemas:
-    TemplateInput:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique identifier of the input field.
-        name:
-          type: string
-          description: Name of the input field (used as key in generation requests).
-        displayName:
-          type: string
-          description: Display label for the input field.
-        type:
-          type: string
-          description: Data type of the input field.
-          enum:
-          - text
-          - number
-          - date
-          - boolean
-          - image
-          - table
-          - dropdown
-        required:
-          type: boolean
-          description: Whether the input field is required for generation.
-        defaultValue:
-          description: Default value for the input field.
-        description:
-          type: string
-          description: Description or help text for the input field.
-        options:
-          type: array
-          items:
-            type: string
-          description: Available options for dropdown-type inputs.
-        dataSourceField:
-          type: string
-          description: Name of the data source field this input maps to for automatic population.
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
     LiveDocTemplate:
       type: object
       properties:
@@ -326,27 +300,53 @@ components:
           type: string
           format: uri
           description: URL for the template thumbnail image.
-    Error:
+    TemplateInput:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
+        id:
+          type: string
+          description: Unique identifier of the input field.
+        name:
+          type: string
+          description: Name of the input field (used as key in generation requests).
+        displayName:
+          type: string
+          description: Display label for the input field.
+        type:
+          type: string
+          description: Data type of the input field.
+          enum:
+          - text
+          - number
+          - date
+          - boolean
+          - image
+          - table
+          - dropdown
+        required:
+          type: boolean
+          description: Whether the input field is required for generation.
+        defaultValue:
+          description: Default value for the input field.
+        description:
+          type: string
+          description: Description or help text for the input field.
+        options:
+          type: array
+          items:
+            type: string
+          description: Available options for dropdown-type inputs.
+        dataSourceField:
+          type: string
+          description: Name of the data source field this input maps to for automatic population.
+  parameters:
+    templateId:
+      name: templateId
+      in: path
+      required: true
+      description: Unique identifier of the LiveDoc template.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,0 +1,148 @@
+generated: '2026-09-17'
+method: searched
+source: https://developer.seismic.com/seismicsoftware/docs/webhooksoverview
+kind: webhook-catalog
+asyncapi_published: false
+description: >-
+  Seismic documents a full webhook/event surface but publishes no AsyncAPI document, so this is the
+  event catalog captured from the provider's own events documentation — one documented page per
+  event type — rather than a generated spec. Nothing here is authored on Seismic's behalf.
+subscription:
+  how: >-
+    Create an app in Seismic (developer portal > app registration) and configure the webhook URL the
+    notifications are delivered to. Events are selected per app.
+  docs:
+  - https://developer.seismic.com/seismicsoftware/docs/app-registration
+  - https://developer.seismic.com/seismicsoftware/docs/events
+  - https://developer.seismic.com/seismicsoftware/docs/callbacks
+  scopes: [seismic.webhook, seismic.events]
+envelope:
+  fields:
+  - name: id
+    description: Unique event identifier.
+  - name: version
+    description: Event type identifier.
+  - name: occurredAt
+    description: ISO 8601 timestamp.
+  - name: tenantId
+    description: Organization identifier.
+  - name: tenantName
+    description: Organization name.
+  - name: data
+    description: Event-specific payload.
+  - name: application
+    description: Emitting service metadata.
+  - name: productArea
+    description: Emitting product area.
+delivery:
+  timeout: 10 seconds
+  retries:
+    schedule:
+    - first retry 1 minute after the initial request
+    - second retry 10 minutes after the first retry
+    - then every 1 hour for 24 further attempts
+    max_attempts: 26
+  signing:
+    header: x-seismic-signature
+    algorithm: HMAC-SHA256 over the request body, verified with the app's signing secret
+    rotation_header: x-seismic-signature-old
+    rotation_window: 30 minutes
+    docs:
+    - https://developer.seismic.com/seismicsoftware/docs/signing-secret
+    - https://developer.seismic.com/seismicsoftware/docs/signing-secret-validation
+event_count: 56
+events:
+- area: ContentManager
+  events:
+  - {name: ContentManagerCreateFileV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagercreatefilev1}
+  - {name: ContentManagerCreateFileVersionV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagercreatefileversionv1}
+  - {name: ContentManagerActiveVersionChangedV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanageractiveversionchangedv1}
+  - {name: ContentManagerContentVersionExpiredV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagercontentversionexpiredv1}
+  - {name: ContentManagerCopyFileV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagercopyfilev1}
+  - {name: ContentManagerCopyFolderV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagercopyfolderv1}
+  - {name: ContentManagerMoveFileV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagermovefilev1}
+  - {name: ContentManagerDeleteFileV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagerdeletefilev1}
+  - {name: ContentManagerUpdateContentCustomPropertyV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentmanagerupdatecontentcustompropertyv1}
+- area: ContentProfile
+  events:
+  - {name: ContentProfileAddToProfileV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentprofileaddtoprofilev1}
+  - {name: ContentProfileRemoveFromProfileV1, docs: https://developer.seismic.com/seismicsoftware/docs/contentprofileremovefromprofilev1}
+- area: CustomSchema
+  events:
+  - {name: CustomSchemaCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/customschemacreatev1}
+  - {name: CustomSchemaUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/customschemaupdatev1}
+  - {name: CustomSchemaDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/customschemadeletev1}
+- area: DSR
+  events:
+  - {name: DSRCreatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/dsrcreatedv1}
+  - {name: DSRUpdatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/dsrupdatedv1}
+  - {name: DSRExpiredV1, docs: https://developer.seismic.com/seismicsoftware/docs/dsrexpiredv1}
+  - {name: DSRContentUpdatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/dsrcontentupdatedv1}
+- area: LiveSend
+  events:
+  - {name: LiveSendCreatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/livesendcreatedv1}
+  - {name: LiveSendUpdatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/livesendupdatedv1}
+  - {name: LiveSendExpiredV1, docs: https://developer.seismic.com/seismicsoftware/docs/livesendexpiredv1}
+  - {name: LiveSendContentUpdatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/livesendcontentupdatedv1}
+- area: DocumentGenerator
+  events:
+  - {name: LiveDocCompletedV2, docs: https://developer.seismic.com/seismicsoftware/docs/livedoccompletedv2}
+  - {name: LDXJobStatusV1, docs: https://developer.seismic.com/seismicsoftware/docs/ldxjobstatusv1}
+- area: User and UserGroup
+  events:
+  - {name: UserCreatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/usercreatedv1}
+  - {name: UserUpdatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/userupdatedv1}
+  - {name: UserDeletedV1, docs: https://developer.seismic.com/seismicsoftware/docs/userdeletedv1}
+  - {name: UserGroupCreatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/usergroupcreatedv1}
+  - {name: UserGroupUpdatedV1, docs: https://developer.seismic.com/seismicsoftware/docs/usergroupupdatedv1}
+  - {name: UserGroupDeletedV1, docs: https://developer.seismic.com/seismicsoftware/docs/usergroupdeletedv1}
+  - {name: UserGroupMemberChangeV1, docs: https://developer.seismic.com/seismicsoftware/docs/usergroupmemberchangev1}
+- area: Workflow
+  events:
+  - {name: WorkflowSubmitV1, docs: https://developer.seismic.com/seismicsoftware/docs/workflowsubmitv1}
+  - {name: WorkflowApproveStepV1, docs: https://developer.seismic.com/seismicsoftware/docs/workflowapprovestepv1}
+  - {name: WorkflowRejectStepV1, docs: https://developer.seismic.com/seismicsoftware/docs/workflowrejectstepv1}
+  - {name: WorkflowRevokeStepV1, docs: https://developer.seismic.com/seismicsoftware/docs/workflowrevokestepv1}
+  - {name: WorkflowRecallV1, docs: https://developer.seismic.com/seismicsoftware/docs/workflowrecallv1}
+- area: Planner
+  events:
+  - {name: PlannerProjectCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannerprojectcreatev1}
+  - {name: PlannerProjectUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannerprojectupdatev1}
+  - {name: PlannerProjectDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannerprojectdeletev1}
+  - {name: PlannerRequestCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannerrequestcreatev1}
+  - {name: PlannerRequestUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannerrequestupdatev1}
+  - {name: PlannerRequestDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannerrequestdeletev1}
+  - {name: PlannerTaskCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannertaskcreatev1}
+  - {name: PlannerTaskUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannertaskupdatev1}
+  - {name: PlannerTaskDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/plannertaskdeletev1}
+- area: Programs
+  events:
+  - {name: ProgramCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/programcreatev1}
+  - {name: ProgramUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/programupdatev1}
+  - {name: ProgramDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/programdeletev1}
+  - {name: ProgramRequestCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/programrequestcreatev1}
+  - {name: ProgramRequestUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/programrequestupdatev1}
+  - {name: ProgramRequestDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/programrequestdeletev1}
+  - {name: ProgramTaskCreateV1, docs: https://developer.seismic.com/seismicsoftware/docs/programtaskcreatev1}
+  - {name: ProgramTaskUpdateV1, docs: https://developer.seismic.com/seismicsoftware/docs/programtaskupdatev1}
+  - {name: ProgramTaskDeleteV1, docs: https://developer.seismic.com/seismicsoftware/docs/programtaskdeletev1}
+- area: Readiness
+  events:
+  - {name: ReadinessArchivalEventV1, docs: https://developer.seismic.com/seismicsoftware/docs/readinessarchivaleventv1}
+- area: Meetings
+  events:
+  - {name: MeetingDataChangedV1, docs: https://developer.seismic.com/seismicsoftware/docs/meetingdatachangedv1}
+legacy:
+  note: Seismic carries these under an explicit Legacy grouping; new integrations should use the V1/V2/V3 events above.
+  events:
+  - {name: email-v3, docs: https://developer.seismic.com/seismicsoftware/docs/email-v3}
+  - {name: email-enriched-v3, docs: https://developer.seismic.com/seismicsoftware/docs/email-enriched-v3}
+  - {name: email-legacy-1, docs: https://developer.seismic.com/seismicsoftware/docs/email-legacy-1}
+  - {name: livesend-session-summary-v3, docs: https://developer.seismic.com/seismicsoftware/docs/livesend-session-summary-v3}
+  - {name: livesend-session-summary-enriched-v3, docs: https://developer.seismic.com/seismicsoftware/docs/livesend-session-summary-enriched-v3}
+  - {name: livesend-summary-v2, docs: https://developer.seismic.com/seismicsoftware/docs/livesend-summary-v2}
+  - {name: interaction-session-summary-legacy, docs: https://developer.seismic.com/seismicsoftware/docs/interaction-session-summary-legacy}
+  - {name: legacy-webhooks, docs: https://developer.seismic.com/seismicsoftware/docs/legacy-webhooks-1}
+gaps:
+- No AsyncAPI document is published, so the per-event payload schemas are only readable as HTML.
+- No dead-letter or replay endpoint is documented; after 26 failed attempts the event is dropped.

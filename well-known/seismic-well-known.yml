@@ -1,0 +1,173 @@
+generated: '2026-09-19'
+method: probed
+source: live HTTPS probes of every host in apis.yml, every OpenAPI servers[] host, the docs host, and
+  the authorization server named by the MCP protected-resource metadata
+description: 'Well-known discovery probe for Seismic. Three real documents were found and saved verbatim:
+  an RFC 9727 api-catalog linkset on the developer portal, an OpenID Connect discovery document on auth.seismic.com
+  (the authorization server named by the MCP protected-resource metadata), and RFC 9728 OAuth protected-resource
+  metadata on mcp.seismic.com for both the root and the /v1 MCP resource. developer.seismic.com answers
+  200 with the ReadMe single-page-app shell for every other /.well-known/* path — those are recorded as
+  misses, not documents.'
+hosts:
+- host: seismic.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.seismic.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: developer.seismic.com
+  documents:
+  - path: /.well-known/api-catalog
+    status: 200
+    file: seismic-developer-api-catalog.json
+    content_type: application/linkset+json
+    note: RFC 9727 linkset. anchor https://developer.seismic.com/seismicsoftware, service-doc https://developer.seismic.com/seismicsoftware/reference.
+      Its service-desc href (/seismicsoftware/.well-known/api-catalog) was probed and returns 404.
+  - path: /.well-known/security.txt
+    status: 200
+    note: NOT a document. 1.8MB ReadMe single-page-app HTML shell; the docs host answers 200 with the
+      same shell for any unmatched path. Treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: NOT a document — same ReadMe SPA shell. Treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: NOT a document — same ReadMe SPA shell. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    note: NOT a document — same ReadMe SPA shell. Treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: auth.seismic.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: seismic-auth-openid-configuration.json
+    content_type: application/json
+    note: Real OpenID Connect discovery document. issuer https://auth.seismic.com, jwks_uri https://auth.seismic.com/.well-known/openid-configuration/jwks,
+      PKCE S256 supported, 400+ scopes advertised. This host was reached by following authorization_servers[]
+      in the MCP protected-resource metadata, not by guessing.
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  path_echo_control: passed
+- host: mcp.seismic.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: seismic-mcp-oauth-protected-resource.json
+    content_type: application/json
+    note: RFC 9728 protected-resource metadata for the MCP root resource. scopes_supported seismic.engagement.manage,
+      seismic.gen-search.
+  - path: /.well-known/oauth-protected-resource/v1
+    status: 200
+    file: seismic-mcp-v1-oauth-protected-resource.json
+    content_type: application/json
+    note: RFC 9728 metadata for the https://mcp.seismic.com/v1 MCP resource. scopes_supported seismic.mcp.
+      Named in the WWW-Authenticate challenge on POST /v1.
+  - path: /.well-known/security.txt
+    status: 401
+  - path: /.well-known/openid-configuration
+    status: 401
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+  - path: /.well-known/api-catalog
+    status: 401
+  - path: /.well-known/agent-card.json
+    status: 401
+  - path: /.well-known/agent.json
+    status: 401
+  path_echo_control: passed
+- host: api.seismic.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api-sandbox.seismic.com
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: status.seismic.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: NOT Seismic's. status.seismic.com is an Atlassian Statuspage; the served security.txt is Atlassian's
+      own (Canonical https://www.atlassian.com/.well-known/security.txt, Contact security@atlassian.com).
+      Recorded, deliberately NOT saved and NOT wired as a SecurityTxt pointer — it would credit Seismic
+      with a disclosure policy Atlassian publishes.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: login.seismic.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 0
+    note: Connection failed on every probe. DNS resolves login.seismic.com to gateway.auth.seismic.com.cdn.cloudflare.net
+      but no TLS listener answered. The live sign-in surface is https://auth.seismic.com.
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://mcp.seismic.com
+    path: /.well-known/oauth-protected-resource
+    file: seismic-mcp-oauth-protected-resource.json
+  - host: https://auth.seismic.com
+    path: /.well-known/openid-configuration
+    file: seismic-auth-openid-configuration.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host
+note: 'MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s
+  primary hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed
+  and were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'

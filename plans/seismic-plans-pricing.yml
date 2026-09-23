@@ -4,46 +4,59 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Seismic
 providerId: seismic
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+method: searched
+modified: '2026-09-17'
+reconciled: true
 tags:
-  - Sales Enablement
-  - Content Management
-  - Enterprise
+- Sales Enablement
+- Content Management
+- Enterprise
 description: Seismic is an enterprise sales-enablement platform sold via direct sales. There is no public
   pricing page, no self-serve plan tiers, and no published per-API metering. Subscription terms (seats,
   modules, storage, API entitlements) are negotiated with Seismic sales as part of an annual contract.
 sources:
-  - https://seismic.com/
-  - https://developer.seismic.com/
-notes: No public pricing was reconcilable. Seismic operates on quote-based enterprise SaaS sales.
+- https://www.seismic.com/
+- https://developer.seismic.com/
+- https://www.seismic.com/pricing/
+notes: No public pricing exists to reconcile. Seismic sells quote-based enterprise subscriptions; plan_count
+  1 records the single Contact Sales tier the company actually offers, not a gap in the search.
 plans:
-  - id: seismic-contact-sales
-    name: Contact Sales
-    type: enterprise
-    description: Quote-based enterprise subscription with seat-based licensing and module add-ons (Seismic
-      LiveDocs, LiveSend, Workspace, Reporting, etc.). API access is included with the tenant subscription.
-    entries:
-      - label: Subscription
-        name: enterprise_subscription
-        type: subscription
-        metric: varies
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: contact sales
-        userMultiplied: true
-    elements:
-      - name: Seismic Platform
-      - name: Seismic API Access
-      - name: LiveDocs
-      - name: LiveSend
-      - name: Reporting API
-      - name: Webhooks
+- id: seismic-contact-sales
+  name: Contact Sales
+  type: enterprise
+  description: Quote-based enterprise subscription with seat-based licensing and module add-ons (Seismic
+    LiveDocs, LiveSend, Workspace, Reporting, etc.). API access is included with the tenant subscription.
+  entries:
+  - label: Subscription
+    name: enterprise_subscription
+    type: subscription
+    metric: varies
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: true
+  elements:
+  - name: Seismic Platform
+  - name: Seismic API Access
+  - name: LiveDocs
+  - name: LiveSend
+  - name: Reporting API
+  - name: Webhooks
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+plan_count: 1
+public_pricing_published: false
+evidence:
+- url: https://www.seismic.com/pricing/
+  status: 404
+  checked: '2026-09-17'
+  detail: Seismic publishes no pricing page. Probed 2026-09-17; the path 404s and no plan/tier page exists
+    anywhere on the marketing site.
+- url: https://developer.seismic.com/
+  status: 200
+  checked: '2026-09-17'
+  detail: The developer portal documents no API metering, no per-call price and no self-serve plan. API
+    access is an entitlement of the tenant subscription.

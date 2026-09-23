@@ -1,19 +1,91 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/seismic-analytics-openapi.yml, openapi/seismic-content-openapi.yml, openapi/seismic-livedocs-openapi.yml,
-  openapi/seismic-user-management-openapi.yml
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://developer.seismic.com/seismicsoftware/docs/authentication ,
+  https://developer.seismic.com/seismicsoftware/reference/authentication-overview ,
+  https://auth.seismic.com/.well-known/openid-configuration (probed 2026-09-17, HTTP 200),
+  https://mcp.seismic.com/.well-known/oauth-protected-resource , and openapi/*.yml
+docs: https://developer.seismic.com/seismicsoftware/docs/authentication
+description: >-
+  Seismic authenticates with OAuth 2.0 / OpenID Connect against its own authorization server at
+  https://auth.seismic.com. The OpenAPI documents in this repo declare only a generic HTTP bearer
+  scheme, which understates the model considerably; the authorization server's anonymous discovery
+  document is the authoritative description and is saved verbatim in well-known/.
 summary:
-  types:
-  - http
+  types: [oauth2, openIdConnect, http]
+  primary: oauth2
+  multi_tenant: true
+authorization_server:
+  issuer: https://auth.seismic.com
+  discovery: https://auth.seismic.com/.well-known/openid-configuration
+  artifact: well-known/seismic-auth-openid-configuration.json
+  probed: '2026-09-17'
+  http_status: 200
+  authorization_endpoint: https://auth.seismic.com/connect/authorize
+  token_endpoint: https://auth.seismic.com/connect/token
+  userinfo_endpoint: https://auth.seismic.com/connect/userinfo
+  introspection_endpoint: https://auth.seismic.com/connect/introspect
+  revocation_endpoint: https://auth.seismic.com/connect/revocation
+  end_session_endpoint: https://auth.seismic.com/connect/endsession
+  jwks_uri: https://auth.seismic.com/.well-known/openid-configuration/jwks
 schemes:
+- name: oauth2
+  type: oauth2
+  flows:
+  - grant: client_credentials
+    docs: https://developer.seismic.com/seismicsoftware/reference/auth-client-credentials
+    use: Server-to-server integrations acting as the application.
+  - grant: authorization_code
+    docs: https://developer.seismic.com/seismicsoftware/reference/authorization-code-login
+    use: User-delegated access. Required for the MCP server, which accepts user access tokens only.
+  - grant: authorization_code + PKCE
+    docs: https://developer.seismic.com/seismicsoftware/reference/pkce-get-the-users-authorization-code
+    pkce: S256
+    use: Public clients.
+  - grant: refresh_token
+    docs: https://developer.seismic.com/seismicsoftware/reference/exchange-the-refresh-token-for-an-access-refresh-token
+  - grant: urn:ietf:params:oauth:grant-type:device_code
+  - grant: urn:ietf:params:oauth:grant-type:token-exchange
+  - grant: password
+    note: Advertised by the authorization server and documented for token acquisition; not recommended for new integrations.
+    docs: https://developer.seismic.com/seismicsoftware/reference/get-a-token-using-username-and-password
+  client_auth: [client_secret_basic, client_secret_post]
+  scopes: scopes/seismic-scopes.yml
+  scopes_documented: 39
+  scopes_advertised: 389
+- name: openIdConnect
+  type: openIdConnect
+  openIdConnectUrl: https://auth.seismic.com/.well-known/openid-configuration
+  claims: [sub, email, email_verified, name, family_name, given_name, preferred_username, profile, picture, locale, updated_at]
+  docs: https://developer.seismic.com/seismicsoftware/reference/get-open-id-configuration
 - name: bearerAuth
   type: http
   scheme: bearer
   bearerFormat: JWT
-  description: OAuth 2.0 Bearer Token. Obtain tokens through the Seismic authentication flow.
-    See https://developer.seismic.com/seismicsoftware/docs/authentication
-  sources:
-  - openapi/seismic-analytics-openapi.yml
-  - openapi/seismic-content-openapi.yml
-  - openapi/seismic-livedocs-openapi.yml
-  - openapi/seismic-user-management-openapi.yml
+  description: >-
+    How the token is presented on every call — Authorization: Bearer <access_token>. This is the
+    only scheme declared in the OpenAPI documents; it describes transport, not the OAuth model above.
+  sources: [openapi/seismic-content-api-openapi.yml, openapi/seismic-users-api-openapi.yml, and 15 further openapi/ documents]
+resource_servers:
+- resource: https://api.seismic.com/integration/v2
+  auth: bearer JWT from https://auth.seismic.com
+- resource: https://api.seismic.com/scim/v2
+  auth: bearer JWT; SCIM 2.0 surface
+- resource: https://mcp.seismic.com/v1
+  auth: bearer JWT (user access token), scope seismic.mcp
+  metadata: https://mcp.seismic.com/.well-known/oauth-protected-resource/v1
+  rfc: RFC 9728
+authorization_model:
+  note: >-
+    Scope is necessary but not sufficient. Seismic states plainly for the MCP surface that the
+    seismic.mcp scope "does not grant permission to invoke tools. Tool invocation requires
+    additional permissions configured by your tenant administrator." The same split applies across
+    the platform: token scope gates the API, tenant entitlement gates the capability. An agent that
+    treats a 403 as a token problem will loop.
+external_auth:
+  docs: https://developer.seismic.com/seismicsoftware/docs/external-auth
+  detail: Seismic apps can additionally federate to an external authorization service for their own backends.
+gaps:
+- >-
+  The OpenAPI documents declare no oauth2 securityScheme and no scope requirements per operation, so
+  a client generated from the spec alone cannot know which scope any operation needs.

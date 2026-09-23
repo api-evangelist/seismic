@@ -1,0 +1,52 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Seismic Analytics Delivery Analytics API
+  version: 1.0.0
+  x-generated: '2026-09-17'
+  x-method: generated
+  x-source: openapi/seismic-delivery-analytics-api-openapi.yml plus the searched/probed artifacts in this repository
+extends: openapi/seismic-delivery-analytics-api-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-api-evangelist:
+      provider: seismic
+      repository: https://github.com/api-evangelist/seismic
+      artifacts:
+        conventions: conventions/seismic-conventions.yml
+        errors: errors/seismic-problem-types.yml
+        rate_limits: rate-limits/seismic-rate-limits.yml
+        scopes: scopes/seismic-scopes.yml
+        lifecycle: lifecycle/seismic-lifecycle.yml
+        data_model: data-model/seismic-data-model.yml
+        webhooks: asyncapi/seismic-webhooks.yml
+        mcp: mcp/seismic-mcp.yml
+    x-idempotency:
+      coverage: none
+      detail: Seismic documents no Idempotency-Key header or any other replay-protection mechanism. A retried write
+        may double-apply.
+      evidence: conventions/seismic-conventions.yml
+    x-rate-limit:
+      scope: tenant
+      window: 60s rolling
+      default_limit_per_minute: 600
+      headers:
+      - X-Seismic-Remaining-Calls
+      - X-Seismic-Total-Calls
+      retry_after_header: false
+      status: 429
+      evidence: https://developer.seismic.com/seismicsoftware/reference/rate-limiting
+- target: $.servers
+  update:
+  - url: https://api-sandbox.seismic.com
+    description: Seismic sandbox domain, named on the provider versioning page (https://developer.seismic.com/seismicsoftware/reference/versioning).
+      Path layout is not documented; treat as an environment host, not a drop-in base URL.
+- target: $.components.securitySchemes.bearerAuth
+  update:
+    x-authorization-server: https://auth.seismic.com
+    x-token-endpoint: https://auth.seismic.com/connect/token
+    x-openid-configuration: https://auth.seismic.com/.well-known/openid-configuration
+    x-pkce: S256
+    x-scope-reference: https://developer.seismic.com/seismicsoftware/docs/scopes-1
+    x-note: 'Scope is necessary but not sufficient: tenant administrators grant the underlying permission separately,
+      which is why a correctly-scoped token can return 403.'

@@ -1,0 +1,150 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://trust.seismic.com/ , https://developer.seismic.com/seismicsoftware/docs/scopes-1 ,
+  https://auth.seismic.com/.well-known/openid-configuration ,
+  https://mcp.seismic.com/.well-known/oauth-protected-resource ,
+  https://developer.seismic.com/.well-known/api-catalog ,
+  https://developer.seismic.com/seismicsoftware/reference/seismicscimuserandgroupmanagementdeleteauserbyguid ,
+  and the repo's own openapi/ documents
+description: >-
+  Cross-cutting and domain standards Seismic's own surface declares. Every `conforms: true` below
+  is backed by a document we fetched or a spec already in this repo; the `false` rows are recorded
+  as honest negatives so the gaps are legible rather than absent.
+conformance:
+- id: oauth2
+  name: OAuth 2.0
+  conforms: true
+  evidence: https://auth.seismic.com/.well-known/openid-configuration
+  detail: >-
+    Authorization server advertises authorization_code, client_credentials, refresh_token,
+    device_code and token-exchange grants with client_secret_basic / client_secret_post
+    client authentication.
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence: https://auth.seismic.com/.well-known/openid-configuration
+  detail: >-
+    Anonymous discovery document served at the RFC 8414 / OIDC Discovery path with issuer,
+    jwks_uri, authorization/token/userinfo/endsession/introspection/revocation endpoints and
+    20 standard claims.
+- id: rfc7636-pkce
+  name: PKCE (RFC 7636)
+  conforms: true
+  evidence: https://auth.seismic.com/.well-known/openid-configuration
+  detail: 'code_challenge_methods_supported: ["plain","S256"].'
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+  conforms: true
+  evidence: https://mcp.seismic.com/.well-known/oauth-protected-resource
+  detail: >-
+    The MCP server answers an unauthenticated POST with 401 and
+    WWW-Authenticate: Bearer realm="Seismic", resource_metadata="https://mcp.seismic.com/.well-known/oauth-protected-resource",
+    and serves the metadata document anonymously for both the root and /v1 resources.
+- id: rfc9727
+  name: API Catalog (RFC 9727 / linkset)
+  conforms: true
+  evidence: https://developer.seismic.com/.well-known/api-catalog
+  detail: >-
+    application/linkset+json document anchored at https://developer.seismic.com/seismicsoftware
+    with a service-doc link to the API reference. Its service-desc href returns 404, so the
+    catalog resolves to human documentation rather than a machine description.
+- id: scim
+  name: SCIM 2.0 (System for Cross-domain Identity Management)
+  conforms: true
+  evidence: https://developer.seismic.com/seismicsoftware/reference/seismicscimuserandgroupmanagementdeleteauserbyguid
+  detail: >-
+    Seismic publishes a first-party SCIM 2.0 surface at https://api.seismic.com/scim/v2 with
+    Users and Groups resources addressed by GUID, and SCIM 2.0-compliant error responses carrying
+    urn:ietf:params:scim:api:messages:2.0:Error.
+  domain_standard: true
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  evidence: https://developer.seismic.com/seismicsoftware/docs/seismic-mcp-server
+  detail: >-
+    First-party remote MCP server over Streamable HTTP at https://mcp.seismic.com/v1 and
+    https://mcp.seismic.com/v1/tenants/<tenant_name>, documented with connection guides for
+    Claude, Copilot Studio, watsonx Orchestrate and Postman.
+- id: pagination
+  name: Pagination
+  conforms: true
+  evidence: openapi/seismic-content-api-openapi.yml
+  detail: Offset/limit query parameters on list operations.
+- id: hmac-webhook-signing
+  name: HMAC-SHA256 webhook signing
+  conforms: true
+  evidence: https://developer.seismic.com/seismicsoftware/docs/signing-secret-validation
+  detail: >-
+    Every webhook delivery carries x-seismic-signature (HMAC-SHA256 of the body); during secret
+    rotation an x-seismic-signature-old header is sent for 30 minutes.
+- id: rfc9457
+  name: Problem Details for HTTP APIs (RFC 9457 / RFC 7807)
+  conforms: false
+  evidence: https://developer.seismic.com/seismicsoftware/reference/introduction-errors
+  detail: >-
+    The published error reference describes status-code classes only; no application/problem+json
+    media type and no problem-type registry. The SCIM surface is the one exception and uses the
+    SCIM error schema, not Problem Details.
+- id: idempotency
+  name: Idempotency keys
+  conforms: false
+  evidence: https://developer.seismic.com/seismicsoftware/reference/introduction-overview
+  detail: >-
+    No Idempotency-Key header or replay-protection mechanism appears anywhere in the public
+    reference, the getting-started guide, or the OpenAPI documents in this repo.
+- id: rfc8594
+  name: Sunset HTTP Header (RFC 8594)
+  conforms: false
+  evidence: https://developer.seismic.com/seismicsoftware/reference/versioning
+  detail: >-
+    A prose deprecation policy exists (routes stay available 1-12 months after announcement) but
+    no Sunset or Deprecation response headers are documented.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: https://developer.seismic.com/seismicsoftware/docs/webhooksoverview
+  detail: >-
+    A full webhook event catalog is documented in prose across ~50 event pages, but no AsyncAPI
+    document is published. Captured as a webhook catalog instead.
+compliance:
+  trust_center: https://trust.seismic.com/
+  probed: '2026-09-17'
+  certifications:
+  - id: soc2-type2
+    name: SOC 2 Type 2
+    detail: SOC 2 Type 2 assessment across all 5 trust services domains.
+    evidence: https://trust.seismic.com/
+  - id: iso-27001
+    name: ISO/IEC 27001:2022
+    evidence: https://trust.seismic.com/
+  - id: iso-27701
+    name: ISO/IEC 27701:2019
+    evidence: https://trust.seismic.com/
+  - id: iso-42001
+    name: ISO/IEC 42001:2023
+    detail: AI management system certification.
+    evidence: https://www.seismic.com/newsroom/press-releases/seismic-earns-iso-42001-certification-leading-the-way-in-trusted-enterprise-ai/
+  - id: gdpr
+    name: GDPR
+    evidence: https://trust.seismic.com/
+  - id: ccpa
+    name: CCPA
+    evidence: https://trust.seismic.com/
+  - id: eu-us-dpf
+    name: EU-U.S. Data Privacy Framework
+    evidence: https://trust.seismic.com/
+  - id: apec-cbpr
+    name: APEC CBPR
+    evidence: https://trust.seismic.com/
+  - id: wcag
+    name: WCAG
+    evidence: https://trust.seismic.com/
+notes:
+- >-
+  SCIM is the domain-standard signature for this market: an enablement platform that provisions
+  users from an IdP without a bespoke connector. It is declared by the contract itself (the /scim/v2
+  path and the SCIM error URN), not by a marketing claim.
+- >-
+  The trust center is served by SafeBase behind a Cloudflare interactive challenge, so a plain
+  crawler receives 403; the page demonstrably exists and was read. Recorded as live, not dead.

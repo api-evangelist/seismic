@@ -1,0 +1,258 @@
+generated: '2026-09-17'
+method: searched
+source: https://developer.seismic.com/seismicsoftware/docs/scopes-1
+docs: https://developer.seismic.com/seismicsoftware/docs/scopes-1
+description: Seismic OAuth 2.0 / OpenID Connect scopes. The 39 scopes with descriptions below are the
+  ones Seismic documents on its public scopes reference. The authorization server at https://auth.seismic.com
+  advertises 389 scopes in total in its anonymous OpenID Connect discovery document — the large remainder
+  are internal service scopes (ums_*, matrix_*, disc_*, bff_* and similar) that the public reference does
+  not describe, so they are counted but not enumerated here with invented descriptions.
+authorization_server:
+  issuer: https://auth.seismic.com
+  discovery: https://auth.seismic.com/.well-known/openid-configuration
+  artifact: well-known/seismic-auth-openid-configuration.json
+  probed: '2026-09-17'
+  http_status: 200
+  authorization_endpoint: https://auth.seismic.com/connect/authorize
+  token_endpoint: https://auth.seismic.com/connect/token
+  introspection_endpoint: https://auth.seismic.com/connect/introspect
+  revocation_endpoint: https://auth.seismic.com/connect/revocation
+  jwks_uri: https://auth.seismic.com/.well-known/openid-configuration/jwks
+  grant_types_supported:
+  - authorization_code
+  - client_credentials
+  - refresh_token
+  - implicit
+  - password
+  - urn:ietf:params:oauth:grant-type:device_code
+  - impersonation
+  - central
+  - delegation
+  - legacy_remember_me
+  - urn:ietf:params:oauth:grant-type:token-exchange
+  - token-exchange
+  code_challenge_methods_supported:
+  - plain
+  - S256
+  token_endpoint_auth_methods_supported:
+  - client_secret_basic
+  - client_secret_post
+  scopes_advertised_count: 389
+counts:
+  documented_with_description: 39
+  advertised_by_authorization_server: 389
+  recorded_here: 50
+scopes:
+- name: seismic.self.view
+  description: Read information about the current user
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.self.manage
+  description: Manage information about the current user
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.user.view
+  description: Read profile and group about all users in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.user.manage
+  description: Manage profile and group information about any user in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.configuration.view
+  description: Read information about how the system is configured
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.configuration.manage
+  description: Manage information about how the system is configured
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.reporting
+  description: Access to tenants reporting data
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.delivery
+  description: Access to all delivery methods including email, generated livesend links, and custom delivery
+    options
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.library.view
+  description: Read item information and properties about an object (content manager, doccenter, newscenter)
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.library.manage
+  description: Manage content, and folders, within a tenant (e.g. add, update, and delete)
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.workspace.view
+  description: Read item information and properties about an object, with download capabilities
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.workspace.manage
+  description: Manage content, and folders, within a users workspace (e.g. add, update, and delete)
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.search
+  description: Access to search for content in all repositories
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.gen-search
+  description: Access to generative search functionality
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.livedoc_express.view
+  description: Read LiveDoc Express batch and variant information
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.livedoc_express.manage
+  description: Manage LiveDoc Express batch and variant data and execute batch generations
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.planner.view
+  description: Read item information and properties about objects in planner
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.planner.manage
+  description: Manage projects, tasks, and their item information and properties
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.custom_property.view
+  description: Read information about custom properties
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.custom_property.manage
+  description: Manage custom properties in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.custom_schema.view
+  description: Read information about the custom schemas present in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.custom_schema.manage
+  description: Manage custom schemas in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.workflow.view
+  description: Read running approval workflow information and workflow properties
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.workflow.manage
+  description: Take actions on approval workflows like approve, reject or submit
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.engagement.view
+  description: Read information about engagements such as Seismic emails, links, and meetings
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.engagement.manage
+  description: Manage information about engagements such as Seismic emails, links, and meetings
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.learning.view
+  description: Read information about objects associated with Learning
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.learning.manage
+  description: Read and modify information about objects associated with Learning
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.global_variable.view
+  description: View global variables in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.global_variable.manage
+  description: Manage global variables in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.channel.view
+  description: Read information about channels
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.channel.manage
+  description: Manage channels in the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.lessons.view
+  description: Read information about Lessons in Learning
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.lessons.manage
+  description: Manage information about Lessons in Learning
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.skills.view
+  description: Read information about objects associated with skills
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.skills.manage
+  description: Read and modify information about objects associated with skills
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.social.view
+  description: Grants permission to view and read social features and related data within the system
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.social.manage
+  description: Grants permission to create, update, and manage social features and related data
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.distribution_list.manage
+  description: Create, read, update and delete email distribution lists owned by the authenticated user
+  documented: true
+  advertised_by_authorization_server: true
+- name: seismic.mcp
+  description: Required to call the remote MCP server. Named in the RFC 9728 protected-resource metadata
+    for https://mcp.seismic.com/v1 and in the MCP server documentation; it does not by itself grant tool
+    invocation, which needs tenant-administrator permissions.
+  documented: false
+  advertised_by_authorization_server: true
+- name: seismic.webhook
+  description: Advertised by the authorization server. Backs the webhook/event subscription surface documented
+    at /docs/webhooksoverview.
+  documented: false
+  advertised_by_authorization_server: true
+- name: seismic.events
+  description: Advertised by the authorization server alongside seismic.webhook for the event surface.
+  documented: false
+  advertised_by_authorization_server: true
+- name: seismic.audit.view
+  description: Advertised by the authorization server. Backs the audit query endpoints in the API reference.
+  documented: false
+  advertised_by_authorization_server: true
+- name: seismic.crm
+  description: Advertised by the authorization server. Backs the CRM context tools exposed by the MCP
+    server.
+  documented: false
+  advertised_by_authorization_server: true
+- name: seismic.email
+  description: Advertised by the authorization server. Backs the email delivery surface.
+  documented: false
+  advertised_by_authorization_server: true
+- name: seismic.intelligence
+  description: Advertised by the authorization server.
+  documented: false
+  advertised_by_authorization_server: true
+- name: offline_access
+  description: Standard OAuth 2.0 scope for refresh tokens; advertised by the authorization server.
+  documented: false
+  advertised_by_authorization_server: true
+- name: openid
+  description: OpenID Connect. Advertised by the authorization server.
+  documented: false
+  advertised_by_authorization_server: true
+- name: email
+  description: OpenID Connect standard claim scope.
+  documented: false
+  advertised_by_authorization_server: true
+- name: profile
+  description: OpenID Connect standard claim scope.
+  documented: false
+  advertised_by_authorization_server: true
+notes:
+- The MCP resource https://mcp.seismic.com/ advertises scopes_supported [seismic.engagement.manage, seismic.gen-search];
+  https://mcp.seismic.com/v1 advertises [seismic.mcp].
+- 'Scope names follow two conventions: the public seismic.<area>.<view|manage> family, and an older flat
+  internal family (library, reporting, download, webhook). Only the first is documented.'
+- The local OpenAPI documents declare a bearer HTTP scheme rather than an oauth2 securityScheme, so derive-oauth-scopes.py
+  finds no scopes in the spec; every scope here comes from the provider docs and the live discovery document,
+  not from the spec.

@@ -1,0 +1,59 @@
+generated: '2026-09-17'
+method: searched
+source: https://developer.seismic.com/seismicsoftware/docs/ui-components
+description: >-
+  Seismic ships an embedded-app framework rather than a component NPM library: a registered Seismic
+  app declares extension points, and Seismic renders the app's surface inside its own UI. These are
+  the client-side/embeddable surfaces the developer portal documents.
+distribution: >-
+  Not published to a package registry. Components are declared in an app registration and loaded by
+  the Seismic host; there is no public loader library, script tag, or CDN build.
+families:
+- name: Embedded application surfaces
+  components:
+  - name: Full Application
+    description: '"rich full application embedded IFrame based component"'
+    loader: iframe
+    docs: https://developer.seismic.com/seismicsoftware/docs/full-application
+  - name: Cards
+    description: Card surfaces rendered by the Seismic host inside its own views.
+    docs: https://developer.seismic.com/seismicsoftware/docs/cards
+  - name: UI Extension
+    description: App-declared extension point rendered into the Seismic interface.
+    docs: https://developer.seismic.com/seismicsoftware/docs/ui-extension
+  - name: Main Nav Extension
+    description: Adds an app entry to the Seismic main navigation.
+    docs: https://developer.seismic.com/seismicsoftware/docs/main-nav-extension
+  - name: Extension Points v2
+    description: The current extension-point model for embedded apps.
+    docs: https://developer.seismic.com/seismicsoftware/docs/extension-points-v2
+- name: Content surfaces
+  components:
+  - name: Content Picker
+    description: '"tree view component that allows browsing of folders in DocCenter and Workspace to pick content"'
+    docs: https://developer.seismic.com/seismicsoftware/docs/content-picker
+  - name: Content Preview
+    description: Embedded preview of a Seismic content item.
+    docs: https://developer.seismic.com/seismicsoftware/docs/content-preview
+  - name: LiveDoc on a website
+    description: Embeds LiveDoc generation into a customer-owned web page.
+    docs: https://developer.seismic.com/seismicsoftware/docs/livedoc-on-a-website
+- name: Search surfaces
+  components:
+  - name: Federated Search Extension
+    description: Contributes an external repository into Seismic search results.
+    docs: https://developer.seismic.com/seismicsoftware/docs/federated-search-extension
+- name: Scripting
+  components:
+  - name: JavaScript Extension
+    description: Client-side JavaScript extension point for embedded apps.
+    docs: https://developer.seismic.com/seismicsoftware/docs/javascript-extension
+  - name: Scripts
+    description: Script surface documented alongside the JavaScript extension.
+    docs: https://developer.seismic.com/seismicsoftware/docs/scripts
+auth:
+  note: >-
+    Embedded surfaces authenticate through the app registration and app iframe assertion
+    (app_iframe_assertion / app_installation_read scopes on the authorization server), not through
+    a public client-side key.
+  docs: https://developer.seismic.com/seismicsoftware/docs/create-an-app-with-auth

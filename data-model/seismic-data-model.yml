@@ -1,0 +1,200 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/*.yml components.schemas and the id-reference fields declared on them
+description: >-
+  Entity-relationship graph for the Seismic integration API, derived from the 24 component schemas
+  across the 17 OpenAPI documents in this repo. Relationships are read from explicit id-reference
+  fields (folderId, contentProfileId, templateId, roleId, teamId, parentId, dataSourceId,
+  contentId, userId) — the specs carry no $ref-based nesting between top-level entities, so every
+  edge below is an id reference, not an embedded object.
+entity_count: 24
+core_entities: 13
+id_convention:
+  format: string
+  prefixes: false
+  note: >-
+    No typed or prefixed identifiers. Every id is an opaque string, so an id alone does not tell an
+    agent what kind of object it addresses — a contentId and a folderId are indistinguishable by
+    shape.
+entities:
+- name: ContentItem
+  domain: Content
+  key: id
+  operations: [listContentItems, createContentItem, getContentItem, updateContentItem, deleteContentItem, downloadContentFile, replaceContentFile, getContentUrl, searchContent]
+  relationships:
+  - {type: belongs_to, target: Folder, via: folderId}
+  - {type: belongs_to, target: ContentProfile, via: contentProfileId}
+  - {type: has_many, target: ContentVersion, via: contentId}
+  - {type: has_many, target: ContentProperty, via: properties}
+  - {type: has_one, target: User, via: createdBy}
+  - {type: has_one, target: User, via: modifiedBy}
+- name: ContentVersion
+  domain: Content
+  key: id
+  operations: [listContentVersions]
+  relationships:
+  - {type: belongs_to, target: ContentItem, via: contentId}
+  - {type: has_one, target: User, via: createdBy}
+- name: Folder
+  domain: Content
+  key: id
+  operations: [listFolders, createFolder, getFolder, updateFolder, deleteFolder]
+  relationships:
+  - {type: belongs_to, target: Folder, via: parentId, note: self-referencing tree}
+  - {type: has_many, target: ContentItem, via: folderId}
+  - {type: has_one, target: User, via: createdBy}
+- name: ContentProfile
+  domain: Content
+  key: id
+  operations: [listContentProfiles, getContentProfile]
+  relationships:
+  - {type: has_many, target: ContentItem, via: contentProfileId}
+  - {type: has_many, target: ContentProperty, via: properties}
+- name: ContentProperty
+  domain: Content
+  key: id
+  operations: [listContentProperties, getContentProperty]
+  relationships: []
+- name: LiveDocTemplate
+  domain: LiveDocs
+  key: id
+  operations: [listLiveDocTemplates, getLiveDocTemplate, getLiveDocTemplateInputs, previewLiveDocTemplate, generateLiveDoc]
+  relationships:
+  - {type: belongs_to, target: Folder, via: folderId}
+  - {type: belongs_to, target: DataSource, via: dataSourceId}
+  - {type: has_many, target: TemplateInput, via: templateId}
+  - {type: has_one, target: User, via: createdBy}
+- name: TemplateInput
+  domain: LiveDocs
+  key: id
+  operations: [getLiveDocTemplateInputs]
+  relationships:
+  - {type: belongs_to, target: LiveDocTemplate, via: templateId}
+  - {type: belongs_to, target: DataSource, via: dataSourceField}
+- name: DataSource
+  domain: LiveDocs
+  key: id
+  operations: [listDataSources, getDataSource]
+  relationships:
+  - {type: has_many, target: LiveDocTemplate, via: dataSourceId}
+- name: GenerationJob
+  domain: LiveDocs
+  key: id
+  operations: [listGenerationJobs, getGenerationJob, generateLiveDoc]
+  relationships:
+  - {type: belongs_to, target: LiveDocTemplate, via: templateId}
+  - {type: has_one, target: LiveDocResult, via: result}
+  - {type: has_one, target: User, via: createdBy}
+- name: LiveDocResult
+  domain: LiveDocs
+  key: id
+  operations: [generateLiveDoc, getGenerationJob]
+  relationships:
+  - {type: belongs_to, target: LiveDocTemplate, via: templateId}
+  - {type: belongs_to, target: ContentItem, via: contentId}
+  - {type: belongs_to, target: Folder, via: folderId}
+- name: User
+  domain: Identity
+  key: id
+  operations: [listUsers, createUser, getUser, updateUser, deleteUser, getUserGroups, setUserGroups]
+  relationships:
+  - {type: belongs_to, target: Role, via: roleId}
+  - {type: belongs_to, target: Team, via: teamId}
+  - {type: has_many, target: Group, via: getUserGroups}
+- name: Group
+  domain: Identity
+  key: id
+  operations: [listGroups, createGroup, getGroup, updateGroup, deleteGroup, listGroupMembers, addGroupMember, removeGroupMember]
+  relationships:
+  - {type: belongs_to, target: Group, via: parentId, note: self-referencing hierarchy}
+  - {type: has_many, target: User, via: listGroupMembers}
+- name: Team
+  domain: Identity
+  key: id
+  operations: [listTeams, getTeam, listTeamMembers]
+  relationships:
+  - {type: has_one, target: User, via: managerId}
+  - {type: has_many, target: User, via: teamId}
+- name: Role
+  domain: Identity
+  key: id
+  operations: [listRoles, getRole]
+  relationships:
+  - {type: has_many, target: User, via: roleId}
+- name: Report
+  domain: Analytics
+  key: id
+  operations: [listReports, getReport, exportReport]
+  relationships:
+  - {type: has_one, target: ReportData, via: reportId}
+- name: ReportData
+  domain: Analytics
+  key: reportId
+  operations: [getReport]
+  relationships:
+  - {type: belongs_to, target: Report, via: reportId}
+- name: ContentAnalytics
+  domain: Analytics
+  key: contentId
+  operations: [getContentAnalytics, getTopContent]
+  relationships:
+  - {type: belongs_to, target: ContentItem, via: contentId}
+- name: ContentAnalyticsDetail
+  domain: Analytics
+  key: contentId
+  operations: [getContentItemAnalytics]
+  relationships:
+  - {type: belongs_to, target: ContentItem, via: contentId}
+  - {type: has_one, target: ContentAnalyticsSummary, via: summary}
+- name: ContentAnalyticsSummary
+  domain: Analytics
+  key: null
+  operations: [getContentItemAnalytics]
+  relationships: []
+- name: DeliveryAnalytics
+  domain: Analytics
+  key: deliveryId
+  operations: [getDeliveryAnalytics]
+  relationships:
+  - {type: belongs_to, target: ContentItem, via: contentId}
+  - {type: belongs_to, target: User, via: senderUserId}
+- name: DeliveryAnalyticsSummary
+  domain: Analytics
+  key: null
+  operations: [getDeliveryAnalytics]
+  relationships: []
+- name: UserAnalytics
+  domain: Analytics
+  key: userId
+  operations: [getUserAnalytics]
+  relationships:
+  - {type: belongs_to, target: User, via: userId}
+- name: UserAnalyticsDetail
+  domain: Analytics
+  key: userId
+  operations: [getUserActivityAnalytics]
+  relationships:
+  - {type: belongs_to, target: User, via: userId}
+  - {type: has_one, target: UserAnalyticsSummary, via: summary}
+  - {type: has_many, target: ContentItem, via: topContent}
+- name: Error
+  domain: Platform
+  key: null
+  operations: []
+  relationships: []
+  note: Envelope schema; see errors/seismic-problem-types.yml.
+domains:
+- {name: Content, entities: [ContentItem, ContentVersion, Folder, ContentProfile, ContentProperty]}
+- {name: LiveDocs, entities: [LiveDocTemplate, TemplateInput, DataSource, GenerationJob, LiveDocResult]}
+- {name: Identity, entities: [User, Group, Team, Role]}
+- {name: Analytics, entities: [Report, ReportData, ContentAnalytics, ContentAnalyticsDetail, ContentAnalyticsSummary, DeliveryAnalytics, DeliveryAnalyticsSummary, UserAnalytics, UserAnalyticsDetail]}
+gaps:
+- >-
+  Both Folder and Group are self-referencing trees (parentId) but neither spec documents a maximum
+  depth or an ancestry/path expansion parameter beyond Folder.path.
+- >-
+  Analytics entities key on the id of the object they describe rather than on their own id, so they
+  cannot be addressed independently.
+- >-
+  The provider's wider REST reference (DSR, meetings, LiveSend, programs, planner, channels, SCIM)
+  carries entities that appear in no OpenAPI document in this repo.

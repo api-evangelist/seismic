@@ -1,0 +1,104 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/*.yml (4xx/5xx responses across 60 operations), enriched from
+  https://developer.seismic.com/seismicsoftware/reference/introduction-errors ,
+  https://developer.seismic.com/seismicsoftware/reference/rate-limiting and the SCIM 2.0 reference
+format: http-status
+description: >-
+  Seismic does not publish an RFC 9457 problem-type registry. Its public error reference describes
+  status-code CLASSES (2xx/3xx/4xx/5xx) and nothing finer, so the catalog below is derived from the
+  responses actually declared across the OpenAPI documents in this repo, with the two envelopes the
+  provider documents in prose attached where they apply.
+envelopes:
+- id: platform-error
+  media_type: application/json
+  scope: Seismic integration API (https://api.seismic.com/integration/v2)
+  fields:
+  - name: statusCode
+    description: The HTTP status code, repeated in the body.
+  - name: message
+    description: Human-readable message. On 429 this carries the retry hint, e.g. "Rate limit is exceeded. Try again in 12 seconds."
+  - name: clientId
+    description: The calling application's client id.
+  - name: tenant
+    description: The tenant the call was made against.
+  evidence: https://developer.seismic.com/seismicsoftware/reference/rate-limiting
+- id: scim-error
+  media_type: application/scim+json
+  scope: SCIM 2.0 surface (https://api.seismic.com/scim/v2)
+  schema_urn: urn:ietf:params:scim:api:messages:2.0:Error
+  evidence: https://developer.seismic.com/seismicsoftware/reference/seismicscimuserandgroupmanagementdeleteauserbyguid
+problem_types:
+- status: 400
+  id: bad-request
+  title: Bad Request
+  detail: >-
+    An error occurred in handling the request. Per Seismic's own error reference, "the most common
+    cause of this error is an invalid parameter."
+  remediation: Validate query/body parameters against the operation schema before retrying; retrying unchanged will fail again.
+  operations: 17
+  retryable: false
+- status: 401
+  id: unauthorized
+  title: Unauthorized
+  detail: Missing, expired or malformed bearer token.
+  remediation: >-
+    Obtain a fresh access token from https://auth.seismic.com/connect/token and retry once. On the
+    MCP surface the 401 carries a WWW-Authenticate challenge naming the RFC 9728 resource metadata.
+  operations: 60
+  retryable: true
+- status: 403
+  id: forbidden
+  title: Forbidden
+  detail: >-
+    The token is valid but lacks the scope, or the tenant lacks the entitlement, for this operation.
+    Seismic's MCP documentation makes the distinction explicit: the seismic.mcp scope alone "does not
+    grant permission to invoke tools. Tool invocation requires additional permissions configured by
+    your tenant administrator."
+  remediation: Request the scope on the relevant token AND have a tenant administrator grant the permission; do not retry.
+  operations: 60
+  retryable: false
+- status: 404
+  id: not-found
+  title: Not Found
+  detail: The addressed resource does not exist, or is not visible to this tenant/user.
+  remediation: Re-resolve the identifier; a 404 can also mean a permission boundary rather than a deleted object.
+  operations: 33
+  retryable: false
+- status: 409
+  id: conflict
+  title: Conflict
+  detail: >-
+    The resource already exists or the write conflicts with current state. Declared on createUser,
+    createGroup and addGroupMember.
+  remediation: >-
+    Read the resource and reconcile before retrying. Note there is no idempotency key on this API,
+    so a 409 is the only signal that a retried create already landed.
+  operations: 3
+  retryable: false
+- status: 429
+  id: rate-limited
+  title: Too Many Requests
+  detail: >-
+    Tenant-scoped rate limit exceeded on a 60-second rolling window. The body message states the
+    seconds to wait. Declared on every one of the 60 operations in this repo's specs.
+  remediation: >-
+    Read X-Seismic-Remaining-Calls, back off for the number of seconds named in the message body
+    with jitter, and retry. There is no Retry-After header.
+  operations: 60
+  retryable: true
+- status: 5xx
+  id: server-error
+  title: Server Error
+  detail: >-
+    Seismic's error reference: "An error occurred in the Seismic platform while handling the request."
+    No 5xx response is declared in any of the OpenAPI documents in this repo — a contract gap, not
+    evidence that the class does not occur.
+  remediation: Retry with exponential backoff; escalate through https://support.seismic.com/csm if persistent.
+  operations: 0
+  retryable: true
+gaps:
+- No named error codes or machine-readable problem types are published; only status classes.
+- No 5xx responses are declared in the specs even though the provider documents the class.
+- No Retry-After header on 429 — the wait is embedded in a prose message string.

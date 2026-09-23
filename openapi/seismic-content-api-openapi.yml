@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Seismic Analytics Analytics Content API
-  description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
+  title: Seismic Content API
+  description: API for managing and accessing content within the Seismic platform, including documents, presentations, and other sales enablement materials. Provides capabilities to upload, organize, search, deliver, and manage content items, folders, and content properties within the Seismic content management system.
   version: 2.0.0
   termsOfService: https://seismic.com/terms-of-service/
   contact:
@@ -474,8 +474,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
       content:
         application/json:
           schema:
@@ -491,19 +503,36 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    contentId:
+      name: contentId
+      in: path
+      required: true
+      description: Unique identifier of the content item.
+      schema:
+        type: string
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
     ContentVersion:
       type: object
       properties:
@@ -596,35 +625,6 @@ components:
           type: string
           format: uri
           description: URL for the content item thumbnail image.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
-  parameters:
-    contentId:
-      name: contentId
-      in: path
-      required: true
-      description: Unique identifier of the content item.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http

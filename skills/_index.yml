@@ -1,0 +1,41 @@
+generated: '2026-09-17'
+method: generated
+source: >-
+  openapi/*.yml operationIds in this repo, plus conventions/seismic-conventions.yml,
+  errors/seismic-problem-types.yml, rate-limits/seismic-rate-limits.yml and
+  asyncapi/seismic-webhooks.yml
+description: >-
+  Packaged Agent Skills for Seismic, one per marquee flow, mirroring the arazzo/ workflows. Every
+  operationId named in these skills was grepped out of the OpenAPI documents in this repo — none is
+  invented. Seismic publishes no AGENTS.md or skills of its own (searched 2026-09-17), so these are
+  API Evangelist generations.
+provider_published_skills: false
+skill_count: 4
+skills:
+- name: seismic-generate-livedoc
+  file: seismic-generate-livedoc.md
+  api: Seismic LiveDocs API
+  operations: [listLiveDocTemplates, getLiveDocTemplate, getLiveDocTemplateInputs, previewLiveDocTemplate, generateLiveDoc, getGenerationJob, listGenerationJobs]
+  covers: [async 202 + job polling, Tier 1 rate limit, dry-run via preview, no-idempotency hazard]
+- name: seismic-onboard-user
+  file: seismic-onboard-user.md
+  api: Seismic Users API
+  operations: [listRoles, listTeams, listUsers, createUser, getUser, updateUser, listGroups, setUserGroups, getUserGroups, addGroupMember, listGroupMembers]
+  covers: [409 as the only replay signal, PUT-over-POST for idempotent membership, SCIM alternative, no undelete]
+- name: seismic-publish-content
+  file: seismic-publish-content.md
+  api: Seismic Content API
+  operations: [listFolders, createFolder, getFolder, listContentProfiles, listContentProperties, createContentItem, getContentItem, updateContentItem, replaceContentFile, listContentVersions, downloadContentFile, getContentUrl, searchContent, deleteContentItem]
+  covers: [version-vs-new-item, Tier 2 listing limit, reversible file replace vs irreversible delete]
+- name: seismic-pull-analytics
+  file: seismic-pull-analytics.md
+  api: Seismic Analytics and Reports APIs
+  operations: [getContentAnalytics, getContentItemAnalytics, getTopContent, getDeliveryAnalytics, getUserAnalytics, getUserActivityAnalytics, listReports, getReport, exportReport]
+  covers: [aggregate-before-detail to avoid N+1, PII in delivery/user analytics, async export]
+cross_references:
+  conventions: conventions/seismic-conventions.yml
+  errors: errors/seismic-problem-types.yml
+  rate_limits: rate-limits/seismic-rate-limits.yml
+  scopes: scopes/seismic-scopes.yml
+  webhooks: asyncapi/seismic-webhooks.yml
+  workflows: arazzo/

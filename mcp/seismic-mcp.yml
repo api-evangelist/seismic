@@ -1,21 +1,86 @@
-generated: '2026-09-11'
-method: probed
-source: https://mcp.seismic.com/
-status: gated
+generated: '2026-09-17'
+method: searched
+source: https://developer.seismic.com/seismicsoftware/docs/seismic-mcp-server
+status: live-gated
+description: >-
+  Seismic ships a first-party REMOTE MCP server over Streamable HTTP. The endpoint and the tool
+  surface below come from Seismic's own documentation; the endpoint, its auth challenge and its
+  RFC 9728 metadata were then probed directly. Anonymous tools/list returns 401, so the per-tool
+  inputSchema is auth-gated — the tool names and descriptions here are the provider's published
+  list, not a derived candidate list.
 server:
   name: seismic
-  transport: http
-  url: https://mcp.seismic.com/
+  transport: streamable-http
+  url: https://mcp.seismic.com/v1
+  tenant_url_template: https://mcp.seismic.com/v1/tenants/<tenant_name>
 deployment:
   mode: remote
-  endpoint: https://mcp.seismic.com/
+  endpoint: https://mcp.seismic.com/v1
+  auth: oauth
   verified: probed
-  probe: gated
-  checked: '2026-09-11'
-  source: docs-check 2026-09-11 (endpoint found in the provider's own documentation, then probed)
-  probe_why: RFC 9728 challenge on the MCP path only
-tools_note: No tool list captured. This manifest records a PROBED, reachable endpoint only; anonymous
-  tools/list was auth-gated or the server requires an initialize handshake this reachability probe does
-  not perform. Run signals/audit_mcp_authorship.py --probe to enumerate tools and settle platform-vs-provider
-  authorship. Do NOT derive a tool list from the OpenAPI and store it here -- that is a candidate manifest,
-  and it belongs under an X-MCPServerCandidate pointer.
+  probe:
+    checked: '2026-09-17'
+    request: 'POST https://mcp.seismic.com/v1 {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    www_authenticate: 'Bearer realm="Seismic", resource_metadata="https://mcp.seismic.com/.well-known/oauth-protected-resource/v1"'
+    resource_metadata_status: 200
+    resource_metadata_file: well-known/seismic-mcp-v1-oauth-protected-resource.json
+    note: >-
+      The 401 is an RFC 9728 challenge, not a dead endpoint — the server is reachable and correctly
+      advertises where to get a token. The root resource https://mcp.seismic.com/ behaves the same
+      way and advertises scopes [seismic.engagement.manage, seismic.gen-search]; /v1 advertises
+      [seismic.mcp]. POST /mcp returns 404, so /v1 is the real path.
+authentication:
+  scheme: OAuth 2.0 bearer (Seismic JWT user access token)
+  header: 'Authorization: Bearer <access_token>'
+  authorization_server: https://auth.seismic.com/
+  required_scope: seismic.mcp
+  caveat: >-
+    Seismic states the scope alone "does not grant permission to invoke tools. Tool invocation
+    requires additional permissions configured by your tenant administrator."
+  user_token_only: true
+tools_source: provider documentation (https://developer.seismic.com/seismicsoftware/docs/seismic-mcp-server)
+tools_note: >-
+  Names and product areas are as published by Seismic. Input schemas are NOT recorded because
+  anonymous tools/list is gated; retrieving them requires an authenticated introspection against a
+  real tenant.
+tool_count: 20
+tools:
+- {name: Generate LiveSend link, area: LiveSend, description: Creates a shareable LiveSend link with configurable settings and engagement tracking.}
+- {name: Generate answers/summaries by Generative Search, area: Search, description: Produces natural-language answers with supporting sources.}
+- {name: Get contents by Generative Search, area: Search, description: Retrieves relevant sources ranked by relevance.}
+- {name: Create DSR engagement, area: DSR, description: Creates a Digital Sales Room engagement.}
+- {name: Add content to DSR, area: DSR, description: Adds a content item to a Digital Sales Room.}
+- {name: Get DSR engagement list, area: DSR, description: Lists Digital Sales Room engagements.}
+- {name: Get DSR comments, area: DSR, description: Reads comments left on a Digital Sales Room.}
+- {name: List DSR templates, area: DSR, description: Lists available Digital Sales Room templates.}
+- {name: Get meeting list, area: Meetings, description: Lists meetings.}
+- {name: Get meeting details, area: Meetings, description: Reads one meeting.}
+- {name: Add content to meeting, area: Meetings, description: Attaches a content item to a meeting.}
+- {name: Update meeting metadata, area: Meetings, description: Updates metadata on a meeting.}
+- {name: Get pre-meeting brief, area: Meetings, description: Returns the generated pre-meeting brief.}
+- {name: Get post-meeting brief, area: Meetings, description: Returns the generated post-meeting brief.}
+- {name: Get post-meeting overview, area: Meetings, description: Returns the post-meeting overview.}
+- {name: Get transcript analysis, area: Meetings, description: Returns analysis of a meeting transcript.}
+- {name: Get meeting engagement list, area: Meetings, description: Lists engagement records associated with meetings.}
+- {name: Get available CRM systems, area: CRM, description: Lists the CRM systems connected to the tenant.}
+- {name: Get CRM context by ID, area: CRM, description: Reads one CRM context record.}
+- {name: Search CRM contexts, area: CRM, description: Searches CRM context records.}
+local_stdio:
+  available: false
+  note: >-
+    No npx/pip package is published or documented. Seismic's documentation describes the server as
+    remote-only over Streamable HTTP, and no MCP package exists on npm or PyPI (see
+    packages/seismic-packages.yml).
+client_guides:
+- {client: Claude, url: https://developer.seismic.com/seismicsoftware/docs/how-to-connect-to-seismics-remote-mcp-server-to-claude}
+- {client: Microsoft Copilot Studio, url: https://developer.seismic.com/seismicsoftware/docs/how-to-connect-to-seismics-remote-mcp-server-from-copilot-studio-agent}
+- {client: IBM watsonx Orchestrate, url: https://developer.seismic.com/seismicsoftware/docs/how-to-connect-seismics-remote-mcp-server-to-ibm-watsonx-orchestrate}
+- {client: Postman, url: https://developer.seismic.com/seismicsoftware/docs/how-to-connect-to-seismics-remote-mcp-server-with-postman}
+- {client: 'general case', url: https://developer.seismic.com/seismicsoftware/docs/how-to-connect-to-seismics-remote-mcp-server-general-case}
+- {client: 'install an MCP app in Seismic', url: https://developer.seismic.com/seismicsoftware/docs/creating-and-installing-an-mcp-app-in-seismic}
+supersedes:
+  previous_endpoint: https://mcp.seismic.com/
+  note: >-
+    The 2026-09-11 manifest recorded the bare host with no tool list. The documented endpoint is
+    /v1 (or /v1/tenants/<tenant_name>), and the published tool surface is now captured.

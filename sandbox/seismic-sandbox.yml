@@ -1,0 +1,41 @@
+generated: '2026-09-17'
+method: searched
+source: https://developer.seismic.com/seismicsoftware/reference/versioning
+description: >-
+  Seismic publishes a separate sandbox DOMAIN for testing changes before public release. It does not
+  publish self-serve test credentials, test key prefixes, fixture data, or a hosted console — access
+  is through a real tenant, so the sandbox is an environment, not a public playground.
+environments:
+- name: production
+  base_url: https://api.seismic.com/
+- name: sandbox
+  base_url: https://api-sandbox.seismic.com
+  quote: >-
+    "Seismic will often make changes available on a separate domain for testing prior to release."
+  probed: '2026-09-17'
+  http_status: 404
+  probe_note: >-
+    The host answers on TLS and returns the Seismic API gateway's own JSON 404 envelope
+    ({ "statusCode": 404, "message": "Resource not found" }) for an unrouted path — evidence the
+    host is live and is a Seismic API gateway, not that a resource is missing.
+test_credentials:
+  published: false
+  note: >-
+    No test API keys, no test-vs-live key prefixes, no sandbox self-signup. Tokens for either
+    environment come from https://auth.seismic.com against a provisioned tenant.
+test_data:
+  fixtures: false
+  time_simulation: false
+  triggers: false
+console:
+  hosted_try_it: true
+  detail: >-
+    The ReadMe-hosted API reference renders a Try It panel per operation, and Seismic documents a
+    Postman OAuth2 flow for obtaining a token
+    (https://developer.seismic.com/seismicsoftware/reference/get-a-token-using-oauth2-flow-in-postman).
+    Both still require real tenant credentials.
+rehearsal:
+  note: >-
+    The closest thing to a dry run on the production surface is previewLiveDocTemplate
+    (POST /livedocs/templates/{templateId}/preview) and getLiveDocTemplateInputs.
+  see: conventions/seismic-conventions.yml

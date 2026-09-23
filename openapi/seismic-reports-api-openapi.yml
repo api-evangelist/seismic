@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Seismic Analytics Content Analytics Reports API
+  title: Seismic Analytics Reports API
   description: API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness within the Seismic platform. Provides insights into how content is being used, which materials are most effective, and how teams are engaging with sales enablement resources.
   version: 2.0.0
   termsOfService: https://seismic.com/terms-of-service/
@@ -199,72 +199,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too many requests. Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before making another request.
-          schema:
-            type: integer
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Report:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the report.
-        name:
-          type: string
-          description: Name of the report.
-        description:
-          type: string
-          description: Description of the report.
-        type:
-          type: string
-          description: Type of report.
-          enum:
-          - content
-          - user
-          - delivery
-          - engagement
-          - adoption
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the report was created.
-        modifiedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the report was last modified.
     ReportData:
       type: object
       properties:
@@ -331,6 +266,71 @@ components:
                     type: string
                   message:
                     type: string
+    Report:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the report.
+        name:
+          type: string
+          description: Name of the report.
+        description:
+          type: string
+          description: Description of the report.
+        type:
+          type: string
+          description: Type of report.
+          enum:
+          - content
+          - user
+          - delivery
+          - engagement
+          - adoption
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was last modified.
+  responses:
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
   securitySchemes:
     bearerAuth:
       type: http

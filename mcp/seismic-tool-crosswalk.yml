@@ -1,0 +1,97 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  mcp/seismic-mcp.yml (tool list published at
+  https://developer.seismic.com/seismicsoftware/docs/seismic-mcp-server) bound against the
+  operationIds in openapi/*.yml in this repo
+description: >-
+  Binding between Seismic's published MCP tool surface and the REST operations this repo holds.
+  The headline finding is a near-total DISJOINT: Seismic's MCP server exposes the buyer-engagement
+  side of the platform (Digital Sales Rooms, meetings, LiveSend, generative search, CRM context),
+  while the OpenAPI documents in this repo describe the content, LiveDocs, analytics and user
+  management side. Only generative search overlaps with a REST operation we hold, and even that is
+  a semantic rather than a structural binding. Confidence is set honestly low throughout, because
+  anonymous tools/list is auth-gated and the per-tool inputSchema could not be read.
+surfaces:
+  openapi:
+    files: 17
+    operations: 60
+    base: https://api.seismic.com/integration/v2
+    gated: false
+  mcp:
+    url: https://mcp.seismic.com/v1
+    tools: 20
+    gated: true
+    gate: RFC 9728 OAuth challenge on tools/list (HTTP 401)
+  graphql:
+    present: false
+coverage:
+  mcp_tools: 20
+  mcp_tools_bound_to_rest: 1
+  mcp_only: 19
+  rest_operations: 60
+  rest_operations_bound_to_a_tool: 1
+  rest_only: 59
+  overlap_percent: 5
+crosswalk:
+- tool: Get contents by Generative Search
+  category: Search
+  rest: [searchContent]
+  binding: semantic
+  confidence: low
+  note: >-
+    POST /search (searchContent) is the REST content-search operation in this repo. The MCP tool is
+    a GENERATIVE search that returns ranked sources, backed by the seismic.gen-search scope, which
+    is a different capability on a different backend. Recorded as the closest REST analogue, not as
+    an equivalent.
+mcp_only:
+- {tool: Generate answers/summaries by Generative Search, reason: Generative-search answer synthesis; no REST equivalent in any spec in this repo (scope seismic.gen-search).}
+- {tool: Generate LiveSend link, reason: 'LiveSend delivery surface. A REST equivalent exists on the provider portal (createanewlivesendlink / generatelivesendlink) but is not in any OpenAPI document this repo holds.'}
+- {tool: Create DSR engagement, reason: Digital Sales Room surface; not covered by the specs in this repo (provider REST reference has createdsr / createdsrfromtemplate).}
+- {tool: Add content to DSR, reason: Digital Sales Room surface; not in this repo's specs.}
+- {tool: Get DSR engagement list, reason: Digital Sales Room surface; not in this repo's specs (provider reference getdsrlist).}
+- {tool: Get DSR comments, reason: Digital Sales Room surface; not in this repo's specs (provider reference getdsrcommnets).}
+- {tool: List DSR templates, reason: Digital Sales Room surface; not in this repo's specs.}
+- {tool: Get meeting list, reason: Meetings surface; not in this repo's specs (provider reference getmeetinglist).}
+- {tool: Get meeting details, reason: Meetings surface; not in this repo's specs (provider reference getmeetingdetailsbyid).}
+- {tool: Add content to meeting, reason: Meetings surface; not in this repo's specs (provider reference addmeetingcontents).}
+- {tool: Update meeting metadata, reason: Meetings surface; not in this repo's specs.}
+- {tool: Get pre-meeting brief, reason: Meetings intelligence; not in this repo's specs (provider reference getpremeetingbrief).}
+- {tool: Get post-meeting brief, reason: Meetings intelligence; not in this repo's specs (provider reference getpostmeetingbrief).}
+- {tool: Get post-meeting overview, reason: Meetings intelligence; not in this repo's specs (provider reference getpostmeetingoverview).}
+- {tool: Get transcript analysis, reason: Meetings intelligence; not in this repo's specs (provider reference getmeetingtranscriptlist).}
+- {tool: Get meeting engagement list, reason: Engagement surface; not in this repo's specs (provider reference getengagementlist).}
+- {tool: Get available CRM systems, reason: CRM integration surface; not in this repo's specs (provider reference getcontexts).}
+- {tool: Get CRM context by ID, reason: CRM integration surface; not in this repo's specs.}
+- {tool: Search CRM contexts, reason: CRM integration surface; not in this repo's specs.}
+rest_only:
+  count: 59
+  summary: >-
+    Every content, folder, content-profile, content-property, LiveDoc template/job/data-source,
+    report, analytics, user, group, team and role operation in this repo has no MCP tool. Notably
+    the entire WRITE surface — createContentItem, updateContentItem, deleteContentItem,
+    replaceContentFile, createFolder, updateFolder, deleteFolder, createUser, updateUser,
+    deleteUser, createGroup, updateGroup, deleteGroup, addGroupMember, removeGroupMember,
+    setUserGroups — is unreachable from the MCP server.
+  operations: [getContentAnalytics, getContentItemAnalytics, getTopContent, listContentItems, createContentItem,
+    getContentItem, updateContentItem, deleteContentItem, downloadContentFile, replaceContentFile,
+    listContentVersions, getContentUrl, listContentProfiles, getContentProfile, listContentProperties,
+    getContentProperty, listDataSources, getDataSource, getDeliveryAnalytics, listFolders, createFolder,
+    getFolder, updateFolder, deleteFolder, listGenerationJobs, getGenerationJob, getUserGroups,
+    setUserGroups, listGroups, createGroup, getGroup, updateGroup, deleteGroup, listGroupMembers,
+    addGroupMember, removeGroupMember, generateLiveDoc, listReports, getReport, exportReport, listRoles,
+    getRole, listTeams, getTeam, listTeamMembers, listLiveDocTemplates, getLiveDocTemplate,
+    getLiveDocTemplateInputs, previewLiveDocTemplate, getUserAnalytics, getUserActivityAnalytics,
+    listUsers, createUser, getUser, updateUser, deleteUser]
+findings:
+- >-
+  The MCP server is not a wrapper over the documented integration API. It is a separate,
+  engagement-oriented product surface with its own scopes (seismic.mcp, seismic.engagement.manage,
+  seismic.gen-search) and its own tenant-admin permission gate.
+- >-
+  The MCP surface is read-heavy: 15 of 20 tools read, 5 write (generate link, create DSR, add
+  content to DSR, add content to meeting, update meeting metadata). None of the destructive REST
+  operations is exposed as a tool.
+- >-
+  Per-tool inputSchema is unknown. Establishing the real parameter contract requires an
+  authenticated tools/list against a provisioned tenant, which this pipeline does not hold.

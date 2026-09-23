@@ -1,0 +1,78 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://developer.seismic.com/seismicsoftware/reference/versioning ,
+  https://developer.seismic.com/seismicsoftware/changelog , https://status.seismic.com/ ,
+  https://developer.seismic.com/seismicsoftware/docs/app-versioning
+description: >-
+  Seismic publishes a written versioning and deprecation policy, a dated changelog, an Atlassian
+  Statuspage, and a separate sandbox domain for pre-release testing. It does not publish an SLA
+  document or RFC 8594 Sunset/Deprecation headers.
+versioning:
+  scheme: per-route
+  current_major: v2
+  policy_url: https://developer.seismic.com/seismicsoftware/reference/versioning
+  rules:
+  - >-
+    "No new input will be added on a particular API version that would cause prior use of the API
+    to fail, however, new optional fields can be added from time to time."
+  - >-
+    "Additional fields can be added to API responses at any time, however, existing fields will not
+    be removed or fundamentally change purpose."
+  - >-
+    "Each route should be considered to be versioned independently of all other routes, although in
+    practice, many routes will version together."
+  note: >-
+    Because routes version independently, a client cannot infer compatibility from a single version
+    number in the base path; the base path carries /integration/v2 but individual routes move on
+    their own schedule.
+deprecation:
+  policy: true
+  policy_url: https://developer.seismic.com/seismicsoftware/reference/versioning
+  window: >-
+    "a route will continue to be available for anywhere from 1 to 12 months after announcing
+    deprecation depending on the severity of the change."
+  posture: >-
+    "In practice, Seismic strives to avoid deprecating APIs except when extremely necessary."
+  headers:
+    sunset: false
+    deprecation: false
+    note: >-
+      No Sunset or Deprecation response header is documented, and none appears in any OpenAPI
+      document in this repo. Deprecation is announced in the changelog and in the reference, so an
+      agent cannot detect it at runtime.
+  deprecated_operations_in_spec: 0
+  deprecated_documented:
+  - name: Delivery approval v1
+    url: https://developer.seismic.com/seismicsoftware/docs/delivery-approval-v1-deprecated
+    detail: Superseded by https://developer.seismic.com/seismicsoftware/docs/delivery-approval
+  - name: Legacy webhooks
+    url: https://developer.seismic.com/seismicsoftware/docs/legacy-webhooks-1
+    detail: Superseded by the current events/webhooks surface.
+  - name: Legacy email and LiveSend summary events
+    url: https://developer.seismic.com/seismicsoftware/docs/email-legacy-1
+    detail: >-
+      email-legacy-1, livesend-summary-v2 and interaction-session-summary-legacy are carried under
+      an explicit Legacy grouping in the events documentation.
+status_page:
+  url: https://status.seismic.com/
+  provider: Atlassian Statuspage
+  probed: '2026-09-17'
+  http_status: 200
+  machine_readable: true
+  note: Statuspage exposes the standard /api/v2/status.json and /history.atom surfaces.
+changelog:
+  url: https://developer.seismic.com/seismicsoftware/changelog
+  cadence: weekly release notes, roughly 2 per month
+  artifact: changelog/seismic-changelog.yml
+sla:
+  published: false
+  note: No public SLA document. Availability commitments are negotiated in the enterprise contract.
+environments:
+- name: production
+  base: https://api.seismic.com/
+- name: sandbox
+  base: https://api-sandbox.seismic.com
+  detail: >-
+    "Seismic will often make changes available on a separate domain for testing prior to release"
+    — https://api-sandbox.seismic.com, named on the versioning page.
