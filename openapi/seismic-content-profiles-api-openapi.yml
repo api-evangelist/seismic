@@ -98,12 +98,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not found. The requested resource does not exist.
       content:
@@ -121,28 +115,13 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
     ContentProfile:
       type: object
       properties:
@@ -173,6 +152,27 @@ components:
           type: string
           format: date-time
           description: Timestamp when the profile was last modified.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
   securitySchemes:
     bearerAuth:
       type: http

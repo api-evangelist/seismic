@@ -474,18 +474,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not found. The requested resource does not exist.
       content:
@@ -503,14 +491,18 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-  parameters:
-    contentId:
-      name: contentId
-      in: path
-      required: true
-      description: Unique identifier of the content item.
-      schema:
-        type: string
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -625,6 +617,14 @@ components:
           type: string
           format: uri
           description: URL for the content item thumbnail image.
+  parameters:
+    contentId:
+      name: contentId
+      in: path
+      required: true
+      description: Unique identifier of the content item.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

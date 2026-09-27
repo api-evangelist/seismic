@@ -371,18 +371,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not found. The requested resource does not exist.
       content:
@@ -400,6 +388,26 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: Unique identifier of the user.
+      schema:
+        type: string
   schemas:
     User:
       type: object
@@ -462,27 +470,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the user account was last modified.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
     Group:
       type: object
       properties:
@@ -509,14 +496,27 @@ components:
           type: string
           format: date-time
           description: Timestamp when the group was last modified.
-  parameters:
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: Unique identifier of the user.
-      schema:
-        type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
   securitySchemes:
     bearerAuth:
       type: http

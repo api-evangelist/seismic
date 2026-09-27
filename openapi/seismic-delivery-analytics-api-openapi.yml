@@ -104,6 +104,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
     BadRequest:
       description: Bad request. The request was invalid or cannot be processed.
       content:
@@ -116,17 +127,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too many requests. Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before making another request.
-          schema:
-            type: integer
   schemas:
     DeliveryAnalytics:
       type: object
