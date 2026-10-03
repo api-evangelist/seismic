@@ -92,14 +92,20 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
+    NotFound:
+      description: Not found. The requested resource does not exist.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found. The requested resource does not exist.
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
       content:
         application/json:
           schema:
@@ -115,14 +121,8 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
         application/json:
           schema:
@@ -171,27 +171,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the job completed or failed.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
     LiveDocResult:
       type: object
       properties:
@@ -229,6 +208,27 @@ components:
           type: string
           format: date-time
           description: Timestamp when the document was generated.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
   securitySchemes:
     bearerAuth:
       type: http

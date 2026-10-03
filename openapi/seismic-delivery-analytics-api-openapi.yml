@@ -98,8 +98,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
       content:
         application/json:
           schema:
@@ -115,19 +121,31 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    DeliveryAnalyticsSummary:
+      type: object
+      properties:
+        totalDeliveries:
+          type: integer
+          description: Total number of deliveries.
+        openRate:
+          type: number
+          format: float
+          description: Percentage of deliveries opened (0-100).
+        averageViewDuration:
+          type: number
+          format: float
+          description: Average view duration in seconds.
+        averageCompletionRate:
+          type: number
+          format: float
+          description: Average content completion rate (0-100).
     DeliveryAnalytics:
       type: object
       properties:
@@ -189,24 +207,6 @@ components:
                     type: string
                   message:
                     type: string
-    DeliveryAnalyticsSummary:
-      type: object
-      properties:
-        totalDeliveries:
-          type: integer
-          description: Total number of deliveries.
-        openRate:
-          type: number
-          format: float
-          description: Percentage of deliveries opened (0-100).
-        averageViewDuration:
-          type: number
-          format: float
-          description: Average view duration in seconds.
-        averageCompletionRate:
-          type: number
-          format: float
-          description: Average content completion rate (0-100).
   securitySchemes:
     bearerAuth:
       type: http

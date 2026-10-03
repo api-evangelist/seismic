@@ -55,14 +55,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
+    NotFound:
+      description: Not found. The requested resource does not exist.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Not found. The requested resource does not exist.
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
       content:
         application/json:
           schema:
@@ -78,12 +78,20 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    contentId:
+      name: contentId
+      in: path
+      required: true
+      description: Unique identifier of the content item.
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -106,14 +114,6 @@ components:
                     type: string
                   message:
                     type: string
-  parameters:
-    contentId:
-      name: contentId
-      in: path
-      required: true
-      description: Unique identifier of the content item.
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http
