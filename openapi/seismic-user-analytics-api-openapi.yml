@@ -147,6 +147,17 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
     NotFound:
       description: Not found. The requested resource does not exist.
       content:
@@ -159,30 +170,72 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: Bad request. The request was invalid or cannot be processed.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too many requests. Rate limit exceeded.
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before making another request.
-          schema:
-            type: integer
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+    UserAnalytics:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: ID of the user.
+        userName:
+          type: string
+          description: Display name of the user.
+        email:
+          type: string
+          description: Email address of the user.
+        loginCount:
+          type: integer
+          description: Number of logins during the period.
+        lastLoginAt:
+          type: string
+          format: date-time
+          description: Timestamp of the last login.
+        contentViewed:
+          type: integer
+          description: Number of content items viewed.
+        contentDownloaded:
+          type: integer
+          description: Number of content items downloaded.
+        contentShared:
+          type: integer
+          description: Number of content items shared.
+        adoptionScore:
+          type: number
+          format: float
+          description: User adoption score (0-100).
     UserAnalyticsDetail:
       type: object
       properties:
@@ -227,59 +280,6 @@ components:
               views:
                 type: integer
           description: Most-viewed content items by this user.
-    UserAnalytics:
-      type: object
-      properties:
-        userId:
-          type: string
-          description: ID of the user.
-        userName:
-          type: string
-          description: Display name of the user.
-        email:
-          type: string
-          description: Email address of the user.
-        loginCount:
-          type: integer
-          description: Number of logins during the period.
-        lastLoginAt:
-          type: string
-          format: date-time
-          description: Timestamp of the last login.
-        contentViewed:
-          type: integer
-          description: Number of content items viewed.
-        contentDownloaded:
-          type: integer
-          description: Number of content items downloaded.
-        contentShared:
-          type: integer
-          description: Number of content items shared.
-        adoptionScore:
-          type: number
-          format: float
-          description: User adoption score (0-100).
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
   securitySchemes:
     bearerAuth:
       type: http

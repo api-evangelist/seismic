@@ -364,25 +364,15 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
+  parameters:
+    userId:
+      name: userId
+      in: path
+      required: true
+      description: Unique identifier of the user.
+      schema:
+        type: string
   responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: Too many requests. Rate limit exceeded.
       content:
@@ -394,21 +384,78 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Forbidden:
       description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: Unique identifier of the user.
-      schema:
-        type: string
   schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the group.
+        name:
+          type: string
+          description: Name of the group.
+        description:
+          type: string
+          description: Description of the group.
+        parentId:
+          type: string
+          description: ID of the parent group.
+        memberCount:
+          type: integer
+          description: Number of members in the group.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the group was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the group was last modified.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
     User:
       type: object
       properties:
@@ -470,53 +517,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the user account was last modified.
-    Group:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the group.
-        name:
-          type: string
-          description: Name of the group.
-        description:
-          type: string
-          description: Description of the group.
-        parentId:
-          type: string
-          description: ID of the parent group.
-        memberCount:
-          type: integer
-          description: Number of members in the group.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the group was created.
-        modifiedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the group was last modified.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
   securitySchemes:
     bearerAuth:
       type: http

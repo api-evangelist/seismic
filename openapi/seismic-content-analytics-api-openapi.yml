@@ -253,24 +253,6 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: Too many requests. Rate limit exceeded.
       content:
@@ -282,6 +264,24 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Forbidden:
       description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
@@ -289,6 +289,27 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
     ContentAnalyticsDetail:
       type: object
       properties:
@@ -333,25 +354,6 @@ components:
                 type: string
                 format: date-time
           description: Breakdown of viewers for this content item.
-    ContentAnalyticsSummary:
-      type: object
-      properties:
-        totalViews:
-          type: integer
-          description: Total views across all content.
-        totalDownloads:
-          type: integer
-          description: Total downloads across all content.
-        totalShares:
-          type: integer
-          description: Total shares across all content.
-        averageEngagementScore:
-          type: number
-          format: float
-          description: Average engagement score across all content.
-        activeContentCount:
-          type: integer
-          description: Number of content items with at least one view.
     ContentAnalytics:
       type: object
       properties:
@@ -385,27 +387,25 @@ components:
           type: number
           format: float
           description: Percentage of content viewed on average (0-100).
-    Error:
+    ContentAnalyticsSummary:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
+        totalViews:
+          type: integer
+          description: Total views across all content.
+        totalDownloads:
+          type: integer
+          description: Total downloads across all content.
+        totalShares:
+          type: integer
+          description: Total shares across all content.
+        averageEngagementScore:
+          type: number
+          format: float
+          description: Average engagement score across all content.
+        activeContentCount:
+          type: integer
+          description: Number of content items with at least one view.
   securitySchemes:
     bearerAuth:
       type: http

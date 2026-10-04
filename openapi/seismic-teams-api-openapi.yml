@@ -146,6 +146,17 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
 components:
   responses:
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
     NotFound:
       description: Not found. The requested resource does not exist.
       content:
@@ -158,17 +169,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: Too many requests. Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before making another request.
-          schema:
-            type: integer
     Forbidden:
       description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
@@ -176,6 +176,56 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the team.
+        name:
+          type: string
+          description: Name of the team.
+        description:
+          type: string
+          description: Description of the team.
+        memberCount:
+          type: integer
+          description: Number of members in the team.
+        managerId:
+          type: string
+          description: ID of the team manager user.
+        managerName:
+          type: string
+          description: Display name of the team manager.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the team was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the team was last modified.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
     User:
       type: object
       properties:
@@ -237,56 +287,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the user account was last modified.
-    Team:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the team.
-        name:
-          type: string
-          description: Name of the team.
-        description:
-          type: string
-          description: Description of the team.
-        memberCount:
-          type: integer
-          description: Number of members in the team.
-        managerId:
-          type: string
-          description: ID of the team manager user.
-        managerName:
-          type: string
-          description: Display name of the team manager.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the team was created.
-        modifiedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the team was last modified.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
   securitySchemes:
     bearerAuth:
       type: http
