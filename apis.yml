@@ -517,6 +517,10 @@ apis:
       - type: JSONSchema
         url: json-schema/seismic-group-schema.json
 common:
+  - type: Plans
+    url: plans/seismic-plans-pricing.yml
+  - type: FinOps
+    url: finops/seismic-finops.yml
   - type: TrustCenter
     url: security/seismic-trust-center.yml
   - type: AgenticAccess
