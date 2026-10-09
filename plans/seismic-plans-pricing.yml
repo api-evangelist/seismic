@@ -60,3 +60,19 @@ evidence:
   checked: '2026-09-17'
   detail: The developer portal documents no API metering, no per-call price and no self-serve plan. API
     access is an entitlement of the tenant subscription.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - negotiated
+  plans:
+  - name: Contact Sales
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    periods:
+    - year
