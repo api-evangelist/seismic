@@ -211,6 +211,18 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: Not found. The requested resource does not exist.
       content:
@@ -223,48 +235,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Report:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the report.
-        name:
-          type: string
-          description: Name of the report.
-        description:
-          type: string
-          description: Description of the report.
-        type:
-          type: string
-          description: Type of report.
-          enum:
-          - content
-          - user
-          - delivery
-          - engagement
-          - adoption
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the report was created.
-        modifiedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the report was last modified.
     ReportData:
       type: object
       properties:
@@ -331,6 +302,35 @@ components:
                     type: string
                   message:
                     type: string
+    Report:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the report.
+        name:
+          type: string
+          description: Name of the report.
+        description:
+          type: string
+          description: Description of the report.
+        type:
+          type: string
+          description: Type of report.
+          enum:
+          - content
+          - user
+          - delivery
+          - engagement
+          - adoption
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was created.
+        modifiedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the report was last modified.
   securitySchemes:
     bearerAuth:
       type: http

@@ -109,8 +109,8 @@ components:
           description: Number of seconds to wait before making another request.
           schema:
             type: integer
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
       content:
         application/json:
           schema:
@@ -121,8 +121,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
       content:
         application/json:
           schema:

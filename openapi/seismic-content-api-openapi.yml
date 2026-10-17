@@ -467,90 +467,7 @@ paths:
         '429':
           $ref: '#/components/responses/TooManyRequests'
 components:
-  responses:
-    TooManyRequests:
-      description: Too many requests. Rate limit exceeded.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      headers:
-        Retry-After:
-          description: Number of seconds to wait before making another request.
-          schema:
-            type: integer
-    NotFound:
-      description: Not found. The requested resource does not exist.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Bad request. The request was invalid or cannot be processed.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized. Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden. The authenticated user does not have permission to perform this action.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    ContentVersion:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the version.
-        contentId:
-          type: string
-          description: ID of the parent content item.
-        versionNumber:
-          type: integer
-          description: Sequential version number.
-        fileSize:
-          type: integer
-          format: int64
-          description: File size in bytes.
-        createdBy:
-          type: string
-          description: ID of the user who created this version.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when this version was created.
-        comment:
-          type: string
-          description: Comment or note associated with this version.
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Error code.
-            message:
-              type: string
-              description: Human-readable error message.
-            details:
-              type: array
-              items:
-                type: object
-                properties:
-                  field:
-                    type: string
-                  message:
-                    type: string
     ContentItem:
       type: object
       properties:
@@ -617,6 +534,89 @@ components:
           type: string
           format: uri
           description: URL for the content item thumbnail image.
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code.
+            message:
+              type: string
+              description: Human-readable error message.
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+    ContentVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the version.
+        contentId:
+          type: string
+          description: ID of the parent content item.
+        versionNumber:
+          type: integer
+          description: Sequential version number.
+        fileSize:
+          type: integer
+          format: int64
+          description: File size in bytes.
+        createdBy:
+          type: string
+          description: ID of the user who created this version.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when this version was created.
+        comment:
+          type: string
+          description: Comment or note associated with this version.
+  responses:
+    TooManyRequests:
+      description: Too many requests. Rate limit exceeded.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      headers:
+        Retry-After:
+          description: Number of seconds to wait before making another request.
+          schema:
+            type: integer
+    Forbidden:
+      description: Forbidden. The authenticated user does not have permission to perform this action.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized. Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Not found. The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad request. The request was invalid or cannot be processed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     contentId:
       name: contentId
