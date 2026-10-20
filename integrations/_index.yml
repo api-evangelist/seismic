@@ -15,19 +15,6 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
-- slug: seismic-okta-own
-  label: Okta (own)
-  partner: okta
-  partner_name: Okta (own)
-  category: Single Sign-On
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://www.okta.com/integrations/seismic/
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: seismic-zapier
   label: Zapier
   partner: zapier
@@ -79,6 +66,19 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: seismic-okta-own
+  label: Okta (own)
+  partner: okta
+  partner_name: Okta (own)
+  category: Single Sign-On
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.okta.com/integrations/seismic/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
 - slug: seismic-slack-own
   label: Slack (own)
   partner: slack
@@ -88,6 +88,19 @@
   marketplace: own
   channel: partner-built
   evidence: https://slack.com/marketplace/A0190B55KLM-seismic-learning
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: seismic-zendesk-own
+  label: Zendesk (own)
+  partner: zendesk
+  partner_name: Zendesk (own)
+  category: Knowledge and Content Management
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.zendesk.com/marketplace/apps/support/145998/seismic-learning/
   source: edge
   relationship: platform-app
   status: not-a-workflow

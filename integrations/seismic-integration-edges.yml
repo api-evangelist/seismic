@@ -7,6 +7,7 @@ checked:
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 - okta/integrations/okta-integration-edges.yml
 - slack/integrations/slack-integration-edges.yml
+- zendesk/integrations/zendesk-integration-edges.yml
 - zoom/integrations/zoom-integration-edges.yml
 marketplace_apps: []
 edges:
@@ -27,31 +28,6 @@ edges:
   seller_name: Seismic Software
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
-- partner_name: Okta (own)
-  partner: okta
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://www.okta.com/integrations/seismic/
-  mirror_of: okta/integrations/okta-integration-edges.yml
-  apps:
-  - Seismic
-  listing_count: 1
-  detected: '2026-10-14'
-  detected_by: mirror-platform-listings.py
-  category: Single Sign-On
-  badges:
-  - OKTA_VERIFIED
-  features:
-  - CREATE
-  - DEACTIVATE
-  - GROUP_PUSH
-  - SAML
-  - UPDATE
 - partner_name: Zapier
   partner: zapier
   partner_match: aggregator
@@ -114,6 +90,31 @@ edges:
   publisher_verified:
   - Microsoft 365 Certified
   - Microsoft 365 Publisher Attestation
+- partner_name: Okta (own)
+  partner: okta
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.okta.com/integrations/seismic/
+  mirror_of: okta/integrations/okta-integration-edges.yml
+  apps:
+  - Seismic
+  listing_count: 1
+  detected: '2026-10-14'
+  detected_by: mirror-platform-listings.py
+  category: Single Sign-On
+  badges:
+  - OKTA_VERIFIED
+  features:
+  - CREATE
+  - DEACTIVATE
+  - GROUP_PUSH
+  - SAML
+  - UPDATE
 - partner_name: Slack (own)
   partner: slack
   partner_match: mirror
@@ -131,6 +132,23 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Slack app
+- partner_name: Zendesk (own)
+  partner: zendesk
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.zendesk.com/marketplace/apps/support/145998/seismic-learning/
+  mirror_of: zendesk/integrations/zendesk-integration-edges.yml
+  apps:
+  - Seismic Learning
+  listing_count: 1
+  detected: '2026-10-20'
+  detected_by: mirror-platform-listings.py
+  category: Knowledge and Content Management
 - partner_name: Zoom (own)
   partner: zoom
   partner_match: mirror
