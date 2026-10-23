@@ -165,3 +165,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: seismic-adobe-experience-manager-own
+  label: Adobe Experience Manager (own)
+  partner: adobe-experience-manager
+  partner_name: Adobe Experience Manager (own)
+  category: Adobe Exchange Experience Cloud listing (Experience Manager)
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://exchange.adobe.com/apps/ec/109943
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

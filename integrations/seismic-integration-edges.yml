@@ -12,6 +12,7 @@ checked:
 - zendesk/integrations/zendesk-integration-edges.yml
 - zoom/integrations/zoom-integration-edges.yml
 - hubspot/integrations/hubspot-integration-edges.yml
+- adobe-experience-manager/integrations/adobe-experience-manager-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Microsoft Azure Marketplace
@@ -220,5 +221,24 @@ edges:
   detected: '2026-10-21'
   detected_by: mirror-platform-listings.py
   category: SALES_ENABLEMENT
+- partner_name: Adobe Experience Manager (own)
+  partner: adobe-experience-manager
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://exchange.adobe.com/apps/ec/109943
+  mirror_of: adobe-experience-manager/integrations/adobe-experience-manager-integration-edges.yml
+  apps:
+  - Seismic for Adobe Experience Manager Connector
+  listing_count: 1
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Adobe Exchange Experience Cloud listing (Experience Manager)
+  publisher_verified:
+  - Adobe Exchange verified listing
 source:
 - okta/integrations/okta-integration-edges.yml
