@@ -1,4 +1,4 @@
-# Seismic (seismic)
+# Seismic
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,132 +66,266 @@
 
 Seismic is the global leader in enablement, helping organizations engage customers, enable teams, and ignite revenue growth. The Seismic platform provides content management, learning and coaching, dynamic document generation, and buyer engagement capabilities through a comprehensive suite of APIs.
 
-**APIs.json:** [https://seismic.com](https://seismic.com)
+**Areas:** Sales Enablement · Content Management · Document Generation · Sales Content · Buyer Engagement · Revenue Enablement · Analytics · Learning · SCIM · MCP
 
-## Timestamps
+## Seismic on APIs.io
 
-- **Created:** 2025-02-10
-- **Modified:** 2026-05-19
+Everything profiled for Seismic is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/seismic/](https://apis.io/providers/seismic/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (17)
 
-### Seismic Content API
+- [Seismic Content Analytics API](https://apis.io/apis/seismic/seismic-content-analytics-api/) — Analytics on content usage, views, and engagement.
+- [Seismic Content API](https://apis.io/apis/seismic/seismic-content-api/) — Operations for managing content items including documents, presentations, and other sales materials.
+- [Seismic Content Profiles API](https://apis.io/apis/seismic/seismic-content-profiles-api/) — Operations for managing content profiles that define content configurations.
+- [Seismic Content Properties API](https://apis.io/apis/seismic/seismic-content-properties-api/) — Operations for managing content metadata properties and custom fields.
+- [Seismic Data Sources API](https://apis.io/apis/seismic/seismic-data-sources-api/) — Operations for managing data source connections used in LiveDoc generation.
+- [Seismic Delivery Analytics API](https://apis.io/apis/seismic/seismic-delivery-analytics-api/) — Analytics on content delivery and buyer engagement.
+- [Seismic Delivery API](https://apis.io/apis/seismic/seismic-delivery-api/) — Operations for delivering and sharing content with buyers and teams.
+- [Seismic Folders API](https://apis.io/apis/seismic/seismic-folders-api/) — Operations for managing content folders and organizational structure.
+- [Seismic Generation Jobs API](https://apis.io/apis/seismic/seismic-generation-jobs-api/) — Operations for managing asynchronous LiveDoc generation jobs.
+- [Seismic Groups API](https://apis.io/apis/seismic/seismic-groups-api/) — Operations for managing user groups and teams.
+- [Seismic LiveDocs API](https://apis.io/apis/seismic/seismic-livedocs-api/) — Operations for generating and managing LiveDoc documents.
+- [Seismic Reports API](https://apis.io/apis/seismic/seismic-reports-api/) — Operations for generating and retrieving analytical reports.
+- [Seismic Roles API](https://apis.io/apis/seismic/seismic-roles-api/) — Operations for managing roles and permissions.
+- [Seismic Teams API](https://apis.io/apis/seismic/seismic-teams-api/) — Operations for managing team structures.
+- [Seismic Templates API](https://apis.io/apis/seismic/seismic-templates-api/) — Operations for managing LiveDoc templates.
+- [Seismic User Analytics API](https://apis.io/apis/seismic/seismic-user-analytics-api/) — Analytics on user activity and adoption metrics.
+- [Seismic Users API](https://apis.io/apis/seismic/seismic-users-api/) — Operations for managing user accounts.
 
-API for managing and accessing content within the Seismic platform, including documents, presentations, folders, and other sales materials. Supports uploading, organizing, searching, delivering, and managing content items.
+### Published properties
 
-- **Human URL:** [https://seismic.com/products/content-management/](https://seismic.com/products/content-management/)
-- **Base URL:** `https://api.seismic.com/integration/v2`
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-#### Tags
+#### Arazzo workflows (13)
 
-- Content
-- Content Management
-- Documents
-- Sales Enablement
+Multi-step workflows that chain operations into a business task.
 
-#### Properties
+- [Seismic Add a User to a Group](https://apis.io/arazzos/seismic/seismic-add-user-to-group-workflow/)
+- [Seismic Audit a Team Roster](https://apis.io/arazzos/seismic/seismic-audit-team-roster-workflow/)
+- [Seismic Download a Content Version](https://apis.io/arazzos/seismic/seismic-download-content-version-workflow/)
+- [Seismic Export an Analytics Report](https://apis.io/arazzos/seismic/seismic-export-analytics-report-workflow/)
+- [Seismic Generate a Livedoc Asynchronously](https://apis.io/arazzos/seismic/seismic-generate-livedoc-async-workflow/)
+- [Seismic Generate a Livedoc from a CRM Data Source](https://apis.io/arazzos/seismic/seismic-livedoc-from-crm-datasource-workflow/)
+- [Seismic Onboard a User](https://apis.io/arazzos/seismic/seismic-onboard-user-workflow/)
+- [Seismic Organize Content into a Folder](https://apis.io/arazzos/seismic/seismic-organize-content-into-folder-workflow/)
+- [Seismic Preview and Generate a Livedoc](https://apis.io/arazzos/seismic/seismic-preview-and-generate-livedoc-workflow/)
+- [Seismic Search and Inspect Content](https://apis.io/arazzos/seismic/seismic-search-and-inspect-content-workflow/)
+- [Seismic Share a Content Item](https://apis.io/arazzos/seismic/seismic-share-content-workflow/)
+- [Seismic Top Content Performance Review](https://apis.io/arazzos/seismic/seismic-top-content-performance-workflow/)
+- [Seismic User Adoption Review](https://apis.io/arazzos/seismic/seismic-user-adoption-review-workflow/)
 
-- [Documentation](https://developer.seismic.com/seismicsoftware/reference/content-api)
-- [OpenAPI](openapi/seismic-content-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/seismic-content.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/seismic-content.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Authentication](https://developer.seismic.com/seismicsoftware/docs/authentication)
-- [JSON Schema](json-schema/seismic-content-item-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/seismic-folder-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/seismic-content-item-structure.json)
+#### AsyncAPI (1)
 
-### Seismic LiveDocs API
+Event-driven and webhook contracts.
 
-API for creating and managing LiveDocs, Seismic's dynamic document generation solution. Enables automated creation of personalized proposals, presentations, and sales materials by merging CRM and other data into templates.
+- [Seismic Webhooks](https://apis.io/asyncapis/seismic/seismic-webhooks/)
 
-- **Human URL:** [https://seismic.com/products/livedocs/](https://seismic.com/products/livedocs/)
-- **Base URL:** `https://api.seismic.com/integration/v2`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Document Generation
-- Dynamic Content
-- LiveDocs
-- Sales Enablement
+- [seismic](https://apis.io/servers/seismic/seismic/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://developer.seismic.com/seismicsoftware/reference/livedocs-api)
-- [OpenAPI](openapi/seismic-livedocs-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/seismic-livedocs.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/seismic-livedocs.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/seismic-livedoc-template-schema.json) — [JSON Schema](https://json-schema.org/specification)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Seismic Analytics API
+- [Seismic Agentic Access](https://apis.io/agentic-access/seismic/seismic-agentic-access/)
 
-API for accessing analytics and reporting data on content usage, user engagement, and sales effectiveness. Provides insights into content performance, user adoption, buyer engagement, and exportable reports.
+#### JSON Schema (5)
 
-- **Human URL:** [https://seismic.com/products/analytics/](https://seismic.com/products/analytics/)
-- **Base URL:** `https://api.seismic.com/integration/v2`
+The data models the API reads and writes.
 
-#### Tags
+- [Seismic Content Item](https://apis.io/schemas/seismic/seismic-content-item/)
+- [Seismic Folder](https://apis.io/schemas/seismic/seismic-folder/)
+- [Seismic Group](https://apis.io/schemas/seismic/seismic-group/)
+- [Seismic LiveDoc Template](https://apis.io/schemas/seismic/seismic-livedoc-template/)
+- [Seismic User](https://apis.io/schemas/seismic/seismic-user/)
 
-- Analytics
-- Insights
-- Metrics
-- Reporting
+#### JSON Structure (1)
 
-#### Properties
+Data models expressed in JSON Structure.
 
-- [Documentation](https://developer.seismic.com/seismicsoftware/reference/analytics-api)
-- [OpenAPI](openapi/seismic-analytics-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/seismic-analytics.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/seismic-analytics.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Seismic Content Item Structure](https://apis.io/json-structure/seismic/seismic-content-item-structure/)
 
-### Seismic User Management API
+#### JSON-LD (1)
 
-API for managing users, groups, roles, teams, and permissions within the Seismic platform. Supports creating and organizing users, managing group hierarchies, assigning roles, and team structures for access control.
+Linked-data contexts for the provider's vocabulary.
 
-- **Human URL:** [https://seismic.com](https://seismic.com)
-- **Base URL:** `https://api.seismic.com/integration/v2`
+- [Seismic Context](https://apis.io/jsonld/seismic/seismic-context/)
 
-#### Tags
+#### Vocabulary (1)
 
-- Administration
-- Groups
-- Permissions
-- Users
+The provider's domain terms, defined.
 
-#### Properties
+- [Seismic Vocabulary](https://apis.io/vocabularies/seismic/seismic-vocabulary/)
 
-- [Documentation](https://developer.seismic.com/seismicsoftware/reference/user-management-api)
-- [OpenAPI](openapi/seismic-user-management-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/seismic-user-management.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/seismic-user-management.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [JSON Schema](json-schema/seismic-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/seismic-group-schema.json) — [JSON Schema](https://json-schema.org/specification)
+#### Examples (2)
 
-## Common Properties
+Example requests and responses.
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [LinkedIn](https://www.linkedin.com/company/seismic)
-- [Portal](https://developer.seismic.com/)
-- [Getting Started](https://developer.seismic.com/seismicsoftware/docs/getting-started)
-- [Authentication](https://developer.seismic.com/seismicsoftware/docs/authentication)
-- [Rate Limits](https://developer.seismic.com/seismicsoftware/docs/rate-limits)
-- [Webhooks](https://developer.seismic.com/seismicsoftware/docs/webhooks)
-- [Support](https://seismic.com/support/)
-- [Privacy Policy](https://seismic.com/privacy-policy/)
-- [Terms of Service](https://seismic.com/terms-of-service/)
-- [Status Page](https://status.seismic.com/)
-- [Documentation](https://developer.seismic.com/seismicsoftware/docs)
-- [Changelog](https://developer.seismic.com/seismicsoftware/changelog)
+- [Seismic Generate Livedoc Example](https://apis.io/examples/seismic/seismic-generate-livedoc-example/)
+- [Seismic List Content Items Example](https://apis.io/examples/seismic/seismic-list-content-items-example/)
+
+#### Collections (25)
+
+Postman and Open Collection request collections.
+
+- [Seismic Analytics API](https://apis.io/collections/seismic/open-seismic-analytics/)
+- [Seismic Content API](https://apis.io/collections/seismic/open-seismic-content/)
+- [Seismic Analytics Content Analytics API](https://apis.io/collections/seismic/open-seismic-content-analytics-api/)
+- [Seismic Analytics Analytics Content API](https://apis.io/collections/seismic/open-seismic-content-api/)
+- [Seismic Analytics Content Analytics Content Profiles API](https://apis.io/collections/seismic/open-seismic-content-profiles-api/)
+- [Seismic Analytics Content Analytics Content Properties API](https://apis.io/collections/seismic/open-seismic-content-properties-api/)
+- [Seismic Analytics Content Analytics Data Sources API](https://apis.io/collections/seismic/open-seismic-data-sources-api/)
+- [Seismic Analytics Content Analytics Delivery Analytics API](https://apis.io/collections/seismic/open-seismic-delivery-analytics-api/)
+- [Seismic Analytics Content Analytics Delivery API](https://apis.io/collections/seismic/open-seismic-delivery-api/)
+- [Seismic Analytics Content Analytics Folders API](https://apis.io/collections/seismic/open-seismic-folders-api/)
+- [Seismic Analytics Content Analytics Generation Jobs API](https://apis.io/collections/seismic/open-seismic-generation-jobs-api/)
+- [Seismic Analytics Content Analytics Groups API](https://apis.io/collections/seismic/open-seismic-groups-api/)
+- [Seismic LiveDocs API](https://apis.io/collections/seismic/open-seismic-livedocs/)
+- [Seismic Analytics Content Analytics LiveDocs API](https://apis.io/collections/seismic/open-seismic-livedocs-api/)
+- [Seismic Analytics Content Analytics Reports API](https://apis.io/collections/seismic/open-seismic-reports-api/)
+- [Seismic Analytics Content Analytics Roles API](https://apis.io/collections/seismic/open-seismic-roles-api/)
+- [Seismic Analytics Content Analytics Teams API](https://apis.io/collections/seismic/open-seismic-teams-api/)
+- [Seismic Analytics Content Analytics Templates API](https://apis.io/collections/seismic/open-seismic-templates-api/)
+- [Seismic Analytics Content Analytics User Analytics API](https://apis.io/collections/seismic/open-seismic-user-analytics-api/)
+- [Seismic User Management API](https://apis.io/collections/seismic/open-seismic-user-management/)
+- [Seismic Analytics Content Analytics Users API](https://apis.io/collections/seismic/open-seismic-users-api/)
+- [Seismic Analytics API](https://apis.io/collections/seismic/postman-seismic-analytics/)
+- [Seismic Content API](https://apis.io/collections/seismic/postman-seismic-content/)
+- [Seismic LiveDocs API](https://apis.io/collections/seismic/postman-seismic-livedocs/)
+- [Seismic User Management API](https://apis.io/collections/seismic/postman-seismic-user-management/)
+
+#### Overlays (17)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Seismic Content Analytics Overlay](https://apis.io/overlays/seismic/seismic-content-analytics-overlay/)
+- [Seismic Content Overlay](https://apis.io/overlays/seismic/seismic-content-overlay/)
+- [Seismic Content Profiles Overlay](https://apis.io/overlays/seismic/seismic-content-profiles-overlay/)
+- [Seismic Content Properties Overlay](https://apis.io/overlays/seismic/seismic-content-properties-overlay/)
+- [Seismic Data Sources Overlay](https://apis.io/overlays/seismic/seismic-data-sources-overlay/)
+- [Seismic Delivery Analytics Overlay](https://apis.io/overlays/seismic/seismic-delivery-analytics-overlay/)
+- [Seismic Delivery Overlay](https://apis.io/overlays/seismic/seismic-delivery-overlay/)
+- [Seismic Folders Overlay](https://apis.io/overlays/seismic/seismic-folders-overlay/)
+- [Seismic Generation Jobs Overlay](https://apis.io/overlays/seismic/seismic-generation-jobs-overlay/)
+- [Seismic Groups Overlay](https://apis.io/overlays/seismic/seismic-groups-overlay/)
+- [Seismic Livedocs Overlay](https://apis.io/overlays/seismic/seismic-livedocs-overlay/)
+- [Seismic Reports Overlay](https://apis.io/overlays/seismic/seismic-reports-overlay/)
+- [Seismic Roles Overlay](https://apis.io/overlays/seismic/seismic-roles-overlay/)
+- [Seismic Teams Overlay](https://apis.io/overlays/seismic/seismic-teams-overlay/)
+- [Seismic Templates Overlay](https://apis.io/overlays/seismic/seismic-templates-overlay/)
+- [Seismic User Analytics Overlay](https://apis.io/overlays/seismic/seismic-user-analytics-overlay/)
+- [Seismic Users Overlay](https://apis.io/overlays/seismic/seismic-users-overlay/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Seismic — jsonschema rules](https://apis.io/rules/seismic/seismic-jsonschema-spectral-rules/)
+- [Seismic API Rules](https://apis.io/rules/seismic/seismic-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Seismic Authentication](https://apis.io/security/seismic/seismic-authentication/)
+- [Seismic Domain Security](https://apis.io/security/seismic/seismic-domain-security/)
+- [Seismic Trust Center](https://apis.io/security/seismic/seismic-trust-center/)
+- [Seismic Vulnerability Disclosure](https://apis.io/security/seismic/seismic-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Seismic Scopes](https://apis.io/scopes/seismic/seismic-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Seismic Plans Pricing](https://apis.io/plans/seismic/seismic-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Seismic Rate Limits](https://apis.io/rate-limits/seismic/seismic-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Seismic Finops](https://apis.io/finops/seismic/seismic-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://seismic.com)
-- [Blog](https://seismic.com/resources/blog/)
-- [Login](https://login.seismic.com/)
-- [Spectral Rules](rules/seismic-rules.yml)
-- [J S O N L D Context](json-ld/seismic-context.jsonld)
-- [Vocabulary](vocabulary/seismic-vocabulary.yml)
-- [Integrations](https://www.seismic.com/platform/integrations/)
-- [L L Ms Txt](https://developer.seismic.com/llms.txt)
+- [Documentation](https://developer.seismic.com/seismicsoftware/docs)
+- [Getting started](https://developer.seismic.com/seismicsoftware/docs/getting-started)
+- [API reference](https://developer.seismic.com/seismicsoftware/reference)
+- [Support](https://support.seismic.com/csm)
+- [Changelog](https://developer.seismic.com/seismicsoftware/changelog)
+- [Blog](https://www.seismic.com/blog/)
+- [Terms of service](https://seismic.com/terms-of-service/)
+- [Privacy policy](https://seismic.com/privacy-policy/)
+- [GitHub](https://github.com/seismic)
+- [Status](https://status.seismic.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** https://apievangelist.com
+**Kin Score 66.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 86.7 |
+| Contract quality | 75.6 |
+| Contract governance | 45.5 |
+| Operational transparency | 68.4 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 64.5 |
+
+**Agent readiness 52.4** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | verified |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/seismic/](https://apis.io/providers/seismic/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Seismic: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/seismic/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
